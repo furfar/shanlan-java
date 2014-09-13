@@ -1,4 +1,4 @@
 shanlan-java
 ============
 
-shanlan后端Java语言开发的系统
+Java语言开发的shanlan后端系统
