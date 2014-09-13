@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="koala-security-web:war">
-    <output-path>$PROJECT_DIR$/koala-security-web/target</output-path>
-    <root id="archive" name="koala-security-web.war">
-      <element id="artifact" artifact-name="koala-security-web:war exploded" />
-    </root>
-  </artifact>
-</component>
