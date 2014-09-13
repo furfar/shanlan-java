@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration>
+
+	<appender name="debugfile" class="org.apache.log4j.DailyRollingFileAppender">
+		<!-- 配置debug级别的日志只会记录在debug文件夹中 -->
+		<param name="File" value="/var/logdata/opf.core_logs/debug/debug.log" />
+		<param name="DatePattern" value="yyyy-MM-dd HH'.log'" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS}-[%-5p]-[%t]-[%c]-[%M]-%m%n"/>
+		</layout>
+		<!--限制输出级别只能为Debug -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="DEBUG" />
+			<param name="LevelMin" value="DEBUG" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+
+	<appender name="infofile" class="org.apache.log4j.FileAppender">
+		<param name="File" value="/var/logdata/opf.core_logs/info/info.log" />
+		<param name="DatePattern" value="yyyy-MM-dd HH'.log'" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH\:mm\:ss}%m %n" />
+		</layout>
+		<!--限制输出级别只能为INFO -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="INFO" />
+			<param name="LevelMin" value="INFO" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+
+	<appender name="warnfile" class="org.apache.log4j.FileAppender">
+		<param name="File" value="/var/logdata/opf.core_logs/warn/warn.log" />
+		<param name="DatePattern" value="yyyy-MM-dd HH'.log'" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH\:mm\:ss}%m %n" />
+		</layout>
+		<!--限制输出级别只能为WARN -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="WARN" />
+			<param name="LevelMin" value="WARN" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+
+
+	<appender name="errorfile" class="org.apache.log4j.DailyRollingFileAppender">
+		<!-- 配置error级别的日志只会记录在error文件夹中 -->
+		<param name="File" value="/var/logdata/opf.core_logs/error/error.log" />
+		<param name="DatePattern" value="yyyy-MM-dd'.log'" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH\:mm\:ss}%m %n" />
+		</layout>
+		<!--限制输出级别只能为ERROR -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="ERROR" />
+			<param name="LevelMin" value="ERROR" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+
+	<appender name="fatalfile" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/var/logdata/opf.core_logs/fatal/fatal.log" />
+		<param name="DatePattern" value="yyyy-MM-dd'.log'" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH\:mm\:ss}%m %n" />
+		</layout>
+		<!--限制输出级别只能为FATAL -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="FATAL" />
+			<param name="LevelMin" value="FATAL" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+
+	<!--通过<logger></logger>的定义可以将各个包中的类日志输出到不同的日志文件中 -->
+	<logger name="debugLogger" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="debugfile" />
+	</logger>
+	<logger name="warnLogger" additivity="false">
+		<level value="WARN" />
+		<appender-ref ref="warnfile" />
+	</logger>
+	<logger name="errorLogger" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="errorfile" />
+	</logger>
+	<logger name="fatalLogger" additivity="false">
+		<level value="FATAL" />
+		<appender-ref ref="fatalfile" />
+	</logger>
+
+
+	<logger name="com.opensymphony.xwork2" additivity="false">
+		<level value="OFF" />
+		<appender-ref ref="fatalfile" />
+	</logger>
+	<logger name="org.springframework" additivity="false">
+		<level value="OFF" />
+		<appender-ref ref="fatalfile" />
+	</logger>
+	<logger name="java.sql.PreparedStatement" additivity="false">
+		<level value="OFF" />
+		<appender-ref ref="fatalfile" />
+	</logger>
+	<logger name="java.sql.Connection" additivity="false">
+		<level value="OFF" />
+		<appender-ref ref="fatalfile" />
+	</logger>
+	<logger name="org.apache" additivity="false">
+		<level value="OFF" />
+		<appender-ref ref="fatalfile" />
+	</logger>
+	<logger name="org.codehaus.xfire" additivity="false">
+		<level value="OFF" />
+		<appender-ref ref="fatalfile" />
+	</logger>
+	<logger name="httpclient.wire" additivity="false">
+		<level value="OFF" />
+		<appender-ref ref="fatalfile" />
+	</logger>
+
+	<root>
+		<priority value="debug" />
+		<appender-ref ref="debugfile" />
+		<appender-ref ref="infofile" />
+		<appender-ref ref="warnfile" />
+		<appender-ref ref="errorfile" />
+		<appender-ref ref="fatalfile" />
+	</root>
+</log4j:configuration>

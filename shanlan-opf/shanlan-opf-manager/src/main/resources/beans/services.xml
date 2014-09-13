@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="userService" class="com.albert.opf.manager.service.UserServiceImpl">
+		<property name="userDetailsManager" ref="userDetailsManager" />
+		<property name="userCache" ref="userCache" />
+	</bean>
+
+
+	<bean id="userDetailsManager"
+		class="org.springframework.security.provisioning.JdbcUserDetailsManager">
+		<property name="dataSource" ref="dataSource" />
+		<property name="userCache" ref="userCache" />
+		<property name="enableGroups" value="true" />
+		<property name="enableAuthorities" value="false" />
+	</bean>
+	
+</beans>
