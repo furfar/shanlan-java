@@ -10,3 +10,17 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+*target
+*bin
+*logs
+*.settings
+
+*.project
+*.classpath
+*config.properties
+*rebel.xml
+*DS_Store
+*nulllog
+.idea/*
+*.iml
