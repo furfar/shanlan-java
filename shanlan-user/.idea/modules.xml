@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/shanlan-user-application/shanlan-user-application.iml" filepath="$PROJECT_DIR$/shanlan-user-application/shanlan-user-application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shanlan-user-applicationImpl/shanlan-user-applicationImpl.iml" filepath="$PROJECT_DIR$/shanlan-user-applicationImpl/shanlan-user-applicationImpl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shanlan-user-conf/shanlan-user-conf.iml" filepath="$PROJECT_DIR$/shanlan-user-conf/shanlan-user-conf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shanlan-user-core/shanlan-user-core.iml" filepath="$PROJECT_DIR$/shanlan-user-core/shanlan-user-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shanlan-user-infra/shanlan-user-infra.iml" filepath="$PROJECT_DIR$/shanlan-user-infra/shanlan-user-infra.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shanlan-user-web/shanlan-user-web.iml" filepath="$PROJECT_DIR$/shanlan-user-web/shanlan-user-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user.iml" filepath="$PROJECT_DIR$/user.iml" />
+    </modules>
+  </component>
+</project>
+
