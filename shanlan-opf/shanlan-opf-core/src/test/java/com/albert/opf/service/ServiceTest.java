@@ -8,13 +8,6 @@ package com.albert.opf.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.core.Authentication;
-
-import com.albert.opf.common.model.domain.request.Request;
-import com.albert.opf.common.utils.SpringObjectFactory;
-import com.albert.opf.dao.DaoFacade;
 
 /**
  * @ClassName:ServiceTest

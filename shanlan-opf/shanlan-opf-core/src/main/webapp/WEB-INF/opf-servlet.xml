@@ -13,6 +13,15 @@
 		<property name="order" value="1" />
 	</bean>
 
+
+<!-- 通用视图解析类 -->
+<!--     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> -->
+<!--         <property name="prefix" value="/pages/" /> -->
+<!--         <property name="suffix" value=".jsp" /> -->
+<!--         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" /> -->
+<!--     </bean> -->
+
+
 	<bean name="jsonView"
 		class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
 		<property name="encoding">

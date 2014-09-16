@@ -1,47 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-
+	<import resource="daos.xml" />
 	<bean id="userService" class="com.albert.opf.service.UserServiceImpl">
-		<property name="opfDaoAuthenticationProvider" ref="opfDaoAuthenticationProvider" />
-		<property name="httpClient" ref="httpClient" />
-		<property name="userCache" ref="userCache" />
+		<property name="daoFacade" ref="daoFacade" />
 	</bean>
 
 	<bean id="invokeService" class="com.albert.opf.service.InvokeServiceImpl">
 		<property name="httpClient" ref="httpClient" />
+		<property name="userService" ref="userService" />
 	</bean>
 
-<!-- 	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate"> -->
-<!-- 		<property name="messageConverters"> -->
-<!-- 			<list> -->
-<!-- 				<ref bean="jsonConverter" /> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
 
-<!-- 	<bean id="jsonConverter" -->
-<!-- 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"> -->
-<!-- 		<property name="supportedMediaTypes" value="application/json" /> -->
-<!-- 	</bean> -->
+	<bean id="daoFacade" class="com.albert.opf.dao.DaoFacade">
+		<property name="userDao" ref="userDao" />
+		<property name="serviceDao" ref="serviceDao" />
+	</bean>
 
 
 	<bean id="httpClient" class="org.apache.http.impl.client.DefaultHttpClient" />
-
-	<!-- 用户详细信息管理 : 数据源、用户缓存、启用用户组功能。 -->
-	<bean id="daoAuthenticationProvider"
-		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
-		<property name="userCache" ref="userCache" />
-		<property name="userDetailsService" ref="userDetailsManager" />
-	</bean>
-
-	<bean id="userDetailsManager"
-		class="org.springframework.security.provisioning.JdbcUserDetailsManager">
-		<property name="dataSource" ref="dataSource" />
-		<property name="userCache" ref="userCache" />
-		<property name="enableGroups" value="true" />
-		<property name="enableAuthorities" value="false" />
-	</bean>
-
 
 </beans>

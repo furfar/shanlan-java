@@ -26,6 +26,7 @@ public class Service implements Serializable {
 	private String version;
 	private String serviceURL;
 	private int serviceType;
+    private boolean isLocal;
 	private int enable;
 
 	/**
@@ -40,6 +41,10 @@ public class Service implements Serializable {
 		this.serviceURL = serviceURI;
 		this.serviceType = serviceType;
 		this.enable = enable;
+	}
+
+	public Service() {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -117,4 +122,10 @@ public class Service implements Serializable {
 		this.enable = enable;
 	}
 
+    public boolean getIsLocal(){
+        return isLocal;
+    }
+    public void setIsLocal(boolean isLocal){
+        this.isLocal=isLocal;
+    }
 }

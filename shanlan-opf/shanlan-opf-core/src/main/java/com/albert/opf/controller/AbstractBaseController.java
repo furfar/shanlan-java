@@ -94,39 +94,47 @@ public abstract class AbstractBaseController {
 		ModelAndView resultMav = new ModelAndView("jsonView");
 
 		if (e instanceof RequestFormatException) {
-			ErrorResponse errorResponse = new ErrorResponse(1234,
+			ErrorResponse errorResponse = new ErrorResponse("1234",
 					e.getMessage());
 
-			resultMav.addObject(OPFConstants.RESPONSE, errorResponse);
+			resultMav.addObject(errorResponse.getCode(),
+					errorResponse.getMessage());
 		}
 
 		if (e instanceof RequestMappingException) {
 
-			ErrorResponse errorResponse = new ErrorResponse(123, e.getMessage());
+			ErrorResponse errorResponse = new ErrorResponse("234",
+					e.getMessage());
 
-			resultMav.addObject(OPFConstants.RESPONSE, errorResponse);
+			resultMav.addObject(errorResponse.getCode(),
+					errorResponse.getMessage());
 
 		}
 
 		if (e instanceof RequestAuthenticationException) {
-		
-			ErrorResponse errorResponse = new ErrorResponse(123,
+
+			ErrorResponse errorResponse = new ErrorResponse("345",
 					"username or password error, please check it. ");
 
-			resultMav.addObject(OPFConstants.RESPONSE, errorResponse);
+			resultMav.addObject(errorResponse.getCode(),
+					errorResponse.getMessage());
 		}
 
 		if (e instanceof RequestAuthorizationException) {
 
-			ErrorResponse errorResponse = new ErrorResponse(123, e.getMessage());
+			ErrorResponse errorResponse = new ErrorResponse("456",
+					e.getMessage());
 
-			resultMav.addObject(OPFConstants.RESPONSE, errorResponse);
+			resultMav.addObject(errorResponse.getCode(),
+					errorResponse.getMessage());
 		}
-		
-		if (e instanceof ServiceDisableException) {
-			ErrorResponse errorResponse = new ErrorResponse(456, e.getMessage());
 
-			resultMav.addObject(OPFConstants.RESPONSE, errorResponse);
+		if (e instanceof ServiceDisableException) {
+			ErrorResponse errorResponse = new ErrorResponse("567",
+					e.getMessage());
+
+			resultMav.addObject(errorResponse.getCode(),
+					errorResponse.getMessage());
 		}
 
 		return resultMav;

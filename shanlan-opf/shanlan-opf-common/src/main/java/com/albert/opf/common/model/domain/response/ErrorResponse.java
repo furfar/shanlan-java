@@ -21,12 +21,12 @@ public class ErrorResponse extends BaseResponse {
 	/**
 	 * 错误编码
 	 */
-	private Integer err_code;
+	private String code;
 
 	/**
 	 * 错误描述，对错误编码的描述
 	 */
-	private String err_info;
+	private String message;
 
 	/**
 	 *
@@ -35,49 +35,42 @@ public class ErrorResponse extends BaseResponse {
 		this.flag = OPFConstants.FLAG_FAILURE;
 	}
 
-	public ErrorResponse(Integer err_code) {
+	public ErrorResponse(String err_code) {
 		this.flag = OPFConstants.FLAG_FAILURE;
-		this.err_code = err_code;
+		this.code = err_code;
 	}
 
 	/**
 	 * @param err_code
 	 * @param err_info
 	 */
-	public ErrorResponse(Integer err_code, String err_info) {
+	public ErrorResponse(String code, String message) {
 		this.flag = OPFConstants.FLAG_FAILURE;
-		this.err_code = err_code;
-		this.err_info = err_info;
+		this.code = code;
+		this.message = message;
 	}
 
-	/**
-	 * @return the err_code
-	 */
-	public Integer getErr_code() {
-		return err_code;
+	public String getCode() {
+		return code;
 	}
 
-	/**
-	 * @param err_code
-	 *            the err_code to set
-	 */
-	public void setErr_code(Integer err_code) {
-		this.err_code = err_code;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
-	/**
-	 * @return the err_info
-	 */
-	public String getErr_info() {
-		return err_info;
+	public String getMessage() {
+		return message;
 	}
 
-	/**
-	 * @param err_info
-	 *            the err_info to set
-	 */
-	public void setErr_info(String err_info) {
-		this.err_info = err_info;
+	public void setMessage(String message) {
+		this.message = message;
 	}
+
+	@Override
+	public String toString() {
+		return "ErrorResponse [code=" + code + ", message=" + message + "]";
+	}
+
+	
 
 }

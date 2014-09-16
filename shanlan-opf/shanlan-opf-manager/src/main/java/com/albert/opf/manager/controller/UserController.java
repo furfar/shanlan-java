@@ -17,8 +17,8 @@ import com.albert.opf.common.exception.RequestCheckingException;
 import com.albert.opf.common.exception.RequestFormatException;
 import com.albert.opf.common.exception.RequestMappingException;
 import com.albert.opf.common.model.domain.response.ErrorResponse;
-import com.albert.opf.common.utils.JsonUtil;
 import com.albert.opf.manager.service.UserService;
+import com.shanlan.common.util.JsonUtil;
 
 @Controller
 public class UserController {
@@ -91,35 +91,35 @@ public class UserController {
 
 		ModelAndView resultMav = new ModelAndView("jsonView");
 
-		if (e instanceof RequestFormatException) {
-			ErrorResponse errorResponse = new ErrorResponse(1234,
-					e.getMessage());
-
-			resultMav.addObject(OPFConstants.RESPONSE, errorResponse);
-		}
-
-		if (e instanceof RequestMappingException) {
-
-			ErrorResponse errorResponse = new ErrorResponse(123, e.getMessage());
-
-			resultMav.addObject(OPFConstants.RESPONSE, errorResponse);
-
-		}
-
-		if (e instanceof RequestAuthenticationException) {
-
-			ErrorResponse errorResponse = new ErrorResponse(123,
-					"username or password error, please check it. ");
-
-			resultMav.addObject(OPFConstants.RESPONSE, errorResponse);
-		}
-
-		if (e instanceof RequestAuthorizationException) {
-
-			ErrorResponse errorResponse = new ErrorResponse(123, e.getMessage());
-
-			resultMav.addObject(OPFConstants.RESPONSE, errorResponse);
-		}
+//		if (e instanceof RequestFormatException) {
+//			ErrorResponse errorResponse = new ErrorResponse(1234,
+//					e.getMessage());
+//
+//			resultMav.addObject(OPFConstants.RESPONSE, errorResponse);
+//		}
+//
+//		if (e instanceof RequestMappingException) {
+//
+//			ErrorResponse errorResponse = new ErrorResponse(123, e.getMessage());
+//
+//			resultMav.addObject(OPFConstants.RESPONSE, errorResponse);
+//
+//		}
+//
+//		if (e instanceof RequestAuthenticationException) {
+//
+//			ErrorResponse errorResponse = new ErrorResponse(123,
+//					"username or password error, please check it. ");
+//
+//			resultMav.addObject(OPFConstants.RESPONSE, errorResponse);
+//		}
+//
+//		if (e instanceof RequestAuthorizationException) {
+//
+//			ErrorResponse errorResponse = new ErrorResponse(123, e.getMessage());
+//
+//			resultMav.addObject(OPFConstants.RESPONSE, errorResponse);
+//		}
 
 		return resultMav;
 

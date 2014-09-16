@@ -5,9 +5,6 @@
  */
 package com.albert.opf.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
-import org.springframework.stereotype.Repository;
 
 /**
  * @ClassName:DAOFacade
@@ -18,27 +15,29 @@ import org.springframework.stereotype.Repository;
  * @Remarks:
  * @Version:V1.1
  */
-@Repository
 public class DaoFacade {
 
-	private AbstractUserDetailsAuthenticationProvider daoAuthenticationProvider;
+	private ServiceDao serviceDao;
+	
+	private UserDao userDao;
 
-	@Autowired
-	public ServiceDao serviceDao;
-
-	/**
-	 * @return the daoAuthenticationProvider
-	 */
-	public AbstractUserDetailsAuthenticationProvider getDaoAuthenticationProvider() {
-		return daoAuthenticationProvider;
+	public ServiceDao getServiceDao() {
+		return serviceDao;
 	}
 
-	/**
-	 * @param daoAuthenticationProvider the daoAuthenticationProvider to set
-	 */
-	public void setDaoAuthenticationProvider(
-			AbstractUserDetailsAuthenticationProvider daoAuthenticationProvider) {
-		this.daoAuthenticationProvider = daoAuthenticationProvider;
+	public void setServiceDao(ServiceDao serviceDao) {
+		this.serviceDao = serviceDao;
 	}
 
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	
+	
+	
 }

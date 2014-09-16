@@ -8,7 +8,8 @@ package com.albert.opf.service;
 import com.albert.opf.common.exception.OPFBaseException;
 import com.albert.opf.common.exception.RequestCheckingException;
 import com.albert.opf.common.model.domain.Service;
-import com.albert.opf.common.model.domain.request.Request;
+import com.shanlan.common.domain.User;
+//import org.openkoala.auth.application.vo.UserVO;
 
 /**
  * @ClassName:CheckingService
@@ -21,22 +22,7 @@ import com.albert.opf.common.model.domain.request.Request;
  */
 public interface UserService {
 
-	/**
-	 * 检查用户的身份和权限
-	 * 
-	 * @param baseRequest
-	 * @return
-	 * @throws RequestCheckingException
-	 */
-	boolean checkUser(Request request) throws RequestCheckingException;
-
-	/**
-	 * @param key
-	 * @param secret
-	 * @return
-	 */
-	boolean checkUser(String key, String secret,String serviceName,String version)
-			throws RequestCheckingException;
+	
 
 	/**
 	 * 验证用户并获取调用服务的URL
@@ -49,4 +35,9 @@ public interface UserService {
 	Service getServiceByServiceNameAndVersion(String service, String v)
 			throws OPFBaseException;
 
+
+    User login(String userName,String password) throws OPFBaseException;
+
+
+    boolean register(User user);
 }

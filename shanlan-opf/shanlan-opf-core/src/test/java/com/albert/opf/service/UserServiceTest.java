@@ -8,13 +8,6 @@ package com.albert.opf.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-
-import com.albert.opf.common.constant.OPFConstants;
-import com.albert.opf.common.model.domain.response.SuccessResponse;
-import com.albert.opf.common.utils.SpringObjectFactory;
 
 /**
  * @ClassName:UserServiceTest
@@ -55,5 +48,7 @@ public class UserServiceTest {
 //
 //		System.out.println(successResponse.getBusinessResult());
 	}
+
+    
 
 }

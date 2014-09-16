@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,11 +21,15 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.type.TypeReference;
 import org.springframework.stereotype.Service;
 
 import com.albert.opf.common.constant.OPFConstants;
+import com.albert.opf.common.exception.OPFBaseException;
 import com.albert.opf.common.model.domain.response.SuccessResponse;
+import com.shanlan.common.domain.User;
 import com.alibaba.fastjson.JSONObject;
+import com.shanlan.common.util.JsonUtil;
 
 /**
  * @ClassName:InvokeServiceImpl
@@ -43,6 +48,11 @@ public class InvokeServiceImpl implements InvokeService {
 
 	private HttpClient httpClient;
 
+	// private static final String CURRENT_PACKAGE_PATH =
+	// "com.albert.ofp.service";
+
+	private UserService userService;
+
 	@Override
 	public SuccessResponse invokeRemoteService(String serviceURI, String param) {
 
@@ -57,9 +67,36 @@ public class InvokeServiceImpl implements InvokeService {
 	 * java.lang.String)
 	 */
 	@Override
-	public SuccessResponse invokeLocalService(String param) {
+	public SuccessResponse invokeLocalService(String service, String param)
+			throws OPFBaseException {
 
-		return new SuccessResponse("invokeLocalService");
+		// String[] serviceSplit = service.split(ConstantPunctuation.PERIOD);
+		// String className = serviceSplit[0];
+		// String methodName = serviceSplit[1];
+		// Class clazz = Class.forName(CURRENT_PACKAGE_PATH + className);
+		// Class[] parameterTypes = null;
+		// Method method = clazz.getMethod(methodName, parameterTypes);
+		// String responseString = (String) method.invoke(null, null);
+
+		Map<String, String> paramMap = JsonUtil.foJson(param,
+				new TypeReference<Map<String, String>>() {
+				});
+
+		if (service.equals("User.login")) {
+			User existUser = userService.login(paramMap.get("userName"),
+					paramMap.get("password"));
+			return new SuccessResponse(JsonUtil.toJson(existUser));
+		} else if (service.equals("User.register")) {
+			User user = new User(paramMap.get("userName"),
+					paramMap.get("password"), paramMap.get("nickName"),
+					paramMap.get("email"), paramMap.get("city"),
+					Boolean.parseBoolean(paramMap.get("isValid")));
+			boolean result = userService.register(user);
+
+			return new SuccessResponse(JsonUtil.toJson(result));
+		}
+		return new SuccessResponse();
+
 	}
 
 	private SuccessResponse getResponse(String URI, String param) {
@@ -112,6 +149,14 @@ public class InvokeServiceImpl implements InvokeService {
 	 */
 	public void setHttpClient(HttpClient httpClient) {
 		this.httpClient = httpClient;
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 }

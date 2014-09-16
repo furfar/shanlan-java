@@ -1,4 +1,4 @@
-package com.albert.opf.common.utils;
+package com.shanlan.common.util;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;

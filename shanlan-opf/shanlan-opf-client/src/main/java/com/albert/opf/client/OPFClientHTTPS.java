@@ -32,9 +32,9 @@ import com.albert.opf.common.exception.OPFBaseException;
 import com.albert.opf.common.model.domain.request.Request;
 import com.albert.opf.common.model.domain.response.ErrorResponse;
 import com.albert.opf.common.model.domain.response.SuccessResponse;
-import com.albert.opf.common.utils.JsonUtil;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.shanlan.common.util.JsonUtil;
 
 /**
  * @ClassName:OPFClient
@@ -130,7 +130,7 @@ public class OPFClientHTTPS {
 					} catch (JSONException e) {
 						ErrorResponse errorResponse = JSONObject.parseObject(
 								responseString, ErrorResponse.class);
-						throw new OPFBaseException(errorResponse.getErr_info());
+						throw new OPFBaseException(errorResponse.getMessage());
 					}
 				}
 			} catch (ClientProtocolException e) {

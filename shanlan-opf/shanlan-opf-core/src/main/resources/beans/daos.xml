@@ -22,9 +22,9 @@
 		init-method="init" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:mysql://localhost/opf?characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull" />
+			value="jdbc:mysql://localhost/shanlan?characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull" />
 		<property name="username" value="root" />
-		<property name="password" value="root" />
+		<property name="password" value="furfarjun" />
 
 		<property name="initialSize" value="3" />
 		<property name="minIdle" value="5" />
@@ -54,19 +54,18 @@
 
 	</bean>
 
-
-	<bean id="daoFacade" class="com.albert.opf.dao.DaoFacade">
-		<property name="daoAuthenticationProvider" ref="daoAuthenticationProvider" />
-	</bean>
-
 	<bean id="serviceDao" class="com.albert.opf.dao.ServiceDaoImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 
-	<bean id="opfDaoAuthenticationProvider" class="com.albert.opf.dao.OPFDaoAuthenticationProvider">
-		<property name="opfUserCache" ref="opfUserCache" />
-		<property name="userDetailsService" ref="userDetailsManager" />
+	<bean id="userDao" class="com.albert.opf.dao.UserDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
+
+<!-- 	<bean id="opfDaoAuthenticationProvider" class="com.albert.opf.dao.OPFDaoAuthenticationProvider"> -->
+<!-- 		<property name="opfUserCache" ref="opfUserCache" /> -->
+<!-- 		<property name="userDetailsService" ref="userDetailsManager" /> -->
+<!-- 	</bean> -->
 
 
 </beans>

@@ -34,7 +34,7 @@ public class OPFDaoAuthenticationProvider extends
 	protected Service getServiceByServiceNameAndVersionFromDB(
 			String serviceName, String version) {
 
-		List<Service> services = daoFacade.serviceDao
+		List<Service> services = daoFacade.getServiceDao()
 				.getServicesByServiceNameAndVersion(serviceName, version);
 
 		if (services.size() == 0) {

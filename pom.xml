@@ -14,42 +14,42 @@
 	<modules>
 		<module>shanlan-opf</module>
 		<module>shanlan-user</module>
+		<module>shanlan-common</module>
 	</modules>
 
 
 	<repositories>
 
-		<repository>
-			<id>koala-snapshots</id>
-			<url>http://nexus.openkoala.org/nexus/content/groups/Koala-snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
+		<!-- <repository> -->
+		<!-- <id>koala-snapshots</id> -->
+		<!-- <url>http://nexus.openkoala.org/nexus/content/groups/Koala-snapshots/</url> -->
+		<!-- <releases> -->
+		<!-- <enabled>false</enabled> -->
+		<!-- </releases> -->
+		<!-- <snapshots> -->
+		<!-- <enabled>true</enabled> -->
+		<!-- </snapshots> -->
+		<!-- </repository> -->
 
-<!-- 		<repository> -->
-<!-- 			<id>spring-releases</id> -->
-<!-- 			<name>Spring Maven RELEASE Repository</name> -->
-<!-- 			<url>http://maven.springframework.org</url> -->
-<!-- 		</repository> -->
+		<!-- <repository> -->
+		<!-- <id>spring-releases</id> -->
+		<!-- <name>Spring Maven RELEASE Repository</name> -->
+		<!-- <url>http://maven.springframework.org</url> -->
+		<!-- </repository> -->
 
-<!-- 		<repository> -->
-<!-- 			<id>opensesame</id> -->
-<!-- 			<name>Alibaba OpenSource Repsoitory</name> -->
-<!-- 			<url>http://code.alibabatech.com/mvn/releases/</url> -->
-<!-- 			<snapshots> -->
-<!-- 				<enabled>false</enabled> -->
-<!-- 			</snapshots> -->
-<!-- 		</repository> -->
+		<!-- <repository> -->
+		<!-- <id>opensesame</id> -->
+		<!-- <name>Alibaba OpenSource Repsoitory</name> -->
+		<!-- <url>http://code.alibabatech.com/mvn/releases/</url> -->
+		<!-- <snapshots> -->
+		<!-- <enabled>false</enabled> -->
+		<!-- </snapshots> -->
+		<!-- </repository> -->
 
 	</repositories>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- 主要依赖库的版本定义 -->
 		<springframework.version>3.2.0.RELEASE</springframework.version>
 		<spring-integration.version>2.2.0.RELEASE</spring-integration.version>
 		<spring-batch.version>2.1.9.RELEASE</spring-batch.version>
@@ -58,10 +58,10 @@
 		<druid.version>1.0.1</druid.version>
 	</properties>
 
-	<!-- 所有子模块均继承的公共依赖 -->
+
 	<dependencies>
 
-		<!-- Koala平台依赖 -->
+		<!-- Koala -->
 		<dependency>
 			<groupId>org.openkoala.koalacommons</groupId>
 			<artifactId>koala-commons-i18n</artifactId>
@@ -74,7 +74,7 @@
 		</dependency>
 
 
-		<!-- springframework依赖相关 -->
+		<!-- springframework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
@@ -103,7 +103,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- log相关依赖 -->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -111,7 +110,6 @@
 		</dependency>
 	</dependencies>
 
-	<!-- 不同子模块选择性继承的依赖 -->
 	<dependencyManagement>
 		<dependencies>
 
@@ -142,17 +140,17 @@
 
 				<!-- <plugin> -->
 				<!-- <groupId>org.mortbay.jetty</groupId> -->
-				<!-- 使用的是jetty-maven-plugin的插�? -->
+				<!-- ????????????jetty-maven-plugin?????????? -->
 				<!-- <artifactId>jetty-maven-plugin</artifactId> -->
 				<!-- <configuration> -->
 				<!-- <scanIntervalSeconds>2000</scanIntervalSeconds> -->
 				<!-- <webApp> -->
-				<!-- 上下文路�? -->
+				<!-- ???????????????? -->
 				<!-- <contextPath>/stu</contextPath> -->
 				<!-- </webApp> -->
 				<!-- <connectors> -->
 				<!-- <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector"> -->
-				<!-- 端口�? -->
+				<!-- ?????????? -->
 				<!-- <port>8787</port> -->
 				<!-- <maxIdleTime>500000</maxIdleTime> -->
 				<!-- </connector> -->

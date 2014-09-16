@@ -28,10 +28,11 @@ import com.albert.opf.common.exception.OPFBaseException;
 import com.albert.opf.common.model.domain.request.Request;
 import com.albert.opf.common.model.domain.response.ErrorResponse;
 import com.albert.opf.common.model.domain.response.SuccessResponse;
-import com.albert.opf.common.utils.JsonUtil;
 import com.albert.opf.common.utils.SignUtils;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.shanlan.common.util.JsonUtil;
+import com.shanlan.common.domain.User;
 
 /**
  * @ClassName:OPFClient
@@ -51,8 +52,13 @@ public class OPFClientHTTP {
 		Request request = new Request();
 		request.setKey("app1");
 		request.setSecret("secret1");
-		request.setService("phone.brand.get");
-		request.setParam("c8812");
+//		request.setService("User.login");
+//		request.setParam("{\"userName\":\"zhangsan\",\"password\":\"888888\"}");
+
+		User user = new User("wangwu3", "888888", "王五", "wangwu@126.com",
+				"BeiJing", true);
+		request.setService("User.register");
+		request.setParam(JsonUtil.toJson(user));
 
 		SuccessResponse successResponse = null;
 		try {
@@ -79,14 +85,15 @@ public class OPFClientHTTP {
 			// 创建httppost
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost(OPFConstants.OPF_URI_HTTP);
-//			HttpPost httppost = new HttpPost("http://localhost:8088/opf.manager/user.get");
+			// HttpPost httppost = new
+			// HttpPost("http://localhost:8088/opf.manager/user.get");
 			// 创建参数队列
 			List<NameValuePair> postParams = new ArrayList<NameValuePair>();
 			postParams.add(new BasicNameValuePair(OPFConstants.REQUEST,
 					paramString));
-//			postParams.add(new BasicNameValuePair("param",
-//					"app1"));
-			
+			// postParams.add(new BasicNameValuePair("param",
+			// "app1"));
+
 			UrlEncodedFormEntity uefEntity;
 			try {
 				uefEntity = new UrlEncodedFormEntity(postParams,
@@ -121,7 +128,7 @@ public class OPFClientHTTP {
 				} catch (JSONException e) {
 					ErrorResponse errorResponse = JSONObject.parseObject(
 							responseString, ErrorResponse.class);
-					throw new OPFBaseException(errorResponse.getErr_info());
+					throw new OPFBaseException(errorResponse.getMessage());
 				}
 			}
 		}

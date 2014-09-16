@@ -1,19 +1,8 @@
 package com.albert.opf.managet.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.cache.EhCacheBasedUserCache;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-
-import com.albert.opf.common.utils.SpringObjectFactory;
 
 /**
  * @ClassName:SecurityTest

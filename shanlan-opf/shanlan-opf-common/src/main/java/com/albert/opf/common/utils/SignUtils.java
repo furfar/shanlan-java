@@ -109,16 +109,30 @@ public class SignUtils {
 		return bytes;
 	}
 
-	// private static byte[] getMD5Digest(String data) throws IOException {
-	// byte[] bytes = null;
-	// try {
-	// MessageDigest md = MessageDigest.getInstance("MD5");
-	// bytes = md.digest(data.getBytes(OPFConstants.UTF8));
-	// } catch (GeneralSecurityException gse) {
-	// throw new IOException(gse);
-	// }
-	// return bytes;
-	// }
+	/**对字符串进行MD5加密
+	 * @param data
+	 * @return	加密后的字符数组
+	 * @throws IOException
+	 */
+	public static byte[] getMD5Digest(String data) throws IOException {
+		byte[] bytes = null;
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			bytes = md.digest(data.getBytes(OPFConstants.UTF8));
+		} catch (GeneralSecurityException gse) {
+			throw new IOException(gse);
+		}
+		return bytes;
+	}
+
+	/**对字符串进行MD5加密，返回加密后的字符串
+	 * @param data
+	 * @return	加密后的字符串
+	 * @throws IOException
+	 */
+	public static String getMD5DigestInString(String data) throws IOException {
+		return byte2hexNoUpperCase(getMD5Digest(data));
+	}
 
 	/**
 	 * 二进制转十六进制字符串
@@ -137,6 +151,26 @@ public class SignUtils {
 		}
 		return sign.toString();
 	}
+	
+	
+	/**
+	 * 二进制转十六进制字符串
+	 * 
+	 * @param bytes
+	 * @return
+	 */
+	private static String byte2hexNoUpperCase(byte[] bytes) {
+		StringBuilder sign = new StringBuilder();
+		for (int i = 0; i < bytes.length; i++) {
+			String hex = Integer.toHexString(bytes[i] & 0xFF);
+			if (hex.length() == 1) {
+				sign.append("0");
+			}
+			sign.append(hex);
+		}
+		return sign.toString();
+	}
+	
 
 	public static String getUUID() {
 		UUID uuid = UUID.randomUUID();

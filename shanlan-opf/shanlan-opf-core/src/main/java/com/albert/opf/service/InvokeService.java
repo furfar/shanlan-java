@@ -28,6 +28,7 @@ public interface InvokeService {
 	/**调用本地服务
 	 * @param param		传入该服务的参数
 	 * @return
+	 * @throws Exception 
 	 */
-	SuccessResponse invokeLocalService(String param);
+	SuccessResponse invokeLocalService(String service,String param) throws Exception;
 }
