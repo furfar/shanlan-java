@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.shanlan.common.domain.User;
+import com.shanlan.common.util.DateUtil;
 
 /**
  * @ClassName:ServiceDaoImpl
@@ -32,8 +33,8 @@ public class UserDaoImpl implements UserDao {
 			+ "from KS_IDENTITY " + "where USER_ACCOUNT = ?";
 
 	public static final String DEF_USER_ADD = "Insert Into KS_IDENTITY (IDENTITY_TYPE,USER_ACCOUNT,USER_PASSWORD,"
-			+ "EMAIL,NAME,CITY,ISVALID,ABOLISH_DATE,VERSION,SERIAL_NUMBER,SORT_ORDER,IS_SUPER) "
-			+ "Values (?,?,?,?,?,?,?,?,?,?,?,?)";
+			+ "EMAIL,NAME,CITY,ISVALID,ABOLISH_DATE,VERSION,SERIAL_NUMBER,SORT_ORDER,IS_SUPER,CREATE_DATE) "
+			+ "Values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	private JdbcTemplate jdbcTemplate;
 
@@ -60,10 +61,10 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean add(User user) {
-
+		String now=DateUtil.getNow(DateUtil.format3);
 		int insertNum = jdbcTemplate.update(DEF_USER_ADD,"User",
 				user.getUserName(), user.getPassword(), user.getEmail(),
-				user.getNickName(), user.getCity(), user.getIsValid(),"8888-01-01 00:00:00","3","0","0","0");
+				user.getNickName(), user.getCity(), user.getIsValid(),"8888-01-01 00:00:00","3","0","0","0",now);
 
 		if (insertNum == 1) {
 			return true;

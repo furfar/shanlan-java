@@ -52,13 +52,13 @@ public class OPFClientHTTP {
 		Request request = new Request();
 		request.setKey("app1");
 		request.setSecret("secret1");
-//		request.setService("User.login");
-//		request.setParam("{\"userName\":\"zhangsan\",\"password\":\"888888\"}");
+		request.setService("User.login");
+		request.setParam("{\"userName\":\"zhangsan\",\"password\":\"888888\"}");
 
-		User user = new User("wangwu3", "888888", "王五", "wangwu@126.com",
-				"BeiJing", true);
-		request.setService("User.register");
-		request.setParam(JsonUtil.toJson(user));
+//		User user = new User("wangwu3", "888888", "王五", "wangwu@126.com",
+//				"BeiJing", true);
+//		request.setService("User.register");
+//		request.setParam(JsonUtil.toJson(user));
 
 		SuccessResponse successResponse = null;
 		try {
