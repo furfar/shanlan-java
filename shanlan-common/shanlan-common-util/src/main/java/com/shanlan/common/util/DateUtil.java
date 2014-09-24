@@ -547,7 +547,7 @@ public class DateUtil {
 	 * 将以+XX:XX(或-XX:XX)形式结尾的暁去掉其中的:替换成+XXXX(或-XXXX)形式,因为SimpleDateFormat中只有+
 	 * XXXX(或-XXXX)这种形式（用z表示）
 	 * 
-	 * @param postFix
+	 * @param dateString
 	 * @return
 	 */
 	private static String changePostFixTimeZoneFormate(String dateString) {

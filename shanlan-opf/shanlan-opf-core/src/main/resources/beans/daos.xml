@@ -24,7 +24,7 @@
 		<property name="url"
 			value="jdbc:mysql://localhost/shanlan?characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull" />
 		<property name="username" value="root" />
-		<property name="password" value="furfarjun" />
+		<property name="password" value="ShanLan4" />
 
 		<property name="initialSize" value="3" />
 		<property name="minIdle" value="5" />

@@ -1,9 +1,9 @@
 package com.shanlan.common.exception.business;
 
-import org.openkoala.framework.i18n.I18NManager;
 
 import com.shanlan.common.exception.ExceptionMessageConstants;
 import com.shanlan.common.exception.system.SystemExceptionCodeConstants;
+import com.shanlan.common.i18n.I18NManager;
 
 /**
  * 操作异常

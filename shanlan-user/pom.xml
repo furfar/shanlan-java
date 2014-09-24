@@ -70,7 +70,7 @@
 				<db.connectionURL>jdbc:mysql://localhost:3306/shanlan?useUnicode=true&amp;characterEncoding=UTF-8
 				</db.connectionURL>
 				<db.username>root</db.username>
-				<db.password>furfarjun</db.password>
+				<db.password>ShanLan4</db.password>
 				<db.Type>MYSQL</db.Type>
 				<db.testsql>select 1</db.testsql>
 				<db.generateDdl>true</db.generateDdl>
@@ -454,16 +454,7 @@
 				<artifactId>jstl</artifactId>
 				<version>1.2</version>
 			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>1.6.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>1.6.1</version>
-			</dependency>
+			
 
 			<dependency>
 				<groupId>javax.ejb</groupId>

@@ -8,12 +8,10 @@ package com.albert.opf.controller;
 import java.lang.reflect.Field;
 import java.util.List;
 
-
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.albert.opf.common.constant.OPFConstants;
 import com.albert.opf.common.exception.RequestAuthenticationException;
 import com.albert.opf.common.exception.RequestAuthorizationException;
 import com.albert.opf.common.exception.RequestFormatException;
