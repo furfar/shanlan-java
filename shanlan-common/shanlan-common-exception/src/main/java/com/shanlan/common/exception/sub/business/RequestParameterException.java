@@ -22,7 +22,6 @@ public class RequestParameterException extends OPFBaseException {
 	 * 
 	 */
 	private static final long serialVersionUID = -412139754163211866L;
-
 	/**
 	 * 
 	 */
@@ -37,6 +36,7 @@ public class RequestParameterException extends OPFBaseException {
 	 */
 	public RequestParameterException(String msg, Throwable throwable) {
 		super(msg, throwable);
+        super.setCode("101");
 		// TODO Auto-generated constructor stub
 	}
 
@@ -45,6 +45,7 @@ public class RequestParameterException extends OPFBaseException {
 	 */
 	public RequestParameterException(String msg) {
 		super(msg);
+        super.setCode("101");
 		// TODO Auto-generated constructor stub
 	}
 
@@ -53,6 +54,7 @@ public class RequestParameterException extends OPFBaseException {
 	 */
 	public RequestParameterException(Throwable throwable) {
 		super(throwable);
+        super.setCode("101");
 		// TODO Auto-generated constructor stub
 	}
 

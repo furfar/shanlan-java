@@ -8,16 +8,11 @@ package com.albert.opf.controller;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import com.shanlan.common.exception.sub.business.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.albert.opf.common.exception.RequestAuthenticationException;
-import com.albert.opf.common.exception.RequestAuthorizationException;
-import com.albert.opf.common.exception.RequestFormatException;
-import com.albert.opf.common.exception.RequestMappingException;
-import com.albert.opf.common.exception.RequestParameterException;
-import com.albert.opf.common.exception.ServiceDisableException;
 import com.albert.opf.common.model.domain.request.Request;
 import com.albert.opf.common.model.domain.response.ErrorResponse;
 import com.albert.opf.common.utils.ReflectionUtils;
@@ -92,47 +87,67 @@ public abstract class AbstractBaseController {
 		ModelAndView resultMav = new ModelAndView("jsonView");
 
 		if (e instanceof RequestFormatException) {
-			ErrorResponse errorResponse = new ErrorResponse("1234",
+			ErrorResponse errorResponse = new ErrorResponse("101",
 					e.getMessage());
 
-			resultMav.addObject(errorResponse.getCode(),
-					errorResponse.getMessage());
+            resultMav.addObject(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
+            resultMav.addObject(ErrorResponse.ERROR_MESSAGE_STRING,
+                    errorResponse.getMessage());
+            return resultMav;
+
 		}
 
 		if (e instanceof RequestMappingException) {
 
-			ErrorResponse errorResponse = new ErrorResponse("234",
+			ErrorResponse errorResponse = new ErrorResponse("201",
 					e.getMessage());
 
-			resultMav.addObject(errorResponse.getCode(),
-					errorResponse.getMessage());
+            resultMav.addObject(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
+            resultMav.addObject(ErrorResponse.ERROR_MESSAGE_STRING,
+                    errorResponse.getMessage());
+            return resultMav;
 
 		}
 
 		if (e instanceof RequestAuthenticationException) {
 
-			ErrorResponse errorResponse = new ErrorResponse("345",
-					"username or password error, please check it. ");
+			ErrorResponse errorResponse = new ErrorResponse("301",
+					e.getMessage());
 
-			resultMav.addObject(errorResponse.getCode(),
-					errorResponse.getMessage());
+            resultMav.addObject(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
+            resultMav.addObject(ErrorResponse.ERROR_MESSAGE_STRING,
+                    errorResponse.getMessage());
+            return resultMav;
 		}
 
 		if (e instanceof RequestAuthorizationException) {
 
-			ErrorResponse errorResponse = new ErrorResponse("456",
+			ErrorResponse errorResponse = new ErrorResponse("401",
 					e.getMessage());
 
-			resultMav.addObject(errorResponse.getCode(),
-					errorResponse.getMessage());
+            resultMav.addObject(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
+            resultMav.addObject(ErrorResponse.ERROR_MESSAGE_STRING,
+                    errorResponse.getMessage());
+            return resultMav;
 		}
 
+        if (e instanceof RequestParameterException){
+            ErrorResponse errorResponse = new ErrorResponse("501",
+                    e.getMessage());
+            resultMav.addObject(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
+            resultMav.addObject(ErrorResponse.ERROR_MESSAGE_STRING,
+                    errorResponse.getMessage());
+            return resultMav;
+        }
+
 		if (e instanceof ServiceDisableException) {
-			ErrorResponse errorResponse = new ErrorResponse("567",
+			ErrorResponse errorResponse = new ErrorResponse("601",
 					e.getMessage());
 
-			resultMav.addObject(errorResponse.getCode(),
-					errorResponse.getMessage());
+            resultMav.addObject(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
+            resultMav.addObject(ErrorResponse.ERROR_MESSAGE_STRING,
+                    errorResponse.getMessage());
+            return resultMav;
 		}
 
 		return resultMav;

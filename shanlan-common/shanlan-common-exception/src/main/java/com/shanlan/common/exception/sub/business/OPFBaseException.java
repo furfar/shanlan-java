@@ -20,6 +20,8 @@ public class OPFBaseException extends Exception {
 	 */
 	private static final long serialVersionUID = -827989301971110161L;
 
+    public String code="";
+
 	public OPFBaseException() {
 		super();
 	}
@@ -35,4 +37,13 @@ public class OPFBaseException extends Exception {
 	public OPFBaseException(Throwable throwable) {
 		super(throwable);
 	}
+
+   public String getCode(){
+       return this.code;
+   }
+
+   public void setCode(String code){
+       this.code=code;
+   }
+
 }

@@ -5,10 +5,10 @@
  */
 package com.albert.opf.service;
 
-import com.albert.opf.common.exception.OPFBaseException;
-import com.albert.opf.common.exception.RequestCheckingException;
 import com.albert.opf.common.model.domain.Service;
 import com.shanlan.common.domain.User;
+import com.shanlan.common.exception.sub.business.OPFBaseException;
+import com.shanlan.common.exception.sub.business.RequestParameterException;
 //import org.openkoala.auth.application.vo.UserVO;
 
 /**
@@ -36,8 +36,21 @@ public interface UserService {
 			throws OPFBaseException;
 
 
-    User login(String userName,String password) throws OPFBaseException;
+    User login(String userName,String password) throws OPFBaseException, OPFBaseException;
 
 
-    boolean register(User user);
+    boolean register(User user) throws RequestParameterException;
+
+    /**
+     * 判断用户账号（用户名或者Email）是否已经存在
+     * @param userName
+     * @param email
+     * @return
+     */
+    boolean isUserAccountExist(String userName,String email);
+
+
+    boolean isUserNameExist(String userName);
+
+    boolean isEmailExist(String email);
 }

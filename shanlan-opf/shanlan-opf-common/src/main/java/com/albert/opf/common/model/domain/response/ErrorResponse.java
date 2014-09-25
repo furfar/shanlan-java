@@ -23,10 +23,14 @@ public class ErrorResponse extends BaseResponse {
 	 */
 	private String code;
 
+    public static String ERROR_CODE_STRING="code";
+
 	/**
 	 * 错误描述，对错误编码的描述
 	 */
 	private String message;
+
+    public static String ERROR_MESSAGE_STRING="message";
 
 	/**
 	 *

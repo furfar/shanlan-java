@@ -13,6 +13,7 @@ import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.shanlan.common.exception.sub.business.OPFBaseException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -28,7 +29,6 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 import com.albert.opf.common.constant.OPFConstants;
-import com.albert.opf.common.exception.OPFBaseException;
 import com.albert.opf.common.model.domain.request.Request;
 import com.albert.opf.common.model.domain.response.ErrorResponse;
 import com.albert.opf.common.model.domain.response.SuccessResponse;

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.shanlan.common.exception.sub.business.OPFBaseException;
+import com.shanlan.common.exception.sub.business.RequestParameterException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -25,7 +27,6 @@ import org.codehaus.jackson.type.TypeReference;
 import org.springframework.stereotype.Service;
 
 import com.albert.opf.common.constant.OPFConstants;
-import com.albert.opf.common.exception.OPFBaseException;
 import com.albert.opf.common.model.domain.response.SuccessResponse;
 import com.shanlan.common.domain.User;
 import com.alibaba.fastjson.JSONObject;
@@ -68,7 +69,7 @@ public class InvokeServiceImpl implements InvokeService {
 	 */
 	@Override
 	public SuccessResponse invokeLocalService(String service, String param)
-			throws OPFBaseException {
+            throws OPFBaseException {
 
 		// String[] serviceSplit = service.split(ConstantPunctuation.PERIOD);
 		// String className = serviceSplit[0];

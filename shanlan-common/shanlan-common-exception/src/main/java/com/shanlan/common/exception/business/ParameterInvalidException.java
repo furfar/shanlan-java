@@ -26,7 +26,7 @@ public class ParameterInvalidException extends BusinessException {
 	}
 	
 	/**
-	 * @param message
+	 * @param errorMessage
 	 */
 	public ParameterInvalidException(String errorMessage) {
 		super(errorMessage);
@@ -42,7 +42,7 @@ public class ParameterInvalidException extends BusinessException {
 	}
 	
 	/**
-	 * @param code
+	 * @param errorCode
 	 * @param subExceptions
 	 */
 	public ParameterInvalidException(String errorCode,
@@ -52,8 +52,8 @@ public class ParameterInvalidException extends BusinessException {
 	}
 	
 	/**
-	 * @param code
-	 * @param message
+	 * @param errorCode
+	 * @param errorMessage
 	 */
 	public ParameterInvalidException(String errorCode, String errorMessage) {
 		super(errorCode, errorMessage);
@@ -61,8 +61,8 @@ public class ParameterInvalidException extends BusinessException {
 	}
 	
 	/**
-	 * @param code
-	 * @param message
+	 * @param errorCode
+	 * @param errorMessage
 	 * @param subExceptions
 	 */
 	public ParameterInvalidException(String errorCode, String errorMessage,
@@ -72,8 +72,8 @@ public class ParameterInvalidException extends BusinessException {
 	}
 	
 	/**
-	 * @param code
-	 * @param message
+	 * @param errorCode
+	 * @param errorMessage
 	 * @param solution
 	 */
 	public ParameterInvalidException(String errorCode, String errorMessage,
@@ -83,8 +83,8 @@ public class ParameterInvalidException extends BusinessException {
 	}
 	
 	/**
-	 * @param code
-	 * @param message
+	 * @param errorCode
+	 * @param errorMessage
 	 * @param solution
 	 * @param subExceptions
 	 */
@@ -114,7 +114,7 @@ public class ParameterInvalidException extends BusinessException {
 	
 	/**
 	 * @param cause
-	 * @param code
+	 * @param errorCode
 	 * @param subExceptions
 	 */
 	public ParameterInvalidException(Throwable cause, String errorCode,
@@ -125,8 +125,8 @@ public class ParameterInvalidException extends BusinessException {
 	
 	/**
 	 * @param cause
-	 * @param code
-	 * @param message
+	 * @param errorCode
+	 * @param errorMessage
 	 * @param subExceptions
 	 */
 	public ParameterInvalidException(Throwable cause, String errorCode,
@@ -137,8 +137,8 @@ public class ParameterInvalidException extends BusinessException {
 	
 	/**
 	 * @param cause
-	 * @param code
-	 * @param message
+	 * @param errorCode
+	 * @param errorMessage
 	 * @param solution
 	 * @param subExceptions
 	 */

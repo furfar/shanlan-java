@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.shanlan.common.exception.sub.business.OPFBaseException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -24,7 +25,6 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 import com.albert.opf.common.constant.OPFConstants;
-import com.albert.opf.common.exception.OPFBaseException;
 import com.albert.opf.common.model.domain.request.Request;
 import com.albert.opf.common.model.domain.response.ErrorResponse;
 import com.albert.opf.common.model.domain.response.SuccessResponse;
@@ -32,7 +32,6 @@ import com.albert.opf.common.utils.SignUtils;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.shanlan.common.util.JsonUtil;
-import com.shanlan.common.domain.User;
 
 /**
  * @ClassName:OPFClient

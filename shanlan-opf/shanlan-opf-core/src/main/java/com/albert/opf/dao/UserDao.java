@@ -23,4 +23,6 @@ public interface UserDao {
 	List<User> getUserByUserName(String userName);
 
     boolean add(User user);
+
+    List<User> getUserByEmail(String email);
 }

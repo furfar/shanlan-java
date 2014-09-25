@@ -32,6 +32,9 @@ public class UserDaoImpl implements UserDao {
 	public static final String DEF_USER_BY_USERNAME_QUERY = "Select USER_ACCOUNT,USER_PASSWORD,NAME,EMAIL,CITY,ISVALID "
 			+ "from KS_IDENTITY " + "where USER_ACCOUNT = ?";
 
+    public static final String DEF_USER_BY_EMAIL_QUERY = "Select USER_ACCOUNT,USER_PASSWORD,NAME,EMAIL,CITY,ISVALID "
+            + "from KS_IDENTITY " + "where EMAIL = ?";
+
 	public static final String DEF_USER_ADD = "Insert Into KS_IDENTITY (IDENTITY_TYPE,USER_ACCOUNT,USER_PASSWORD,"
 			+ "EMAIL,NAME,CITY,ISVALID,ABOLISH_DATE,VERSION,SERIAL_NUMBER,SORT_ORDER,IS_SUPER,CREATE_DATE) "
 			+ "Values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -73,7 +76,20 @@ public class UserDaoImpl implements UserDao {
 		return false;
 	}
 
-	/**
+    @Override
+    public List<User> getUserByEmail(String email) {
+        return jdbcTemplate.query(DEF_USER_BY_EMAIL_QUERY,
+                new String[] { email }, new RowMapper<User>() {
+                    public User mapRow(ResultSet rs, int rowNum)
+                            throws SQLException {
+                        return new User(rs.getString(1), rs.getString(2), rs
+                                .getString(3), rs.getString(4), rs.getString(5),rs
+                                .getBoolean(6));
+                    }
+                });
+    }
+
+    /**
 	 * @param jdbcTemplate
 	 *            the jdbcTemplate to set
 	 */

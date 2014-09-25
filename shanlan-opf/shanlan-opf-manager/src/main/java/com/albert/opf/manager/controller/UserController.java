@@ -1,5 +1,6 @@
 package com.albert.opf.manager.controller;
 
+import com.shanlan.common.exception.sub.business.RequestCheckingException;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.albert.opf.common.constant.OPFConstants;
-import com.albert.opf.common.exception.RequestAuthenticationException;
-import com.albert.opf.common.exception.RequestAuthorizationException;
-import com.albert.opf.common.exception.RequestCheckingException;
-import com.albert.opf.common.exception.RequestFormatException;
-import com.albert.opf.common.exception.RequestMappingException;
-import com.albert.opf.common.model.domain.response.ErrorResponse;
 import com.albert.opf.manager.service.UserService;
 import com.shanlan.common.util.JsonUtil;
 

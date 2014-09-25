@@ -6,15 +6,15 @@
 package com.albert.opf.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.shanlan.common.constant.ConstantRegex;
+import com.shanlan.common.exception.sub.business.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
-import com.albert.opf.common.exception.OPFBaseException;
-import com.albert.opf.common.exception.RequestAuthenticationException;
-import com.albert.opf.common.exception.RequestCheckingException;
-import com.albert.opf.common.exception.ServiceDisableException;
 import com.albert.opf.common.model.domain.Service;
 import com.albert.opf.common.utils.SignUtils;
 import com.albert.opf.dao.DaoFacade;
@@ -68,28 +68,47 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User login(String userName, String password) throws OPFBaseException {
-
-		List<User> users = daoFacade.getUserDao().getUserByUserName(userName);
-		if (CollectionUtils.isNotEmpty(users)) {
-			User user = users.get(0);
-			try {
-				String md5Password = SignUtils.getMD5DigestInString(password);
-				String userPassword = user.getPassword();
-				if (!userPassword.equals(md5Password)) {// 如果密码不匹配
-					throw new RequestAuthenticationException();
-				}
-			} catch (IOException e) {
-				logger.error(e.getMessage(), e);
-			}
-			return user;
-		}
-		return null;
+	public User login(String userAccount, String password) throws OPFBaseException {
+        if (StringUtils.isNotBlank(userAccount)&& StringUtils.isNotBlank(password)){
+            List<User> users=new ArrayList<User>();
+            if (StringUtils.isNotBlank(userAccount) && userAccount.matches(ConstantRegex.REGEX_EMAIL)){//如果是Eamil
+                users = daoFacade.getUserDao().getUserByEmail(userAccount);
+            }else{
+                users = daoFacade.getUserDao().getUserByUserName(userAccount);
+            }
+            RequestAuthenticationException requestAuthenticationException=new RequestAuthenticationException("username or password error, please check it.");
+            if (CollectionUtils.isNotEmpty(users)) {
+                User user = users.get(0);
+                try {
+                    String md5Password = SignUtils.getMD5DigestInString(password);
+                    String userPassword = user.getPassword();
+                    if (!userPassword.equals(md5Password)) {// 如果密码不匹配
+                        throw requestAuthenticationException;
+                    }
+                } catch (IOException e) {
+                    logger.error(e.getMessage(), e);
+                }
+                return user;
+            }else {
+                throw requestAuthenticationException;
+            }
+        }
+        return null;
 	}
 
+
+
+
 	@Override
-	public boolean register(User user) {
+	public boolean register(User user) throws RequestParameterException{
 		if (user != null) {
+
+            if (isUserNameExist(user.getUserName())){
+                throw new RequestParameterException("user name already exists");
+            }else if(isEmailExist(user.getEmail())){
+                throw new RequestParameterException("email already exists");
+            }
+
 			String md5Password;
 			try {
 				md5Password = SignUtils.getMD5DigestInString(user
@@ -104,7 +123,47 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
-	public DaoFacade getDaoFacade() {
+    /**
+     * 判断用户账号（用户名或者Email）是否已经存在
+     *
+     * @param userName
+     * @param email
+     * @return
+     */
+    @Override
+    public boolean isUserAccountExist(String userName, String email) {
+
+        if(StringUtils.isNotBlank(userName)){
+            return isUserNameExist(userName);
+        }else if(StringUtils.isNotBlank(email)){
+            return isEmailExist(email);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isUserNameExist(String userName) {
+        if(StringUtils.isNotBlank(userName)){
+            List<User> users = daoFacade.getUserDao().getUserByUserName(userName);
+            if (CollectionUtils.isNotEmpty(users)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isEmailExist(String email) {
+        if(StringUtils.isNotBlank(email)) {
+            List<User> users = daoFacade.getUserDao().getUserByEmail(email);
+            if (CollectionUtils.isNotEmpty(users)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public DaoFacade getDaoFacade() {
 		return daoFacade;
 	}
 
