@@ -61,7 +61,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean add(User user) {
-		String now=DateUtil.getNow(DateUtil.format3);
+		String now=DateUtil.getNow(DateUtil.format1);
 		int insertNum = jdbcTemplate.update(DEF_USER_ADD,"User",
 				user.getUserName(), user.getPassword(), user.getEmail(),
 				user.getNickName(), user.getCity(), user.getIsValid(),"8888-01-01 00:00:00","3","0","0","0",now);
