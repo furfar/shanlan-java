@@ -136,11 +136,10 @@ public class ServiceApplicationImpl implements ServiceApplication {
             conditionVals.add(queryVo.getIsLocal());
         }
 
-        List<Service> servieList=Service.findServices();
+//        List<Service> servieList=Service.findServices();
 
         Page<Service> pages = getQueryChannelService().createJpqlQuery(jpql.toString()).setParameters(conditionVals).setPage(currentPage, pageSize).pagedList();
         List<Service> services = pages.getData();
-//        System.out.println(services.size()+services.get(0).getUrl());
         for (Service service : services) {
             ServiceDTO serviceDTO = new ServiceDTO();
 

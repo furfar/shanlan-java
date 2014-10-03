@@ -1,6 +1,5 @@
 package com.shanlan.opf.service;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -31,7 +30,7 @@ public class Service extends KoalaLegacyEntity {
 	@Id
 	@Column(name = "id")
 	// @GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Integer id;
 
 	@Column(name = "name")
 	private String name;
@@ -52,9 +51,9 @@ public class Service extends KoalaLegacyEntity {
 	private String group;
 
 	@Column(name = "is_local")
-	private int isLocal;
+	private Integer isLocal;
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -106,17 +105,16 @@ public class Service extends KoalaLegacyEntity {
 		this.group = group;
 	}
 
-	public int getIsLocal() {
+	public Integer getIsLocal() {
 		return isLocal;
 	}
 
-	public void setIsLocal(int isLocal) {
+	public void setIsLocal(Integer isLocal) {
 		this.isLocal = isLocal;
 	}
 
-	public Serializable getId() {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer getId() {
+		return id;
 	}
 
 	public boolean existed() {

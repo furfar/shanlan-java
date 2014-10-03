@@ -1,18 +1,11 @@
 package com.shanlan.opf.service;
 
-import java.util.Date;
-import java.sql.Timestamp;
-import java.util.List;
-
-import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
-import java.io.Serializable;
 
 /**
  * Auto Generated Entity
@@ -107,9 +100,8 @@ public class ServiceDetail extends KoalaLegacyEntity {
 		this.responseSample = responseSample;
 	}
 
-	public Serializable getId() {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer getId() {
+		return id;
 	}
 
 	public boolean existed() {
