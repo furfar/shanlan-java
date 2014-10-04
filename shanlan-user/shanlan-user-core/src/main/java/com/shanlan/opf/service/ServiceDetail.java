@@ -39,8 +39,8 @@ public class ServiceDetail extends KoalaLegacyEntity {
 	@Column(name = "business_param")
 	private String businessParam;
 
-	@Column(name = "reponse")
-	private String reponse;
+	@Column(name = "response")
+	private String response;
 
 	@Column(name = "error_code")
 	private String errorCode;
@@ -76,12 +76,12 @@ public class ServiceDetail extends KoalaLegacyEntity {
 		this.businessParam = businessParam;
 	}
 
-	public String getReponse() {
-		return reponse;
+	public String getResponse() {
+		return response;
 	}
 
-	public void setReponse(String reponse) {
-		this.reponse = reponse;
+	public void setResponse(String response) {
+		this.response = response;
 	}
 
 	public String getErrorCode() {
@@ -125,4 +125,16 @@ public class ServiceDetail extends KoalaLegacyEntity {
 		return null;
 	}
 
+    @Override
+    public String toString() {
+        return "ServiceDetail{" +
+                "id=" + id +
+                ", serviceId=" + serviceId +
+                ", scenario='" + scenario + '\'' +
+                ", businessParam='" + businessParam + '\'' +
+                ", response='" + response + '\'' +
+                ", errorCode='" + errorCode + '\'' +
+                ", responseSample='" + responseSample + '\'' +
+                '}';
+    }
 }

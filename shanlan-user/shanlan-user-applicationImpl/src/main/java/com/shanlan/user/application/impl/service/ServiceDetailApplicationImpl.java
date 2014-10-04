@@ -1,20 +1,28 @@
 
 package com.shanlan.user.application.impl.service;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import com.shanlan.user.application.dto.ServiceDTO;
+import com.shanlan.user.application.service.ServiceApplication;
 import org.apache.commons.beanutils.BeanUtils;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.annotation.Propagation;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
 import org.dayatang.querychannel.QueryChannelService;
-import com.shanlan.user.application.dto.*;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.shanlan.opf.service.Service;
+import com.shanlan.opf.service.ServiceDetail;
+import com.shanlan.user.application.dto.ServiceDetailDTO;
 import com.shanlan.user.application.service.ServiceDetailApplication;
-import com.shanlan.opf.service.*;
 
 @Named
 @Transactional
@@ -22,6 +30,8 @@ public class ServiceDetailApplicationImpl implements ServiceDetailApplication {
 
 
 	private QueryChannelService queryChannel;
+    @Inject
+    private ServiceApplication serviceApplication;
 
     private QueryChannelService getQueryChannelService(){
        if(queryChannel==null){
@@ -32,27 +42,50 @@ public class ServiceDetailApplicationImpl implements ServiceDetailApplication {
 	
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ServiceDetailDTO getServiceDetail(Integer id) {
+        Service service=Service.load(Service.class,id);
 		ServiceDetail serviceDetail = ServiceDetail.load(ServiceDetail.class, id);
 		ServiceDetailDTO serviceDetailDTO = new ServiceDetailDTO();
 		// 将domain转成VO
 		try {
+            BeanUtils.copyProperties(serviceDetailDTO,service);
 			BeanUtils.copyProperties(serviceDetailDTO, serviceDetail);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		serviceDetailDTO.setId((Integer)serviceDetail.getId());
+		serviceDetailDTO.setId(id);
 		return serviceDetailDTO;
 	}
-	
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ServiceDetailDTO saveServiceDetail(ServiceDetailDTO serviceDetailDTO) {
 		ServiceDetail serviceDetail = new ServiceDetail();
+        Service service=new Service();
+        ServiceDTO serviceDTO=new ServiceDTO();
 		try {
+            BeanUtils.copyProperties(service,serviceDetailDTO);
         	BeanUtils.copyProperties(serviceDetail, serviceDetailDTO);
+            BeanUtils.copyProperties(serviceDTO,serviceDetailDTO);
         } catch (Exception e) {
         	e.printStackTrace();
         }
-		serviceDetail.save();
-		serviceDetailDTO.setId((Integer)serviceDetail.getId());
+        service.save();
+
+        Page<ServiceDTO> serviceInserted=serviceApplication.pageQueryService(serviceDTO,1,10);
+        if (serviceInserted!=null && serviceInserted.getData()!=null && serviceInserted.getData().size()==1){
+            serviceDetail.setServiceId(serviceInserted.getData().get(0).getId());
+            serviceDetail.save();
+            serviceDetailDTO.setId((Integer)serviceDetail.getId());
+        }
+
+
+//        Map<String,Object> keyValue=new HashMap<String,Object>();
+//        keyValue.put("serviceName",service.getServiceName());
+//        keyValue.put("serviceVersion",service.getServiceVersion());
+//        keyValue.put("serviceGroup",service.getServiceGroup());
+//        List<Service> insertServiceList= (List<Service>)Service.findByProperties(Service.class,keyValue);
+
+
+
 		return serviceDetailDTO;
 	}
 	
@@ -116,9 +149,9 @@ public class ServiceDetailApplicationImpl implements ServiceDetailApplication {
 	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getBusinessParam()));
 	   	}		
 	
-	   	if (queryVo.getReponse() != null && !"".equals(queryVo.getReponse())) {
-	   		jpql.append(" and _serviceDetail.reponse like ?");
-	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getReponse()));
+	   	if (queryVo.getResponse() != null && !"".equals(queryVo.getResponse())) {
+	   		jpql.append(" and _serviceDetail.response like ?");
+	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getResponse()));
 	   	}		
 	
 	   	if (queryVo.getErrorCode() != null && !"".equals(queryVo.getErrorCode())) {

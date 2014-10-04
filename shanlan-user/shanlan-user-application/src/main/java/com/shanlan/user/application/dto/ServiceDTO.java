@@ -2,153 +2,144 @@ package com.shanlan.user.application.dto;
 
 import java.io.Serializable;
 
-
 public class ServiceDTO implements Serializable {
 
-    private Integer id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3715683986745489871L;
 
+	private Integer id;
 
-    private String name;
+	private String serviceName;
 
-    private Boolean enable;
-    private String enableAsString;
+	private Boolean enable;
+	private String enableAsString;
 
+	private String serviceVersion;
 
-    private String serviceVersion;
+	private String type;
 
+	private String serviceGroup;
 
-    private String type;
+	private Boolean isLocal;
 
+	private String isLocalAsString;
 
-    private String group;
+	private String url;
 
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
+	}
 
-    private Boolean isLocal;
+	public String getServiceName() {
+		return this.serviceName;
+	}
 
-    private String isLocalAsString;
+	public Boolean getEnable() {
+		return enable;
+	}
 
-    private String url;
+	public void setEnable(Boolean enable) {
+		this.enable = enable;
+		this.enableAsString = enable ? "1" : "0";
+	}
 
+	public String getEnableAsString() {
+		return this.enableAsString;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getIsLocalAsString() {
+		return this.isLocalAsString;
+	}
 
-    public String getName() {
-        return this.name;
-    }
+	public void setEnableAsString(String enable) {
+		this.enableAsString = enable;
+		if (enable == null || "".equals(enable.trim()))
+			this.enable = null;
+		else
+			this.enable = "1".equals(enable);
+	}
 
+	public void setIsLocalAsString(String isLocal) {
+		this.isLocalAsString = isLocal;
+		if (isLocal == null || "".equals(isLocal.trim()))
+			this.isLocal = null;
+		else
+			this.isLocal = "1".equals(isLocal);
+	}
 
-    public Boolean getEnable() {
-        return enable;
-    }
+	public void setServiceVersion(String serviceVersion) {
+		this.serviceVersion = serviceVersion;
+	}
 
-    public void setEnable(Boolean enable) {
-        this.enable = enable;
-        this.enableAsString = enable ? "1" : "0";
-    }
+	public String getServiceVersion() {
+		return this.serviceVersion;
+	}
 
-    public String getEnableAsString() {
-        return this.enableAsString;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public String getIsLocalAsString(){
-        return this.isLocalAsString;
-    }
+	public String getType() {
+		return this.type;
+	}
 
-    public void setEnableAsString(String enable) {
-        this.enableAsString = enable;
-        if (enable == null || "".equals(enable.trim()))
-            this.enable = null;
-        else
-            this.enable = "1".equals(enable);
-    }
+	public void setServiceGroup(String serviceGroup) {
+		this.serviceGroup = serviceGroup;
+	}
 
-    public void setIsLocalAsString(String isLocal) {
-        this.isLocalAsString = isLocal;
-        if (isLocal == null || "".equals(isLocal.trim()))
-            this.isLocal = null;
-        else
-            this.isLocal = "1".equals(isLocal);
-    }
+	public String getServiceGroup() {
+		return this.serviceGroup;
+	}
 
+	public void setIsLocal(Boolean isLocal) {
+		this.isLocal = isLocal;
+		this.isLocalAsString = isLocal ? "1" : "0";
+	}
 
-    public void setServiceVersion(String serviceVersion) {
-        this.serviceVersion = serviceVersion;
-    }
+	public Boolean getIsLocal() {
+		return this.isLocal;
+	}
 
-    public String getServiceVersion() {
-        return this.serviceVersion;
-    }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
+	public String getUrl() {
+		return this.url;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getType() {
-        return this.type;
-    }
+	public Integer getId() {
+		return id;
+	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
 
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    public String getGroup() {
-        return this.group;
-    }
-
-
-    public void setIsLocal(Boolean isLocal) {
-        this.isLocal = isLocal;
-        this.isLocalAsString = isLocal ? "1" : "0";
-    }
-
-    public Boolean getIsLocal() {
-        return this.isLocal;
-    }
-
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUrl() {
-        return this.url;
-    }
-
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ServiceDTO other = (ServiceDTO) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ServiceDTO other = (ServiceDTO) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 }

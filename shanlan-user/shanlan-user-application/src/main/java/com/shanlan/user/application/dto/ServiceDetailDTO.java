@@ -1,22 +1,19 @@
 package com.shanlan.user.application.dto;
 
-import java.io.Serializable;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.openkoala.koala.springmvc.JsonTimestampSerializer;
-import org.openkoala.koala.springmvc.JsonDateSerializer;
 
 
-public class ServiceDetailDTO implements Serializable {
-
-	private Integer id;
-
+public class ServiceDetailDTO extends ServiceDTO {
 		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8652415670482509497L;
+
+
 	private String scenario;
 	
 		
-	private String reponse;
+	private String response;
 	
 		
 	private String responseSample;
@@ -44,12 +41,12 @@ public class ServiceDetailDTO implements Serializable {
 			
 		
 
-	public void setReponse(String reponse) { 
-		this.reponse = reponse;
+	public void setResponse(String response) {
+		this.response = response;
 	}
 
-	public String getReponse() {
-		return this.reponse;
+	public String getResponse() {
+		return this.response;
 	}
 	
 			
@@ -95,38 +92,5 @@ public class ServiceDetailDTO implements Serializable {
 	public String getBusinessParam() {
 		return this.businessParam;
 	}
-	
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	
-	public Integer getId() {
-		return id;
-	}
-
-    @Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ServiceDetailDTO other = (ServiceDetailDTO) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
 }

@@ -5,7 +5,7 @@
                  version="1.0">
     <named-query name="findServices">
         <query>
-            select id,name,serviceVersion,url,enable,type,group,isLocal from Service
+            select id,serviceName,serviceVersion,url,enable,type,serviceGroup,isLocal from Service
         </query>
     </named-query>
 

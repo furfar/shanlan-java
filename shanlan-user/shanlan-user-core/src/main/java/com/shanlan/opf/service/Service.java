@@ -32,8 +32,8 @@ public class Service extends KoalaLegacyEntity {
 	// @GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@Column(name = "name")
-	private String name;
+	@Column(name = "service_name")
+	private String serviceName;
 
 	@Column(name = "service_version")
 	private String serviceVersion;
@@ -42,13 +42,13 @@ public class Service extends KoalaLegacyEntity {
 	private String url;
 
 	@Column(name = "enable")
-	private int enable;
+	private Integer enable;
 
 	@Column(name = "type")
 	private String type;
 
-	@Column(name = "group")
-	private String group;
+	@Column(name = "service_group")
+	private String serviceGroup;
 
 	@Column(name = "is_local")
 	private Integer isLocal;
@@ -57,12 +57,12 @@ public class Service extends KoalaLegacyEntity {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getServiceName() {
+		return serviceName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setServiceName(String name) {
+		this.serviceName = name;
 	}
 
 	public String getServiceVersion() {
@@ -81,11 +81,11 @@ public class Service extends KoalaLegacyEntity {
 		this.url = url;
 	}
 
-	public int getEnable() {
+	public Integer getEnable() {
 		return enable;
 	}
 
-	public void setEnable(int enable) {
+	public void setEnable(Integer enable) {
 		this.enable = enable;
 	}
 
@@ -97,12 +97,12 @@ public class Service extends KoalaLegacyEntity {
 		this.type = type;
 	}
 
-	public String getGroup() {
-		return group;
+	public String getServiceGroup() {
+		return serviceGroup;
 	}
 
-	public void setGroup(String group) {
-		this.group = group;
+	public void setServiceGroup(String serviceGroup) {
+		this.serviceGroup = serviceGroup;
 	}
 
 	public Integer getIsLocal() {
@@ -141,5 +141,19 @@ public class Service extends KoalaLegacyEntity {
 	public static List<Service> findServices(){
 		return getRepository().createNamedQuery("findServices").setParameters().list();
 	}
-	
+
+
+    @Override
+    public String toString() {
+        return "Service{" +
+                "id=" + id +
+                ", serviceName='" + serviceName + '\'' +
+                ", serviceVersion='" + serviceVersion + '\'' +
+                ", url='" + url + '\'' +
+                ", enable=" + enable +
+                ", type='" + type + '\'' +
+                ", serviceGroup='" + serviceGroup + '\'' +
+                ", isLocal=" + isLocal +
+                '}';
+    }
 }

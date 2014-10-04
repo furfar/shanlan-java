@@ -91,12 +91,12 @@ $(function () {
                 ],
                 url: "${pageContext.request.contextPath}/Service/pageJson.koala",
                 columns: [
-                    { title: 'name', name: 'name', width: width},
+                    { title: 'serviceName', name: 'serviceName', width: width},
                     { title: 'serviceVersion', name: 'serviceVersion', width: width},
                     { title: 'url', name: 'url', width: width},
                     { title: 'enable', name: 'enableAsString',width:width},
                     { title: 'type', name: 'type', width: width},
-                    { title: 'group', name: 'group', width: width},
+                    { title: 'serviceGroup', name: 'serviceGroup', width: width},
                     { title: 'isLocal', name: 'isLocalAsString', width:width},
                     { title: '操作', width: 120, render: function (rowdata, name, index) {
                         var param = '"' + rowdata.id + '"';
@@ -170,7 +170,7 @@ $(function () {
             });
             dialog.find('#save').on('click', {grid: grid}, function (e) {
                 if (!Validator.Validate(dialog.find('form')[0], 3))return;
-                $.post('${pageContext.request.contextPath}/Service/add.koala', dialog.find('form').serialize()).done(function (result) {
+                $.post('${pageContext.request.contextPath}/ServiceDetail/add.koala', dialog.find('form').serialize()).done(function (result) {
                     if (result.result == 'success') {
                         dialog.modal('hide');
                         e.data.grid.data('koala.grid').refresh();
@@ -290,9 +290,9 @@ $(function () {
 
 var openDetailsPage = function (id) {
     var dialog = $('<div class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">查看</h4></div><div class="modal-body"><p>One fine body&hellip;</p></div><div class="modal-footer"><button type="button" class="btn btn-info" data-dismiss="modal">返回</button></div></div></div></div>');
-    $.get('<%=path%>/Service-view.jsp').done(function (html) {
+    $.get('<%=path%>/ServiceDetail-view.jsp').done(function (html) {
         dialog.find('.modal-body').html(html);
-        $.get('${pageContext.request.contextPath}/Service/get/' + id + '.koala').done(function (json) {
+        $.get('${pageContext.request.contextPath}/ServiceDetail/get/' + id + '.koala').done(function (json) {
             console.log(json);
             json = json.data;
             console.log(json);
