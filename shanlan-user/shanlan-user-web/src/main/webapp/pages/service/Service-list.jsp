@@ -193,7 +193,7 @@ $(function () {
             $.get('<%=path%>/Service-update.jsp').done(function (html) {
                 dialog.find('.modal-body').html(html);
                 self.initPage(dialog.find('form'));
-                $.get('${pageContext.request.contextPath}/Service/get/' + id + '.koala').done(function (json) {
+                $.get('${pageContext.request.contextPath}/ServiceDetail/get/' + id + '.koala').done(function (json) {
                     json = json.data;
                     var elm;
                     for (var index in json) {
@@ -293,9 +293,7 @@ var openDetailsPage = function (id) {
     $.get('<%=path%>/ServiceDetail-view.jsp').done(function (html) {
         dialog.find('.modal-body').html(html);
         $.get('${pageContext.request.contextPath}/ServiceDetail/get/' + id + '.koala').done(function (json) {
-            console.log(json);
             json = json.data;
-            console.log(json);
             var elm;
             for (var index in json) {
                 console.log(index);
