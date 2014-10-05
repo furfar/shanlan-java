@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <form  class="form-horizontal">
 	           <div class="form-group">
-                    <label class="col-lg-3 control-label">name:</label>
+                    <label class="col-lg-3 control-label">serviceName:</label>
                     <div class="col-lg-9">
-                           <p class="form-control-static" id="nameID"></p>
+                           <p class="form-control-static" id="serviceNameID"></p>
                     </div>
                 </div>
 	           <div class="form-group">
@@ -31,9 +31,9 @@
                     </div>
                 </div>
 	           <div class="form-group">
-                    <label class="col-lg-3 control-label">group:</label>
+                    <label class="col-lg-3 control-label">serviceGroup:</label>
                     <div class="col-lg-9">
-                           <p class="form-control-static" id="groupID"></p>
+                           <p class="form-control-static" id="serviceGroupID"></p>
                     </div>
                 </div>
 	           <div class="form-group">

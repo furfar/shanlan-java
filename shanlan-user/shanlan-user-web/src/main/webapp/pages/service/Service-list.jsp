@@ -323,10 +323,10 @@ var openDetailsPage = function (id) {
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="control-label" style="width:100px;float:left;">name:&nbsp;</label>
+                        <label class="control-label" style="width:100px;float:left;">serviceName:&nbsp;</label>
 
                         <div style="margin-left:15px;float:left;">
-                            <input name="name" class="form-control" type="text" style="width:180px;" id="nameID"/>
+                            <input name="serviceName" class="form-control" type="text" style="width:180px;" id="serviceNameID"/>
                         </div>
                         <label class="control-label" style="width:100px;float:left;">url:&nbsp;</label>
 
@@ -351,7 +351,7 @@ var openDetailsPage = function (id) {
 </div>
 </div>
 <div class="form-group">
-    <label class="control-label" style="width:100px;float:left;">group:&nbsp;</label>
+    <label class="control-label" style="width:100px;float:left;">serviceGroup:&nbsp;</label>
 
     <div style="margin-left:15px;float:left;">
         <div class="btn-group select" id="serviceGroup_SELECT"></div>
