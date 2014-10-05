@@ -80,7 +80,7 @@
         <label class="col-lg-3 control-label">reponse:</label>
 
         <div class="col-lg-9">
-            <textarea name="reponse" style="display:inline; width:94%;" class="form-control" type="text" id="reponseID"/>
+            <textarea name="response" style="display:inline; width:94%;" class="form-control" type="text" id="responseID"/>
         </div>
     </div>
     <div class="form-group">

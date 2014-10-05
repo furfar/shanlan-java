@@ -34,8 +34,8 @@ $(function () {
             var contents = [
                 {title: '请选择', value: ''}
             ];
-            contents.push({title: '0', value: 'false'});
-            contents.push({title: '1', value: 'true'});
+            contents.push({title: '是', value: '1'});
+            contents.push({title: '否', value: '0'});
             form.find('#isLocal_SELECT').select({
                 title: '请选择',
                 contents: contents
@@ -49,11 +49,11 @@ $(function () {
             contents.push({title: '交易相关服务', value: 'Trade'});
             contents.push({title: '其它服务', value: 'Other'});
             contents.push({title: '照片相关服务', value: 'Photo'});
-            form.find('#group_SELECT').select({
+            form.find('#serviceGroup_SELECT').select({
                 title: '请选择',
                 contents: contents
             }).on('change', function () {
-                form.find('#groupID_').val($(this).getValue());
+                form.find('#serviceGroupID_').val($(this).getValue());
             });
             var contents = [
                 {title: '请选择', value: ''}
@@ -94,10 +94,10 @@ $(function () {
                     { title: 'serviceName', name: 'serviceName', width: width},
                     { title: 'serviceVersion', name: 'serviceVersion', width: width},
                     { title: 'url', name: 'url', width: width},
-                    { title: 'enable', name: 'enableAsString',width:width},
+                    { title: 'enable', name: 'enable',width:width},
                     { title: 'type', name: 'type', width: width},
                     { title: 'serviceGroup', name: 'serviceGroup', width: width},
-                    { title: 'isLocal', name: 'isLocalAsString', width:width},
+                    { title: 'isLocal', name: 'isLocal', width:width},
                     { title: '操作', width: 120, render: function (rowdata, name, index) {
                         var param = '"' + rowdata.id + '"';
                         var h = "<a href='javascript:openDetailsPage(" + param + ")'>查看</a> ";
@@ -354,8 +354,8 @@ var openDetailsPage = function (id) {
     <label class="control-label" style="width:100px;float:left;">group:&nbsp;</label>
 
     <div style="margin-left:15px;float:left;">
-        <div class="btn-group select" id="group_SELECT"></div>
-        <input type="hidden" id="groupID_" name="group"/>
+        <div class="btn-group select" id="serviceGroup_SELECT"></div>
+        <input type="hidden" id="serviceGroupID_" name="serviceGroup"/>
     </div>
 </div>
 <label class="control-label" style="width:100px;float:left;">type:&nbsp;</label>
@@ -371,7 +371,7 @@ var openDetailsPage = function (id) {
 
     <div style="margin-left:15px;float:left;">
         <div class="btn-group select" id="enable_SELECT"></div>
-        <input type="hidden" id="enableID_" name="enableAsString"/>
+        <input type="hidden" id="enableID_" name="enable"/>
     </div>
     </td>
     <td style="vertical-align: bottom;">
