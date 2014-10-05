@@ -5,16 +5,16 @@ import java.io.Serializable;
 public class ServiceDTO implements Serializable {
 
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3715683986745489871L;
+     *
+     */
+	private static final long serialVersionUID = 1769603050336568829L;
 
 	private Integer id;
 
 	private String serviceName;
 
-	private Boolean enable;
-	private String enableAsString;
+	private Integer enable;
+//	private String enableAsString;
 
 	private String serviceVersion;
 
@@ -22,9 +22,9 @@ public class ServiceDTO implements Serializable {
 
 	private String serviceGroup;
 
-	private Boolean isLocal;
+	private Integer isLocal;
 
-	private String isLocalAsString;
+//	private String isLocalAsString;
 
 	private String url;
 
@@ -36,38 +36,38 @@ public class ServiceDTO implements Serializable {
 		return this.serviceName;
 	}
 
-	public Boolean getEnable() {
+	public Integer getEnable() {
 		return enable;
 	}
 
-	public void setEnable(Boolean enable) {
+	public void setEnable(Integer enable) {
 		this.enable = enable;
-		this.enableAsString = enable ? "1" : "0";
+//		this.enableAsString = enable ? "1" : "0";
 	}
 
-	public String getEnableAsString() {
-		return this.enableAsString;
-	}
+//	public String getEnableAsString() {
+//		return this.enableAsString;
+//	}
+//
+//	public String getIsLocalAsString() {
+//		return this.isLocalAsString;
+//	}
 
-	public String getIsLocalAsString() {
-		return this.isLocalAsString;
-	}
+//	public void setEnableAsString(Integer enable) {
+//		this.enableAsString = enable;
+//		if (enable == null || "".equals(enable.trim()))
+//			this.enable = null;
+//		else
+//			this.enable = "1".equals(enable);
+//	}
 
-	public void setEnableAsString(String enable) {
-		this.enableAsString = enable;
-		if (enable == null || "".equals(enable.trim()))
-			this.enable = null;
-		else
-			this.enable = "1".equals(enable);
-	}
-
-	public void setIsLocalAsString(String isLocal) {
-		this.isLocalAsString = isLocal;
-		if (isLocal == null || "".equals(isLocal.trim()))
-			this.isLocal = null;
-		else
-			this.isLocal = "1".equals(isLocal);
-	}
+//	public void setIsLocalAsString(String isLocal) {
+//		this.isLocalAsString = isLocal;
+//		if (isLocal == null || "".equals(isLocal.trim()))
+//			this.isLocal = null;
+//		else
+//			this.isLocal = "1".equals(isLocal);
+//	}
 
 	public void setServiceVersion(String serviceVersion) {
 		this.serviceVersion = serviceVersion;
@@ -93,12 +93,12 @@ public class ServiceDTO implements Serializable {
 		return this.serviceGroup;
 	}
 
-	public void setIsLocal(Boolean isLocal) {
+	public void setIsLocal(Integer isLocal) {
 		this.isLocal = isLocal;
-		this.isLocalAsString = isLocal ? "1" : "0";
+//		this.isLocalAsString = isLocal ? "1" : "0";
 	}
 
-	public Boolean getIsLocal() {
+	public Integer getIsLocal() {
 		return this.isLocal;
 	}
 
@@ -142,4 +142,19 @@ public class ServiceDTO implements Serializable {
 			return false;
 		return true;
 	}
+
+
+    @Override
+    public String toString() {
+        return "ServiceDTO{" +
+                "id=" + id +
+                ", serviceName='" + serviceName + '\'' +
+                ", enable=" + enable +
+                ", serviceVersion='" + serviceVersion + '\'' +
+                ", type='" + type + '\'' +
+                ", group='" + serviceGroup + '\'' +
+                ", isLocal=" + isLocal +
+                ", url='" + url + '\'' +
+                '}';
+    }
 }

@@ -43,7 +43,7 @@ public class ServiceDetailApplicationImpl implements ServiceDetailApplication {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ServiceDetailDTO getServiceDetail(Integer id) {
         Service service=Service.load(Service.class,id);
-		ServiceDetail serviceDetail = ServiceDetail.load(ServiceDetail.class, id);
+		ServiceDetail serviceDetail = ServiceDetail.findByServiceId(service.getId());
 		ServiceDetailDTO serviceDetailDTO = new ServiceDetailDTO();
 		// 将domain转成VO
 		try {
@@ -56,27 +56,26 @@ public class ServiceDetailApplicationImpl implements ServiceDetailApplication {
 		return serviceDetailDTO;
 	}
 
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ServiceDetailDTO saveServiceDetail(ServiceDetailDTO serviceDetailDTO) {
 		ServiceDetail serviceDetail = new ServiceDetail();
-        Service service=new Service();
-        ServiceDTO serviceDTO=new ServiceDTO();
+//        Service service=new Service();
+//        ServiceDTO serviceDTO=new ServiceDTO();
 		try {
-            BeanUtils.copyProperties(service,serviceDetailDTO);
+//            BeanUtils.copyProperties(service,serviceDetailDTO);
         	BeanUtils.copyProperties(serviceDetail, serviceDetailDTO);
-            BeanUtils.copyProperties(serviceDTO,serviceDetailDTO);
+//            BeanUtils.copyProperties(serviceDTO,serviceDetailDTO);
         } catch (Exception e) {
         	e.printStackTrace();
         }
-        service.save();
-
-        Page<ServiceDTO> serviceInserted=serviceApplication.pageQueryService(serviceDTO,1,10);
-        if (serviceInserted!=null && serviceInserted.getData()!=null && serviceInserted.getData().size()==1){
-            serviceDetail.setServiceId(serviceInserted.getData().get(0).getId());
-            serviceDetail.save();
-            serviceDetailDTO.setId((Integer)serviceDetail.getId());
-        }
-
+//        service.save();
+//        Page<ServiceDTO> serviceInserted=serviceApplication.pageQueryService(serviceDTO,1,10);
+//        if (serviceInserted!=null && serviceInserted.getData()!=null && serviceInserted.getData().size()==1){
+//            serviceDetail.setServiceId(serviceInserted.getData().get(0).getId());
+//            serviceDetail.save();
+//            serviceDetailDTO.setId((Integer)serviceDetail.getId());
+//        }
+        serviceDetail.save();
+        serviceDetailDTO.setId((Integer)serviceDetail.getId());
 
 //        Map<String,Object> keyValue=new HashMap<String,Object>();
 //        keyValue.put("serviceName",service.getServiceName());

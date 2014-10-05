@@ -52,7 +52,6 @@ public class ServiceApplicationImpl implements ServiceApplication {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        Service.save(service);
         service.save();
         serviceDTO.setId((Integer) service.getId());
         return serviceDTO;
@@ -118,7 +117,7 @@ public class ServiceApplicationImpl implements ServiceApplication {
         }
 
         if (queryVo.getEnable() != null) {
-            jpql.append(" and _service.enable is ?");
+            jpql.append(" and _service.enable = ?");
             conditionVals.add(queryVo.getEnable());
         }
 

@@ -4,6 +4,11 @@ package com.shanlan.user.web.controller.service;
 import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
+
+import com.shanlan.opf.service.Service;
+import com.shanlan.opf.service.ServiceDetail;
+import com.shanlan.user.application.service.ServiceApplication;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,12 +24,30 @@ public class ServiceDetailController {
 		
 	@Inject
 	private ServiceDetailApplication serviceDetailApplication;
-	
+    @Inject
+    private ServiceApplication serviceApplication;
 	@ResponseBody
 	@RequestMapping("/add")
 	public Map<String, Object> add(ServiceDetailDTO serviceDetailDTO) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		serviceDetailApplication.saveServiceDetail(serviceDetailDTO);
+
+        ServiceDetail serviceDetail = new ServiceDetail();
+        Service service=new Service();
+        ServiceDTO serviceDTO=new ServiceDTO();
+        try {
+            BeanUtils.copyProperties(service, serviceDetailDTO);
+            BeanUtils.copyProperties(serviceDetail, serviceDetailDTO);
+            BeanUtils.copyProperties(serviceDTO,serviceDetailDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        serviceApplication.saveService(serviceDTO);
+        Page<ServiceDTO> serviceInserted=serviceApplication.pageQueryService(serviceDTO,0,10);
+        if (serviceInserted!=null && serviceInserted.getData()!=null && serviceInserted.getData().size()==1){
+            serviceDetailDTO.setServiceId(serviceInserted.getData().get(0).getId());
+            serviceDetailApplication.saveServiceDetail(serviceDetailDTO);
+//            serviceDetailDTO.setId((Integer)serviceDetail.getId());
+        }
 		result.put("result", "success");
 		return result;
 	}
