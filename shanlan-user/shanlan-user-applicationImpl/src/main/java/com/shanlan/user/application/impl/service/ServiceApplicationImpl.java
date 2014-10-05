@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import com.shanlan.opf.service.ServiceDetail;
 import org.apache.commons.beanutils.BeanUtils;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
@@ -74,7 +75,11 @@ public class ServiceApplicationImpl implements ServiceApplication {
     public void removeServices(Integer[] ids) {
         for (int i = 0; i < ids.length; i++) {
             Service service = Service.load(Service.class, ids[i]);
+            //从service表删除service基本信息的同时也要从service_detail表删除详细信息
+            Integer serviceId=service.getId();
+            ServiceDetail serviceDetail=ServiceDetail.findByServiceId(serviceId);
             service.remove();
+            serviceDetail.remove();
         }
     }
 
