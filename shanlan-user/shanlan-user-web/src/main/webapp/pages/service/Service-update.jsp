@@ -34,7 +34,7 @@
 
         <div class="col-lg-9">
             <div class="btn-group select" id="enableID"></div>
-            <input type="hidden" id="enableID_" name="enableAsString"/></div>
+            <input type="hidden" id="enableID_" name="enable"/></div>
     </div>
     </div>
     <div class="form-group">
@@ -59,6 +59,12 @@
         <div class="col-lg-9">
             <div class="btn-group select" id="isLocalID"></div>
             <input type="hidden" id="isLocalID_" name="isLocal"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-9">
+            <input name="serviceId" style="display:inline; width:94%;" class="form-control" type="hidden"
+                   id="serviceIdID"/>
         </div>
     </div>
     <div class="form-group">

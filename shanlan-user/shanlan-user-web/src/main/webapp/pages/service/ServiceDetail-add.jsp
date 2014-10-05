@@ -29,10 +29,10 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-lg-3 control-label">reponse:</label>
+        <label class="col-lg-3 control-label">response:</label>
 
         <div class="col-lg-9">
-            <input name="reponse" style="display:inline; width:94%;" class="form-control" type="text" id="reponseID"/>
+            <input name="response" style="display:inline; width:94%;" class="form-control" type="text" id="responseID"/>
         </div>
     </div>
     <div class="form-group">

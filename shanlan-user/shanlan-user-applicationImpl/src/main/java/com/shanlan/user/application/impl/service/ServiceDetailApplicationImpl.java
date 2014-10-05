@@ -69,10 +69,17 @@ public class ServiceDetailApplicationImpl implements ServiceDetailApplication {
     }
 
     public void updateServiceDetail(ServiceDetailDTO serviceDetailDTO) {
-        ServiceDetail serviceDetail = ServiceDetail.get(ServiceDetail.class, serviceDetailDTO.getId());
+        Integer serviceId=serviceDetailDTO.getId();
+        Service service=Service.get(Service.class,serviceId);
+        ServiceDetail serviceDetail = ServiceDetail.findByServiceId(serviceId);
+        Integer serviceDetailId=serviceDetail.getId();
         // 设置要更新的值
         try {
+            BeanUtils.copyProperties(service, serviceDetailDTO);
             BeanUtils.copyProperties(serviceDetail, serviceDetailDTO);
+            //BeanUtils.copyProperties(serviceDetail, serviceDetailDTO);这段代码会把serviceDetail的id设置成了service的id，
+            //因此需要重新设置成正确的id
+            serviceDetail.setId(serviceDetailId);
         } catch (Exception e) {
             e.printStackTrace();
         }
