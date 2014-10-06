@@ -15,6 +15,7 @@
 		<module>shanlan-opf</module>
 		<module>shanlan-user</module>
 		<module>shanlan-common</module>
+		<module>shanlan-photo</module>
 	</modules>
 
 
