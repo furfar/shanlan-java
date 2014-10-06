@@ -9,7 +9,7 @@
         <label class="col-lg-3 control-label">serviceName:</label>
 
         <div class="col-lg-9">
-            <input name="serviceName" style="display:inline; width:94%;" class="form-control" type="text" dataType="English"
+            <input name="serviceName" style="display:inline; width:94%;" class="form-control" type="text"
                    id="serviceNameID"/>
             <span class="required">*</span></div>
     </div>
