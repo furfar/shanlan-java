@@ -60,9 +60,8 @@ public class PhotoStyle extends KoalaLegacyEntity {
 		this.description = description;
 	}
 
-	public Serializable getId() {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer getId() {
+		return id;
 	}
 
 	public boolean existed() {

@@ -1,23 +1,44 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.shanlan</groupId>
-    <artifactId>shanlan-common</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-  </parent>
-  <artifactId>shanlan-common-domain</artifactId>
-  <name>shanlan-common-domain</name>
-  <url>http://maven.apache.org</url>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-  <dependencies>
-      <dependency>
-          <groupId>com.shanlan</groupId>
-          <artifactId>shanlan-common-util</artifactId>
-          <version>1.0.0-SNAPSHOT</version>
-      </dependency>
-  </dependencies>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.shanlan</groupId>
+		<artifactId>shanlan-common</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>shanlan-common-domain</artifactId>
+	<name>shanlan-common-domain</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- version config -->
+		<dddlib.version>4.1.2</dddlib.version>
+		<koala.version>3.0.1</koala.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>com.shanlan</groupId>
+			<artifactId>shanlan-common-util</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.dayatang.dddlib</groupId>
+			<artifactId>dddlib-domain</artifactId>
+			<version>${dddlib.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openkoala.koalacommons</groupId>
+			<artifactId>koala-commons-domain</artifactId>
+			<version>${koala.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>2.0</version>
+		</dependency>
+	</dependencies>
+	
 </project>

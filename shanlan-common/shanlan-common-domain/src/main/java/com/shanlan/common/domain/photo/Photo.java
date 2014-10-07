@@ -1,6 +1,5 @@
 package com.shanlan.common.domain.photo;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
