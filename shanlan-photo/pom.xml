@@ -21,13 +21,6 @@
 	</modules>
 
 	<properties>
-		<!-- version config -->
-		<dddlib.version>4.1.2</dddlib.version>
-		<struts2.version>2.3.15.1</struts2.version>
-		<spring.version>3.2.6.RELEASE</spring.version>
-		<spring.security.version>3.2.0.RELEASE</spring.security.version>
-		<quartz.version>2.1.3</quartz.version>
-		<koala.version>3.0.1</koala.version>
 
 		<!--DB实现以及MVC模型的实现支持，不要修改这两个值 -->
 		<dbProtocol>JPA</dbProtocol>
@@ -36,29 +29,6 @@
 	</properties>
 
 	<profiles>
-		<!-- H2 DB -->
-		<profile>
-			<id>H2</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
-				<hibernate.show_sql>true</hibernate.show_sql>
-				<hibernate.dialect>org.hibernate.dialect.H2Dialect</hibernate.dialect>
-				<db.jdbcDriver>org.h2.Driver</db.jdbcDriver>
-				<!--jdbc:h2:~/shanlan-photo;MVCC=true -->
-				<db.connectionURL>jdbc:h2:mem;MVCC=true</db.connectionURL>
-				<db.username>sa</db.username>
-				<db.password></db.password>
-				<db.testsql>select 1</db.testsql>
-				<db.Type>H2</db.Type>
-				<db.generateDdl>true</db.generateDdl>
-				<db.groupId>com.h2database</db.groupId>
-				<db.artifactId>h2</db.artifactId>
-			</properties>
-		</profile>
-
 		<!-- MYSQL DB -->
 		<profile>
 			<id>MySQL</id>
@@ -82,136 +52,6 @@
 			</properties>
 		</profile>
 
-		<!-- Oracle 10G DB -->
-		<profile>
-			<id>Oracle10g</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
-				<hibernate.show_sql>true</hibernate.show_sql>
-				<hibernate.dialect>org.hibernate.dialect.Oracle10gDialect</hibernate.dialect>
-				<db.jdbcDriver>oracle.jdbc.OracleDriver</db.jdbcDriver>
-				<db.connectionURL>jdbc:oracle:thin:@localhost:1521:oa</db.connectionURL>
-				<db.username>root</db.username>
-				<db.password>root</db.password>
-				<db.Type>ORACLE</db.Type>
-				<db.testsql>select 1 from dual</db.testsql>
-				<db.generateDdl>true</db.generateDdl>
-				<db.groupId>com.oracle</db.groupId>
-				<db.artifactId>ojdbc14</db.artifactId>
-			</properties>
-		</profile>
-
-		<!-- Oracle 11G DB -->
-		<profile>
-			<id>Oracle11g</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
-				<hibernate.show_sql>true</hibernate.show_sql>
-				<hibernate.dialect>org.hibernate.dialect.Oracle10gDialect</hibernate.dialect>
-				<db.jdbcDriver>oracle.jdbc.OracleDriver</db.jdbcDriver>
-				<db.connectionURL>jdbc:oracle:thin:@localhost:1521:oa</db.connectionURL>
-				<db.username>root</db.username>
-				<db.password>root</db.password>
-				<db.Type>ORACLE</db.Type>
-				<db.testsql>select 1 from dual</db.testsql>
-				<db.generateDdl>true</db.generateDdl>
-				<db.groupId>com.oracle</db.groupId>
-				<db.artifactId>ojdbc14</db.artifactId>
-			</properties>
-		</profile>
-
-		<!-- DB2 DB -->
-		<profile>
-			<id>DB2</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
-				<hibernate.show_sql>true</hibernate.show_sql>
-				<hibernate.dialect>org.hibernate.dialect.DB2Dialect</hibernate.dialect>
-				<db.jdbcDriver>com.ibm.db2.jcc.DB2Driver</db.jdbcDriver>
-				<db.connectionURL>jdbc:db2://localhost:50000/db_name</db.connectionURL>
-				<db.username>root</db.username>
-				<db.password>root</db.password>
-				<db.Type>DB2</db.Type>
-				<db.testsql>select 1</db.testsql>
-				<db.generateDdl>true</db.generateDdl>
-				<db.groupId>com.ibm</db.groupId>
-				<db.artifactId>db2jcc4</db.artifactId>
-			</properties>
-		</profile>
-
-		<!-- Sybase DB -->
-		<profile>
-			<id>Sybase</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
-				<hibernate.show_sql>true</hibernate.show_sql>
-				<hibernate.dialect>org.hibernate.dialect.SybaseDialect</hibernate.dialect>
-				<db.jdbcDriver>net.sourceforge.jtds.jdbc.Driver</db.jdbcDriver>
-				<db.connectionURL>jdbc:sybase:Tds:localhost:5000/db_name</db.connectionURL>
-				<db.username>root</db.username>
-				<db.password>root</db.password>
-				<db.Type>SYBASE</db.Type>
-				<db.testsql>select 1</db.testsql>
-				<db.generateDdl>true</db.generateDdl>
-				<db.groupId>net.sourceforge.jtds</db.groupId>
-				<db.artifactId>jtds</db.artifactId>
-			</properties>
-		</profile>
-
-		<!-- Sql Server 2008 -->
-		<profile>
-			<id>SqlServer2008</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
-				<hibernate.show_sql>true</hibernate.show_sql>
-				<hibernate.dialect>org.hibernate.dialect.SQLServer2008Dialect</hibernate.dialect>
-				<db.jdbcDriver>com.microsoft.sqlserver.jdbc.SQLServerDriver</db.jdbcDriver>
-				<db.connectionURL>jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=db_name</db.connectionURL>
-				<db.username>root</db.username>
-				<db.password>root</db.password>
-				<db.Type>SQL_SERVER</db.Type>
-				<db.testsql>select 1</db.testsql>
-				<db.generateDdl>true</db.generateDdl>
-				<db.groupId>com.microsoft.sqlserver</db.groupId>
-				<db.artifactId>sqljdbc4</db.artifactId>
-			</properties>
-		</profile>
-		<!-- PostgreSQL DB -->
-		<profile>
-			<id>PostgreSQL</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
-				<hibernate.show_sql>true</hibernate.show_sql>
-				<hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
-				<db.jdbcDriver>org.postgresql.Driver</db.jdbcDriver>
-				<db.connectionURL>jdbc:postgresql://localhost:5432/postgres</db.connectionURL>
-				<db.username>postgres</db.username>
-				<db.password>root</db.password>
-				<db.Type>POSTGRESQL</db.Type>
-				<db.testsql>select 1</db.testsql>
-				<db.generateDdl>true</db.generateDdl>
-				<db.groupId>org.postgresql</db.groupId>
-				<db.artifactId>postgresql</db.artifactId>
-			</properties>
-		</profile>
 	</profiles>
 
 
