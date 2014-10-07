@@ -135,10 +135,6 @@ public class Service extends KoalaLegacyEntity {
 		return null;
 	}
 
-	public static List<Service> findServices(){
-		return getRepository().createNamedQuery("findServices").setParameters().list();
-	}
-
 
     @Override
     public String toString() {
