@@ -3,32 +3,32 @@ package com.shanlan.user.application.impl.service;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.shanlan.user.application.dto.ServiceDTO;
-import com.shanlan.user.application.service.ServiceApplication;
 import org.apache.commons.beanutils.BeanUtils;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
 import org.dayatang.querychannel.QueryChannelService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shanlan.opf.service.Service;
-import com.shanlan.opf.service.ServiceDetail;
+import com.shanlan.common.domain.opf.Service;
+import com.shanlan.common.domain.opf.ServiceDetail;
 import com.shanlan.user.application.dto.ServiceDetailDTO;
+import com.shanlan.user.application.service.ServiceApplication;
 import com.shanlan.user.application.service.ServiceDetailApplication;
 
 @Named
 @Transactional
 public class ServiceDetailApplicationImpl implements ServiceDetailApplication {
 
-
+    private static final Logger logger= LoggerFactory.getLogger(ServiceDetailApplicationImpl.class);
     private QueryChannelService queryChannel;
     @Inject
     private ServiceApplication serviceApplication;
@@ -50,7 +50,7 @@ public class ServiceDetailApplicationImpl implements ServiceDetailApplication {
             BeanUtils.copyProperties(serviceDetailDTO, service);
             BeanUtils.copyProperties(serviceDetailDTO, serviceDetail);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
         serviceDetailDTO.setId(id);
         return serviceDetailDTO;
@@ -58,13 +58,17 @@ public class ServiceDetailApplicationImpl implements ServiceDetailApplication {
 
     public ServiceDetailDTO saveServiceDetail(ServiceDetailDTO serviceDetailDTO) {
         ServiceDetail serviceDetail = new ServiceDetail();
+        ServiceDTO serviceDTO = new ServiceDTO();
         try {
+            BeanUtils.copyProperties(serviceDTO, serviceDetailDTO);
             BeanUtils.copyProperties(serviceDetail, serviceDetailDTO);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
+        serviceDTO=serviceApplication.saveService(serviceDTO);
+        serviceDetailDTO.setServiceId(serviceDTO.getId());
         serviceDetail.save();
-        serviceDetailDTO.setId((Integer) serviceDetail.getId());
+        serviceDetailDTO.setId(serviceDetail.getId());
         return serviceDetailDTO;
     }
 
@@ -81,7 +85,7 @@ public class ServiceDetailApplicationImpl implements ServiceDetailApplication {
             //因此需要重新设置成正确的id
             serviceDetail.setId(serviceDetailId);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
     }
 
@@ -106,7 +110,7 @@ public class ServiceDetailApplicationImpl implements ServiceDetailApplication {
             try {
                 BeanUtils.copyProperties(serviceDetailDTO, serviceDetail);
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(),e);
             }
             list.add(serviceDetailDTO);
         }
@@ -156,7 +160,7 @@ public class ServiceDetailApplicationImpl implements ServiceDetailApplication {
             try {
                 BeanUtils.copyProperties(serviceDetailDTO, serviceDetail);
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(),e);
             }
 
             result.add(serviceDetailDTO);

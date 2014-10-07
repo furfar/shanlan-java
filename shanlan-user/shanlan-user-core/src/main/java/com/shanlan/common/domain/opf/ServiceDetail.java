@@ -1,11 +1,8 @@
-package com.shanlan.opf.service;
+package com.shanlan.common.domain.opf;
 
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 
@@ -26,8 +23,8 @@ public class ServiceDetail extends KoalaLegacyEntity {
 
     @Id
     @Column(name = "id")
-    // @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     @Column(name = "service_id")
     private Integer serviceId;
@@ -47,7 +44,7 @@ public class ServiceDetail extends KoalaLegacyEntity {
     @Column(name = "response_sample")
     private String responseSample;
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

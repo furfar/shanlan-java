@@ -7,22 +7,24 @@ import java.util.List;
 
 import javax.inject.Named;
 
-import com.shanlan.opf.service.ServiceDetail;
 import org.apache.commons.beanutils.BeanUtils;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
 import org.dayatang.querychannel.QueryChannelService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shanlan.opf.service.Service;
+import com.shanlan.common.domain.opf.Service;
+import com.shanlan.common.domain.opf.ServiceDetail;
 import com.shanlan.user.application.dto.ServiceDTO;
 import com.shanlan.user.application.service.ServiceApplication;
 
 @Named
 @Transactional
 public class ServiceApplicationImpl implements ServiceApplication {
-
+    private static final Logger logger= LoggerFactory.getLogger(ServiceApplicationImpl.class);
     private QueryChannelService queryChannel;
 
     private QueryChannelService getQueryChannelService() {
@@ -40,7 +42,7 @@ public class ServiceApplicationImpl implements ServiceApplication {
         try {
             BeanUtils.copyProperties(serviceDTO, service);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
         serviceDTO.setId((Integer) service.getId());
         return serviceDTO;
@@ -51,7 +53,7 @@ public class ServiceApplicationImpl implements ServiceApplication {
         try {
             BeanUtils.copyProperties(service, serviceDTO);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
         service.save();
         serviceDTO.setId((Integer) service.getId());
@@ -64,7 +66,7 @@ public class ServiceApplicationImpl implements ServiceApplication {
         try {
             BeanUtils.copyProperties(service, serviceDTO);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
     }
 
@@ -93,7 +95,7 @@ public class ServiceApplicationImpl implements ServiceApplication {
             try {
                 BeanUtils.copyProperties(serviceDTO, service);
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(),e);
             }
             list.add(serviceDTO);
         }
@@ -149,7 +151,7 @@ public class ServiceApplicationImpl implements ServiceApplication {
             try {
                 BeanUtils.copyProperties(serviceDTO, service);
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(),e);
             }
 
             result.add(serviceDTO);

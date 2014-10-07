@@ -14,7 +14,7 @@
     <properties> 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
         <project.type>bizModel</project.type>  
-        <base.package>com.shanlan.user.core</base.package> 
+        <base.package>com.shanlan.common.domain.user</base.package> 
     </properties>  
     <dependencies> 
         <dependency> 

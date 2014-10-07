@@ -3,11 +3,13 @@ package com.shanlan.user.web.controller.service;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.inject.Inject;
 
-import com.shanlan.opf.service.Service;
-import com.shanlan.opf.service.ServiceDetail;
+import com.shanlan.common.domain.opf.Service;
+import com.shanlan.common.domain.opf.ServiceDetail;
 import com.shanlan.user.application.service.ServiceApplication;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.dayatang.querychannel.Page;
+
 import com.shanlan.user.application.service.ServiceDetailApplication;
 import com.shanlan.user.application.dto.*;
 
@@ -32,22 +35,25 @@ public class ServiceDetailController {
     public Map<String, Object> add(ServiceDetailDTO serviceDetailDTO) {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        ServiceDetail serviceDetail = new ServiceDetail();
-        Service service = new Service();
-        ServiceDTO serviceDTO = new ServiceDTO();
-        try {
-            BeanUtils.copyProperties(service, serviceDetailDTO);
-            BeanUtils.copyProperties(serviceDetail, serviceDetailDTO);
-            BeanUtils.copyProperties(serviceDTO, serviceDetailDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        serviceApplication.saveService(serviceDTO);
-        Page<ServiceDTO> serviceInserted = serviceApplication.pageQueryService(serviceDTO, 0, 10);
-        if (serviceInserted != null && serviceInserted.getData() != null && serviceInserted.getData().size() == 1) {
-            serviceDetailDTO.setServiceId(serviceInserted.getData().get(0).getId());
-            serviceDetailApplication.saveServiceDetail(serviceDetailDTO);
-        }
+        serviceDetailApplication.saveServiceDetail(serviceDetailDTO);
+
+//        ServiceDetail serviceDetail = new ServiceDetail();
+//        Service service = new Service();
+//        ServiceDTO serviceDTO = new ServiceDTO();
+//        try {
+//            BeanUtils.copyProperties(service, serviceDetailDTO);
+//            BeanUtils.copyProperties(serviceDetail, serviceDetailDTO);
+//            BeanUtils.copyProperties(serviceDTO, serviceDetailDTO);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        serviceApplication.saveService(serviceDTO);
+//        Page<ServiceDTO> serviceInserted = serviceApplication.pageQueryService(serviceDTO, 0, 10);
+//        if (serviceInserted != null && serviceInserted.getData() != null && serviceInserted.getData().size() == 1) {
+//            serviceDetailDTO.setServiceId(serviceInserted.getData().get(0).getId());
+//            serviceDetailApplication.saveServiceDetail(serviceDetailDTO);
+//        }
+
         result.put("result", "success");
         return result;
     }
