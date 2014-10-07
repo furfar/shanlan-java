@@ -2,9 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.shanlan</groupId>
+	<parent> 
+        <groupId>com.shanlan</groupId>  
+        <artifactId>shanlan-project</artifactId>  
+        <version>1.0.0-SNAPSHOT</version> 
+    </parent> 
 	<artifactId>shanlan-photo</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>shanlan-photo</name>
 	<description>处理照片相关信息的子系统</description>
@@ -918,45 +921,5 @@
 	</build>
 
 	<repositories>
-		<repository>
-			<id>koala-releases</id>
-			<url>http://nexus.openkoala.org/content/repositories/public-releases/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>koala-snapshots</id>
-			<url>http://nexus.openkoala.org/content/repositories/public-snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>dayatang-releases</id>
-			<url>http://nexus.dayatang.org:8083/content/repositories/releases</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>dayatang-snapshots</id>
-			<url>http://nexus.dayatang.org:8083/content/repositories/snapshots</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
 	</repositories>
 </project>
