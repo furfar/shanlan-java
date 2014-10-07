@@ -66,7 +66,7 @@ public class ServiceDetailApplicationImpl implements ServiceDetailApplication {
             logger.error(e.getMessage(),e);
         }
         serviceDTO=serviceApplication.saveService(serviceDTO);
-        serviceDetailDTO.setServiceId(serviceDTO.getId());
+        serviceDetail.setServiceId(serviceDTO.getId());
         serviceDetail.save();
         serviceDetailDTO.setId(serviceDetail.getId());
         return serviceDetailDTO;
