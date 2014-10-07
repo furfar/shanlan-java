@@ -8,7 +8,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.shanlan.opf.core.domain.Service;
+import com.shanlan.opf.core.domain.ServiceDetail;
 import com.shanlan.user.application.dto.ServiceDTO;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
@@ -18,8 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shanlan.common.domain.opf.Service;
-import com.shanlan.common.domain.opf.ServiceDetail;
 import com.shanlan.user.application.dto.ServiceDetailDTO;
 import com.shanlan.user.application.service.ServiceApplication;
 import com.shanlan.user.application.service.ServiceDetailApplication;

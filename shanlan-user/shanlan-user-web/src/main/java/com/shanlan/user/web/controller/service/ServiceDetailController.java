@@ -6,8 +6,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import com.shanlan.common.domain.opf.Service;
-import com.shanlan.common.domain.opf.ServiceDetail;
+import com.shanlan.opf.core.domain.Service;
+import com.shanlan.opf.core.domain.ServiceDetail;
 import com.shanlan.user.application.service.ServiceApplication;
 
 import org.apache.commons.beanutils.BeanUtils;

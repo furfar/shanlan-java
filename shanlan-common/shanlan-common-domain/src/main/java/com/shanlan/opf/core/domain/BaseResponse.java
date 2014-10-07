@@ -1,4 +1,4 @@
-package com.shanlan.common.domain;
+package com.shanlan.opf.core.domain;
 
 /**
  * @ClassName:BaseResponse

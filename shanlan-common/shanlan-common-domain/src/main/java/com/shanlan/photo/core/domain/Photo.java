@@ -1,4 +1,4 @@
-package com.shanlan.common.domain.photo;
+package com.shanlan.photo.core.domain;
 
 import java.util.Date;
 

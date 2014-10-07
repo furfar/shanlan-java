@@ -3,7 +3,7 @@
  * Copyright(C) 2012-2016 All Rights 
  * Reserved.
  */
-package com.shanlan.common.domain;
+package com.shanlan.user.core.domain;
 
 
 /**

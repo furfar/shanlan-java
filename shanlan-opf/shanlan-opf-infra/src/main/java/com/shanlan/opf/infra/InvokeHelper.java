@@ -1,9 +1,12 @@
-package com.shanlan.shanlanopf.infra;
+package com.shanlan.opf.infra;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -22,7 +25,9 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
 import com.shanlan.common.constant.ConstantString;
+import com.shanlan.common.util.ReflectionUtils;
 import com.shanlan.opf.application.dto.SuccessResponseDTO;
+import com.shanlan.opf.core.domain.Request;
 
 @Named
 public class InvokeHelper {
@@ -76,4 +81,32 @@ public class InvokeHelper {
 		return successResponse;
 	}
 
+	
+	/**
+	 * @param baseRequestHTTP
+	 * @return
+	 */
+	public static Map<String, String> getParamMap(Request request) {
+		Map<String, String> paramMap = new HashMap<String, String>();
+
+		List<Field> fields = ReflectionUtils
+				.getSelfAndDirectParentDeclaredFields(request);
+
+		for (Field field : fields) {// 通过“反射”将参数名和参数值存入Map中
+
+			field.setAccessible(true); // 要想访问private字段，需要先将其Accessible属性设置为true
+			Object fieldValue = null;
+			try {
+				fieldValue = field.get(request);
+			} catch (IllegalArgumentException e) {
+				logger.error(e.getMessage());
+			} catch (IllegalAccessException e) {
+				logger.error(e.getMessage());
+			}
+
+			paramMap.put(field.getName(), (String) fieldValue);
+		}
+		return paramMap;
+	}
+	
 }

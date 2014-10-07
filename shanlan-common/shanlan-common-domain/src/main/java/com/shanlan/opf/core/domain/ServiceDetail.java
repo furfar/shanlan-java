@@ -1,4 +1,4 @@
-package com.shanlan.common.domain.opf;
+package com.shanlan.opf.core.domain;
 
 import java.util.List;
 

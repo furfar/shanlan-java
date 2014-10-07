@@ -11,11 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.shanlan.common.domain.Request;
 import com.shanlan.common.exception.sub.business.OPFBaseException;
 import com.shanlan.common.exception.sub.business.RequestParameterException;
 import com.shanlan.opf.application.InvokeApplication;
 import com.shanlan.opf.application.dto.SuccessResponseDTO;
+import com.shanlan.opf.core.domain.Request;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class OPFController extends AbstractBaseController {
@@ -28,7 +29,7 @@ public class OPFController extends AbstractBaseController {
 	private InvokeApplication invokeApplication;
 
 	@RequestMapping(value = "/services", method = RequestMethod.POST)
-	public Map<String, Object> service(String request) {
+	public ModelAndView service(String request) {
 
 		SuccessResponseDTO successResponseDTO = new SuccessResponseDTO();
 
@@ -103,9 +104,9 @@ public class OPFController extends AbstractBaseController {
 
 		// }
 
-		Map<String, Object> resultMav = new HashMap<String, Object>();
-		resultMav.put("code", "200");
-		resultMav.put("data", successResponseDTO.getBusinessResult());
+        ModelAndView resultMav = new ModelAndView("jsonView");
+        resultMav.addObject("code", "200");
+        resultMav.addObject("data", successResponseDTO.getBusinessResult());
 
 		return resultMav;
 

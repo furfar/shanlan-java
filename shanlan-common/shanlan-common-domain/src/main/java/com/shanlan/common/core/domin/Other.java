@@ -1,4 +1,4 @@
-package com.shanlan.common.domain;
+package com.shanlan.common.core.domin;
 
 import java.util.HashMap;
 import java.util.Map;

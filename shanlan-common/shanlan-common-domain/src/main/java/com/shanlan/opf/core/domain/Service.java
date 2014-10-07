@@ -1,4 +1,8 @@
-package com.shanlan.common.domain.opf;
+package com.shanlan.opf.core.domain;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,7 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
+
+import com.shanlan.common.exception.sub.business.OPFBaseException;
+import com.shanlan.common.exception.sub.business.RequestCheckingException;
+import com.shanlan.common.exception.sub.business.ServiceDisableException;
 
 /**
  * Auto Generated Entity
@@ -138,18 +147,39 @@ public class Service extends KoalaLegacyEntity {
 		return null;
 	}
 
+	public Service getServiceByServiceNameAndVersion(String serviceName,
+			String serviceVersion) throws OPFBaseException {
 
-    @Override
-    public String toString() {
-        return "Service{" +
-                "id=" + id +
-                ", serviceName='" + serviceName + '\'' +
-                ", serviceVersion='" + serviceVersion + '\'' +
-                ", url='" + url + '\'' +
-                ", enable=" + enable +
-                ", type='" + type + '\'' +
-                ", serviceGroup='" + serviceGroup + '\'' +
-                ", isLocal=" + isLocal +
-                '}';
-    }
+		Service service = new Service();
+
+		Map<String, Object> propValues = new HashMap<String, Object>();
+		propValues.put("serviceName", serviceName);
+		propValues.put("serviceVersion", serviceVersion);
+		List<Service> services = findByProperties(Service.class, propValues);
+		if (CollectionUtils.isNotEmpty(services)) {
+			service = services.get(0);
+			if (service != null) {
+
+				if (service.getEnable() != 1) {// 如果服务不可用
+					throw new ServiceDisableException("the service '"
+							+ serviceName + "' is disable");
+				}
+
+			} else {
+				throw new RequestCheckingException("the service '"
+						+ serviceName + "' is not exist");
+			}
+		}
+
+		return service;
+	}
+
+	@Override
+	public String toString() {
+		return "Service{" + "id=" + id + ", serviceName='" + serviceName + '\''
+				+ ", serviceVersion='" + serviceVersion + '\'' + ", url='"
+				+ url + '\'' + ", enable=" + enable + ", type='" + type + '\''
+				+ ", serviceGroup='" + serviceGroup + '\'' + ", isLocal="
+				+ isLocal + '}';
+	}
 }

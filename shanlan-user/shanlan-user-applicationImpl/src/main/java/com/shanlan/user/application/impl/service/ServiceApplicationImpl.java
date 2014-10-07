@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shanlan.common.domain.opf.Service;
-import com.shanlan.common.domain.opf.ServiceDetail;
+import com.shanlan.opf.core.domain.Service;
+import com.shanlan.opf.core.domain.ServiceDetail;
 import com.shanlan.user.application.dto.ServiceDTO;
 import com.shanlan.user.application.service.ServiceApplication;
 

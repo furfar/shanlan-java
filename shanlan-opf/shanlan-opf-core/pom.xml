@@ -14,7 +14,7 @@
     <properties> 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
         <project.type>bizModel</project.type>  
-        <base.package>com.shanlan.common.opf.domain</base.package> 
+        <base.package>com.shanlan.opf.core</base.package> 
     </properties>  
     <dependencies> 
         <dependency> 

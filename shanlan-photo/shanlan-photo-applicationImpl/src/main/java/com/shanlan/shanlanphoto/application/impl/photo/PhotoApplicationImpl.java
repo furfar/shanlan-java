@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shanlan.common.domain.photo.Photo;
+import com.shanlan.photo.core.domain.Photo;
 import com.shanlan.shanlanphoto.application.dto.PhotoDTO;
 import com.shanlan.shanlanphoto.application.photo.PhotoApplication;
 

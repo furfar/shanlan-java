@@ -10,8 +10,6 @@ import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.shanlan.common.domain.ErrorResponse;
-import com.shanlan.common.domain.Request;
 import com.shanlan.common.exception.sub.business.RequestAuthenticationException;
 import com.shanlan.common.exception.sub.business.RequestAuthorizationException;
 import com.shanlan.common.exception.sub.business.RequestFormatException;
@@ -19,6 +17,9 @@ import com.shanlan.common.exception.sub.business.RequestMappingException;
 import com.shanlan.common.exception.sub.business.RequestParameterException;
 import com.shanlan.common.exception.sub.business.ServiceDisableException;
 import com.shanlan.common.util.ReflectionUtils;
+import com.shanlan.opf.core.domain.ErrorResponse;
+import com.shanlan.opf.core.domain.Request;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @ClassName:BaseCoontroller
@@ -83,16 +84,16 @@ public abstract class AbstractBaseController {
 
 	}
 
-	protected Map<String, Object> handleException(Exception e) {
+	protected ModelAndView handleException(Exception e) {
 
-		Map<String, Object> resultMav = new HashMap<String, Object>();
+        ModelAndView resultMav = new ModelAndView("jsonView");
 
 		if (e instanceof RequestFormatException) {
 			ErrorResponse errorResponse = new ErrorResponse("101",
 					e.getMessage());
 
-            resultMav.put(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
-            resultMav.put(ErrorResponse.ERROR_MESSAGE_STRING,
+            resultMav.addObject(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
+            resultMav.addObject(ErrorResponse.ERROR_MESSAGE_STRING,
                     errorResponse.getMessage());
             return resultMav;
 
@@ -103,8 +104,8 @@ public abstract class AbstractBaseController {
 			ErrorResponse errorResponse = new ErrorResponse("201",
 					e.getMessage());
 
-            resultMav.put(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
-            resultMav.put(ErrorResponse.ERROR_MESSAGE_STRING,
+            resultMav.addObject(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
+            resultMav.addObject(ErrorResponse.ERROR_MESSAGE_STRING,
                     errorResponse.getMessage());
             return resultMav;
 
@@ -115,8 +116,8 @@ public abstract class AbstractBaseController {
 			ErrorResponse errorResponse = new ErrorResponse("301",
 					e.getMessage());
 
-            resultMav.put(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
-            resultMav.put(ErrorResponse.ERROR_MESSAGE_STRING,
+            resultMav.addObject(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
+            resultMav.addObject(ErrorResponse.ERROR_MESSAGE_STRING,
                     errorResponse.getMessage());
             return resultMav;
 		}
@@ -126,8 +127,8 @@ public abstract class AbstractBaseController {
 			ErrorResponse errorResponse = new ErrorResponse("401",
 					e.getMessage());
 
-            resultMav.put(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
-            resultMav.put(ErrorResponse.ERROR_MESSAGE_STRING,
+            resultMav.addObject(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
+            resultMav.addObject(ErrorResponse.ERROR_MESSAGE_STRING,
                     errorResponse.getMessage());
             return resultMav;
 		}
@@ -135,8 +136,8 @@ public abstract class AbstractBaseController {
         if (e instanceof RequestParameterException){
             ErrorResponse errorResponse = new ErrorResponse("501",
                     e.getMessage());
-            resultMav.put(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
-            resultMav.put(ErrorResponse.ERROR_MESSAGE_STRING,
+            resultMav.addObject(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
+            resultMav.addObject(ErrorResponse.ERROR_MESSAGE_STRING,
                     errorResponse.getMessage());
             return resultMav;
         }
@@ -145,8 +146,8 @@ public abstract class AbstractBaseController {
 			ErrorResponse errorResponse = new ErrorResponse("601",
 					e.getMessage());
 
-            resultMav.put(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
-            resultMav.put(ErrorResponse.ERROR_MESSAGE_STRING,
+            resultMav.addObject(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
+            resultMav.addObject(ErrorResponse.ERROR_MESSAGE_STRING,
                     errorResponse.getMessage());
             return resultMav;
 		}

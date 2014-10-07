@@ -1,14 +1,21 @@
 package com.shanlan.opf.application.impl;
 
+import java.util.Map;
+
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Service;
+import org.codehaus.jackson.type.TypeReference;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shanlan.common.exception.sub.business.OPFBaseException;
+import com.shanlan.common.util.JsonUtil;
 import com.shanlan.opf.application.InvokeApplication;
 import com.shanlan.opf.application.dto.SuccessResponseDTO;
-import com.shanlan.shanlanopf.infra.InvokeHelper;
+import com.shanlan.opf.core.service.UserService;
+import com.shanlan.opf.infra.InvokeHelper;
+import com.shanlan.user.core.domain.User;
 
 /**
  * @ClassName:InvokeApplicationImpl
@@ -19,62 +26,47 @@ import com.shanlan.shanlanopf.infra.InvokeHelper;
  * @Remarks:
  * @Version:V1.1
  */
-@Service
+
+@Named
+@Transactional
 public class InvokeApplicationImpl implements InvokeApplication {
 
 	private static final Logger logger = Logger
 			.getLogger(InvokeApplicationImpl.class);
-	
+
 	@Inject
-	private InvokeHelper invokeHelper;
-	
-//	private UserService userService;
+	private UserService userService;
 
 	@Override
-	public SuccessResponseDTO invokeRemoteService(String serviceURI, String param) {
+	public SuccessResponseDTO invokeRemoteService(String serviceURI,
+			String param) {
 
 		return InvokeHelper.getResponse(serviceURI, param);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.albert.opf.service.InvokeService#invokeLocalService(java.lang.String,
-	 * java.lang.String)
-	 */
 	@Override
 	public SuccessResponseDTO invokeLocalService(String service, String param)
-            throws OPFBaseException {
+			throws OPFBaseException {
 
-		// String[] serviceSplit = service.split(ConstantPunctuation.PERIOD);
-		// String className = serviceSplit[0];
-		// String methodName = serviceSplit[1];
-		// Class clazz = Class.forName(CURRENT_PACKAGE_PATH + className);
-		// Class[] parameterTypes = null;
-		// Method method = clazz.getMethod(methodName, parameterTypes);
-		// String responseString = (String) method.invoke(null, null);
+		Map<String, String> paramMap = JsonUtil.foJson(param,
+				new TypeReference<Map<String, String>>() {
+				});
 
-//		Map<String, String> paramMap = JsonUtil.foJson(param,
-//				new TypeReference<Map<String, String>>() {
-//				});
+		if (service.equals("User.login")) {
+			User existUser = userService.login(paramMap.get("userName"),
+					paramMap.get("password"));
+			return new SuccessResponseDTO(JsonUtil.toJson(existUser));
+		} else if (service.equals("User.register")) {
+			User user = new User(paramMap.get("userName"),
+					paramMap.get("password"), paramMap.get("nickName"),
+					paramMap.get("email"), paramMap.get("city"),
+					Boolean.parseBoolean(paramMap.get("isValid")));
+			boolean result = userService.register(user);
 
-//		if (service.equals("User.login")) {
-//			User existUser = userService.login(paramMap.get("userName"),
-//					paramMap.get("password"));
-//			return new SuccessResponseDTO(JsonUtil.toJson(existUser));
-//		} else if (service.equals("User.register")) {
-//			User user = new User(paramMap.get("userName"),
-//					paramMap.get("password"), paramMap.get("nickName"),
-//					paramMap.get("email"), paramMap.get("city"),
-//					Boolean.parseBoolean(paramMap.get("isValid")));
-//			boolean result = userService.register(user);
-
-//			return new SuccessResponseDTO(JsonUtil.toJson(true));
-//		}
-		return new SuccessResponseDTO();
+			return new SuccessResponseDTO(JsonUtil.toJson(result));
+		}
+		return new SuccessResponseDTO(JsonUtil.toJson(false));
 
 	}
-
 
 }
