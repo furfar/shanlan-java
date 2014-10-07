@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>com.shanlan</groupId>
 			<artifactId>shanlan-common-domain</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${project.parent.version}</version>  
 		</dependency>
 		<!-- 加入CONF依赖 -->
 		<dependency>

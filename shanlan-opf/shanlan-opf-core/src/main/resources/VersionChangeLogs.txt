@@ -1,7 +1,0 @@
-ChangeLogs
-
-
-
-
-{"service":"getUser1","username":"username1","password":"password1","param":"test"}
-
