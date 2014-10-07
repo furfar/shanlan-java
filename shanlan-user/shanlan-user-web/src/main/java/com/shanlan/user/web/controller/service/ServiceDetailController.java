@@ -34,26 +34,7 @@ public class ServiceDetailController {
     @RequestMapping("/add")
     public Map<String, Object> add(ServiceDetailDTO serviceDetailDTO) {
         Map<String, Object> result = new HashMap<String, Object>();
-
         serviceDetailApplication.saveServiceDetail(serviceDetailDTO);
-
-//        ServiceDetail serviceDetail = new ServiceDetail();
-//        Service service = new Service();
-//        ServiceDTO serviceDTO = new ServiceDTO();
-//        try {
-//            BeanUtils.copyProperties(service, serviceDetailDTO);
-//            BeanUtils.copyProperties(serviceDetail, serviceDetailDTO);
-//            BeanUtils.copyProperties(serviceDTO, serviceDetailDTO);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        serviceApplication.saveService(serviceDTO);
-//        Page<ServiceDTO> serviceInserted = serviceApplication.pageQueryService(serviceDTO, 0, 10);
-//        if (serviceInserted != null && serviceInserted.getData() != null && serviceInserted.getData().size() == 1) {
-//            serviceDetailDTO.setServiceId(serviceInserted.getData().get(0).getId());
-//            serviceDetailApplication.saveServiceDetail(serviceDetailDTO);
-//        }
-
         result.put("result", "success");
         return result;
     }

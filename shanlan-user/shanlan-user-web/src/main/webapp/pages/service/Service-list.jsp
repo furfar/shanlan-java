@@ -94,10 +94,10 @@ $(function () {
                     { title: 'serviceName', name: 'serviceName', width: width},
                     { title: 'serviceVersion', name: 'serviceVersion', width: width},
                     { title: 'url', name: 'url', width: width},
-                    { title: 'enable', name: 'enable',width:width},
+                    { title: 'enable', name: 'enable', width: width},
                     { title: 'type', name: 'type', width: width},
                     { title: 'serviceGroup', name: 'serviceGroup', width: width},
-                    { title: 'isLocal', name: 'isLocal', width:width},
+                    { title: 'isLocal', name: 'isLocal', width: width},
                     { title: '操作', width: 120, render: function (rowdata, name, index) {
                         var param = '"' + rowdata.id + '"';
                         var h = "<a href='javascript:openDetailsPage(" + param + ")'>查看</a> ";
@@ -324,7 +324,8 @@ var openDetailsPage = function (id) {
                         <label class="control-label" style="width:100px;float:left;">serviceName:&nbsp;</label>
 
                         <div style="margin-left:15px;float:left;">
-                            <input name="serviceName" class="form-control" type="text" style="width:180px;" id="serviceNameID"/>
+                            <input name="serviceName" class="form-control" type="text" style="width:180px;"
+                                   id="serviceNameID"/>
                         </div>
                         <label class="control-label" style="width:100px;float:left;">url:&nbsp;</label>
 
