@@ -10,7 +10,7 @@
 
         <div class="col-lg-9">
             <input name="serviceName" style="display:inline; width:94%;" class="form-control" type="text"
-                   dataType="English" require="false" id="serviceNameID"/>
+                   require="false" id="serviceNameID"/>
         </div>
     </div>
     <div class="form-group">
@@ -71,7 +71,8 @@
         <label class="col-lg-3 control-label">scenario:</label>
 
         <div class="col-lg-9">
-            <textarea name="scenario" style="display:inline; width:94%;" class="form-control" type="text" id="scenarioID"/>
+            <textarea name="scenario" style="display:inline; width:94%;" class="form-control" type="text"
+                      id="scenarioID"/>
         </div>
     </div>
     <div class="form-group">
@@ -86,7 +87,8 @@
         <label class="col-lg-3 control-label">response:</label>
 
         <div class="col-lg-9">
-            <textarea name="response" style="display:inline; width:94%;" class="form-control" type="text" id="responseID"/>
+            <textarea name="response" style="display:inline; width:94%;" class="form-control" type="text"
+                      id="responseID"/>
         </div>
     </div>
     <div class="form-group">
