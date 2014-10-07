@@ -50,7 +50,7 @@ public class UserRespositoryImpl implements UserRepository {
 							throws SQLException {
 						return new User(rs.getString(1), rs.getString(2), rs
 								.getString(3), rs.getString(4), rs.getString(5),rs
-								.getBoolean(6));
+								.getInt(6));
 					}
 				});
 	}
@@ -77,7 +77,7 @@ public class UserRespositoryImpl implements UserRepository {
                             throws SQLException {
                         return new User(rs.getString(1), rs.getString(2), rs
                                 .getString(3), rs.getString(4), rs.getString(5),rs
-                                .getBoolean(6));
+                                .getInt(6));
                     }
                 });
     }

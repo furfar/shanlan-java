@@ -1,5 +1,7 @@
 package com.shanlan.opf.application;
 
+import com.shanlan.common.exception.sub.business.OPFBaseException;
+import com.shanlan.opf.application.dto.ServiceDTO;
 import com.shanlan.opf.application.dto.SuccessResponseDTO;
 
 
@@ -27,4 +29,6 @@ public interface InvokeApplication {
 	 * @throws Exception 
 	 */
 	SuccessResponseDTO invokeLocalService(String service,String param) throws Exception;
+
+    ServiceDTO getServiceByServiceNameAndVersion(String serviceName, String serviceVersion)throws OPFBaseException;
 }

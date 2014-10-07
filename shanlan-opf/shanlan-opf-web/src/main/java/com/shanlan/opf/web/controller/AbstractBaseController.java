@@ -5,17 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.shanlan.common.exception.sub.business.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.shanlan.common.exception.sub.business.RequestAuthenticationException;
-import com.shanlan.common.exception.sub.business.RequestAuthorizationException;
-import com.shanlan.common.exception.sub.business.RequestFormatException;
-import com.shanlan.common.exception.sub.business.RequestMappingException;
-import com.shanlan.common.exception.sub.business.RequestParameterException;
-import com.shanlan.common.exception.sub.business.ServiceDisableException;
 import com.shanlan.common.util.ReflectionUtils;
 import com.shanlan.opf.core.domain.ErrorResponse;
 import com.shanlan.opf.core.domain.Request;
@@ -152,6 +147,14 @@ public abstract class AbstractBaseController {
             return resultMav;
 		}
 
+        if (e instanceof RequestCheckingException){
+            ErrorResponse errorResponse = new ErrorResponse("701",
+                    e.getMessage());
+            resultMav.addObject(ErrorResponse.ERROR_CODE_STRING,errorResponse.getCode());
+            resultMav.addObject(ErrorResponse.ERROR_MESSAGE_STRING,
+                    errorResponse.getMessage());
+            return resultMav;
+        }
 		return resultMav;
 
 	}

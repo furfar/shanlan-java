@@ -27,7 +27,7 @@ public class User {
 	
 	private String email;
 	
-	private boolean isValid;
+	private Integer isValid;
 	
 
 	/**
@@ -39,7 +39,7 @@ public class User {
 	
 
 	public User(String userAccount, String userPassword, String nickName,
-			String email,String city, boolean isValid) {
+			String email,String city, Integer isValid) {
 		super();
 		this.userName = userAccount;
 		this.password = userPassword;
@@ -82,11 +82,11 @@ public class User {
 		this.email = email;
 	}
 
-	public boolean getIsValid() {
+	public Integer getIsValid() {
 		return isValid;
 	}
 
-	public void setIsValid(boolean isValid) {
+	public void setIsValid(Integer isValid) {
 		this.isValid = isValid;
 	}
 
