@@ -20,14 +20,12 @@
 
 	<!-- Creates a EntityManagerFactory for use with the Hibernate JPA provider 
 		and a simple in-memory data source populated with test data -->
-	<bean id="entityManagerFactory"
-		class="org.openkoala.koala.util.KoalaEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="default" /> 
+	<bean id="entityManagerFactory" class="org.openkoala.koala.util.KoalaEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="default" />
 		<property name="packagesToScan">
 			<list>
-				<value>org.openkoala.example.domain</value>
-								<value>com.shanlan.shanlanopf.core</value>
-                			</list>
+				<value>com.shanlan.opf.core.domain</value>
+			</list>
 		</property>
 		<!-- 如果权限使用了不同的数据源，则去掉securitymappings -->
 		<property name="scanMappingResourceDir" value="mappings,securitymappings" />
@@ -42,18 +40,21 @@
 		</property>
 	</bean>
 
-    <bean id="defaultEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" scope="prototype">
-        <property name="persistenceUnitName" value="default" />
-    </bean>
+	<bean id="defaultEntityManager"
+		class="org.springframework.orm.jpa.support.SharedEntityManagerBean"
+		scope="prototype">
+		<property name="persistenceUnitName" value="default" />
+	</bean>
 
-    <bean id="repository" class="org.openkoala.koala.commons.domain.jpa.KoalaEntityRepositoryJpa">
-        <property name="entityManagerName" value="defaultEntityManager"/>
-    </bean>
+	<bean id="repository"
+		class="org.openkoala.koala.commons.domain.jpa.KoalaEntityRepositoryJpa">
+		<property name="entityManagerName" value="defaultEntityManager" />
+	</bean>
 
-    <bean id="queryChannel" class="org.dayatang.querychannel.impl.QueryChannelServiceImpl">
-        <constructor-arg name="repository" ref="repository" />
-    </bean>
-	
+	<bean id="queryChannel" class="org.dayatang.querychannel.impl.QueryChannelServiceImpl">
+		<constructor-arg name="repository" ref="repository" />
+	</bean>
+
 	<bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
 		<property name="driver" value="${db.jdbc.driver}" />
 		<property name="driverUrl" value="${db.jdbc.connection.url}" />
@@ -62,13 +63,13 @@
 		<property name="prototypeCount" value="5" />
 		<property name="maximumConnectionCount" value="${maximumConnectionCount}" />
 		<property name="minimumConnectionCount" value="${minimumConnectionCount}" />
-		<property name="houseKeepingTestSql" value="${db.jdbc.testsql}"/>
-		<property name="testBeforeUse" value="true"/>
-        <property name="simultaneousBuildThrottle" value="20"/>
-        <property name="maximumActiveTime" value="3600000"/>
-		<property name="alias" value="default"/>
+		<property name="houseKeepingTestSql" value="${db.jdbc.testsql}" />
+		<property name="testBeforeUse" value="true" />
+		<property name="simultaneousBuildThrottle" value="20" />
+		<property name="maximumActiveTime" value="3600000" />
+		<property name="alias" value="default" />
 	</bean>
-	
+
 	<bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
 	</bean>

@@ -14,7 +14,7 @@
     <properties> 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
         <project.type>applicationImpl</project.type>  
-        <base.package>com.shanlan.shanlanphoto.application.impl</base.package> 
+        <base.package>com.shanlan.photo.application.impl</base.package> 
     </properties>  
     <dependencies> 
         <dependency> 

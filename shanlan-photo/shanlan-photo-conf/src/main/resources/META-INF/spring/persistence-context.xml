@@ -27,7 +27,7 @@
         <property name="persistenceUnitName" value="default"/>
         <property name="packagesToScan">
             <list>
-                <value>com.shanlan.common.domain</value>
+                <value>com.shanlan.photo.core.domain</value>
             </list>
         </property>
         <!-- 如果权限使用了不同的数据源，则去掉securitymappings -->

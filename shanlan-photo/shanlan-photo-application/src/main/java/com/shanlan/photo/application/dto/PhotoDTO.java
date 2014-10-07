@@ -1,4 +1,4 @@
-package com.shanlan.shanlanphoto.application.dto;
+package com.shanlan.photo.application.dto;
 
 import java.sql.Timestamp;
 import java.io.Serializable;

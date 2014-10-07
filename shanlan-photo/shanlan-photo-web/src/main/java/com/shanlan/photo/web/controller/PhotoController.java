@@ -3,15 +3,18 @@ package com.shanlan.photo.web.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.inject.Inject;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.dayatang.querychannel.Page;
-import com.shanlan.shanlanphoto.application.photo.PhotoApplication;
-import com.shanlan.shanlanphoto.application.dto.*;
+
+import com.shanlan.photo.application.dto.*;
+import com.shanlan.photo.application.photo.PhotoApplication;
 
 @Controller
 @RequestMapping("/Photo")

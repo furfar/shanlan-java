@@ -1,9 +1,11 @@
 
-package com.shanlan.shanlanphoto.application.photo;
+package com.shanlan.photo.application.photo;
 
 import java.util.List;
+
 import org.dayatang.querychannel.Page;
-import com.shanlan.shanlanphoto.application.dto.*;
+
+import com.shanlan.photo.application.dto.*;
 
 public interface PhotoApplication {
 
