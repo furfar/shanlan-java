@@ -5,7 +5,6 @@
  */
 package com.shanlan.user.core.domain;
 
-
 /**
  * @ClassName:User
  * @Description: TODO
@@ -15,40 +14,33 @@ package com.shanlan.user.core.domain;
  * @Remarks:
  * @Version:V1.1
  */
-public class User {
-	
+public class UserBase {
+
 	private String userName;
-	
+
 	private String password;
 
 	private String nickName;
-	
-	private String city;
-	
+
 	private String email;
-	
+
 	private Integer isValid;
-	
 
 	/**
 	 * 
 	 */
-	public User() {
+	public UserBase() {
 	}
 
-	
-
-	public User(String userAccount, String userPassword, String nickName,
-			String email,String city, Integer isValid) {
+	public UserBase(String userAccount, String userPassword, String nickName,
+                    String email, Integer isValid) {
 		super();
 		this.userName = userAccount;
 		this.password = userPassword;
 		this.nickName = nickName;
 		this.email = email;
-		this.city=city;
 		this.isValid = isValid;
 	}
-
 
 	public String getNickName() {
 		return nickName;
@@ -90,30 +82,11 @@ public class User {
 		this.isValid = isValid;
 	}
 
-
-
-	public String getCity() {
-		return city;
-	}
-
-
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-
-
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", password=" + password
-				+ ", nickName=" + nickName + ", city=" + city + ", email="
-				+ email + ", isValid=" + isValid + "]";
+				+ ", nickName=" + nickName + ", email=" + email + ", isValid="
+				+ isValid + "]";
 	}
-
-
-
-	
-	
 
 }

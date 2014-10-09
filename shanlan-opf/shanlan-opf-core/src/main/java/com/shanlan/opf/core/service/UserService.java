@@ -7,6 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.shanlan.user.core.domain.UserBase;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -16,7 +17,6 @@ import com.shanlan.common.exception.sub.business.RequestAuthenticationException;
 import com.shanlan.common.exception.sub.business.RequestParameterException;
 import com.shanlan.common.util.SignUtils;
 import com.shanlan.opf.core.repository.UserRepository;
-import com.shanlan.user.core.domain.User;
 
 
 /**
@@ -36,11 +36,11 @@ public class UserService {
     @Inject
     private UserRepository userRepository;
 
-    public User login(String userAccount, String password)
+    public UserBase login(String userAccount, String password)
             throws OPFBaseException {
         if (StringUtils.isNotBlank(userAccount)
                 && StringUtils.isNotBlank(password)) {
-            List<User> users = new ArrayList<User>();
+            List<UserBase> users = new ArrayList<UserBase>();
             if (StringUtils.isNotBlank(userAccount)
                     && userAccount.matches(ConstantRegex.REGEX_EMAIL)) {// 如果是Eamil
                 users = userRepository.getUserByEmail(userAccount);
@@ -50,7 +50,7 @@ public class UserService {
             RequestAuthenticationException requestAuthenticationException = new RequestAuthenticationException(
                     "username or password error, please check it.");
             if (users != null && users.size() > 0) {
-                User user = users.get(0);
+                UserBase user = users.get(0);
                 try {
                     String md5Password = SignUtils
                             .getMD5DigestInString(password);
@@ -69,7 +69,7 @@ public class UserService {
         return null;
     }
 
-    public boolean register(User user) throws RequestParameterException {
+    public boolean register(UserBase user) throws RequestParameterException {
         if (user != null) {
 
             if (isUserNameExist(user.getUserName())) {
@@ -112,7 +112,7 @@ public class UserService {
 
     public boolean isUserNameExist(String userName) {
         if (StringUtils.isNotBlank(userName)) {
-            List<User> users = userRepository.getUserByUserName(userName);
+            List<UserBase> users = userRepository.getUserByUserName(userName);
             if (users != null && users.size() > 0) {
                 return true;
             }
@@ -122,7 +122,7 @@ public class UserService {
 
     public boolean isEmailExist(String email) {
         if (StringUtils.isNotBlank(email)) {
-            List<User> users = userRepository.getUserByEmail(email);
+            List<UserBase> users = userRepository.getUserByEmail(email);
             if (users != null && users.size() > 0) {
                 return true;
             }

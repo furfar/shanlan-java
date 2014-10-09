@@ -2,7 +2,7 @@ package com.shanlan.opf.core.repository;
 
 import java.util.List;
 
-import com.shanlan.user.core.domain.User;
+import com.shanlan.user.core.domain.UserBase;
 
 /**
  * @ClassName:ServiceDao 
@@ -15,9 +15,9 @@ import com.shanlan.user.core.domain.User;
  */
 public interface UserRepository {
 
-	List<User> getUserByUserName(String userName);
+	List<UserBase> getUserByUserName(String userName);
 
-    boolean add(User user);
+    boolean add(UserBase user);
 
-    List<User> getUserByEmail(String email);
+    List<UserBase> getUserByEmail(String email);
 }
