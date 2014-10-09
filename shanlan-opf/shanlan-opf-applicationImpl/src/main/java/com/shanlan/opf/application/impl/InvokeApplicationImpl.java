@@ -12,6 +12,7 @@ import com.shanlan.opf.core.domain.Service;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.type.TypeReference;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shanlan.common.exception.sub.business.OPFBaseException;
@@ -75,6 +76,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public ServiceDTO getServiceByServiceNameAndVersion(String serviceName, String serviceVersion) throws OPFBaseException {
 
         Service service = Service.getServiceByServiceNameAndVersion(serviceName, serviceVersion);
