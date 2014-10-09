@@ -1,6 +1,4 @@
-package com.shanlan.common.domain.photo;
-
-import java.io.Serializable;
+package com.shanlan.photo.core.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +16,8 @@ import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
  * 
  */
 @Entity
-@Table(name = "photo_style")
-public class PhotoStyle extends KoalaLegacyEntity {
+@Table(name = "photo")
+public class Photo extends KoalaLegacyEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,34 +32,67 @@ public class PhotoStyle extends KoalaLegacyEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "name")
-	private String name;
+	@Column(name = "file_path")
+	private String filePath;
 
-	@Column(name = "description")
-	private String description;
+	@Column(name = "md5")
+	private String md5;
+
+	@Column(name = "size")
+	private int size;
+
+	@Column(name = "like_count")
+	private int likeCount;
+
+	@Column(name = "other")
+	private String other;
+
+	public Integer getId() {
+		return id;
+	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getFilePath() {
+		return filePath;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
-	public String getDescription() {
-		return description;
+	public int getSize() {
+		return size;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setSize(int size) {
+		this.size = size;
 	}
 
-	public Integer getId() {
-		return id;
+	public String getOther() {
+		return other;
+	}
+
+	public void setOther(String other) {
+		this.other = other;
+	}
+
+	public String getMd5() {
+		return md5;
+	}
+
+	public void setMd5(String md5) {
+		this.md5 = md5;
+	}
+
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
 	}
 
 	public boolean existed() {

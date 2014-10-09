@@ -1,4 +1,4 @@
-package com.shanlan.photo.core.domain;
+package com.shanlan.user.core.domain;
 
 import java.util.Date;
 import java.sql.Timestamp;
@@ -21,8 +21,8 @@ import java.io.Serializable;
  * 
  */
 @Entity
-@Table(name="photo")
-public class Photo extends KoalaLegacyEntity {
+@Table(name="user_introduction")
+public class UserIntroduction extends KoalaLegacyEntity {
 
  private static final long serialVersionUID = 1L;
  
@@ -39,24 +39,28 @@ public class Photo extends KoalaLegacyEntity {
    
    
 
-    @Column(name="file_path")
-  private String filePath;
+    @Column(name="user_name")
+  private String userName;
   
 
-    @Column(name="size")
-  private int size;
+    @Column(name="title")
+  private String title;
   
 
-    @Column(name="md5")
-  private String md;
+    @Column(name="content")
+  private String content;
   
 
-    @Column(name="like_count")
-  private int likeCount;
+    @Column(name="sequence")
+  private short sequence;
   
 
-    @Column(name="other")
-  private String other;
+    @Column(name="created_at")
+  private Timestamp createdAt;
+  
+
+    @Column(name="updated_at")
+  private Timestamp updatedAt;
   
 
       
@@ -69,47 +73,56 @@ public class Photo extends KoalaLegacyEntity {
 
   
     
-    public String getFilePath() {
-		return filePath;
+    public String getUserName() {
+		return userName;
   }
-    public void setFilePath(String filePath) {
-		this.filePath = filePath;
-  }
-  
-  
-    
-    public int getSize() {
-		return size;
-  }
-    public void setSize(int size) {
-		this.size = size;
+    public void setUserName(String userName) {
+		this.userName = userName;
   }
   
   
     
-    public String getMd() {
-		return md;
+    public String getTitle() {
+		return title;
   }
-    public void setMd(String md) {
-		this.md = md;
-  }
-  
-  
-    
-    public int getLikeCount() {
-		return likeCount;
-  }
-    public void setLikeCount(int likeCount) {
-		this.likeCount = likeCount;
+    public void setTitle(String title) {
+		this.title = title;
   }
   
   
     
-    public String getOther() {
-		return other;
+    public String getContent() {
+		return content;
   }
-    public void setOther(String other) {
-		this.other = other;
+    public void setContent(String content) {
+		this.content = content;
+  }
+  
+  
+    
+    public short getSequence() {
+		return sequence;
+  }
+    public void setSequence(short sequence) {
+		this.sequence = sequence;
+  }
+  
+  
+    
+    public Timestamp getCreatedAt() {
+		return createdAt;
+  }
+    public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+  }
+  
+  
+    
+    public Timestamp getUpdatedAt() {
+		return updatedAt;
+  }
+    public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
   }
   
 	

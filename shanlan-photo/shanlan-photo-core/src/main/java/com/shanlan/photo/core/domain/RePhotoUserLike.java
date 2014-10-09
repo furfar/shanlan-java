@@ -21,8 +21,8 @@ import java.io.Serializable;
  * 
  */
 @Entity
-@Table(name="photo")
-public class Photo extends KoalaLegacyEntity {
+@Table(name="re_photo_user_like")
+public class RePhotoUserLike extends KoalaLegacyEntity {
 
  private static final long serialVersionUID = 1L;
  
@@ -39,24 +39,16 @@ public class Photo extends KoalaLegacyEntity {
    
    
 
-    @Column(name="file_path")
-  private String filePath;
+    @Column(name="user_name")
+  private String userName;
   
 
-    @Column(name="size")
-  private int size;
+    @Column(name="photo_id")
+  private int photoId;
   
 
-    @Column(name="md5")
-  private String md;
-  
-
-    @Column(name="like_count")
-  private int likeCount;
-  
-
-    @Column(name="other")
-  private String other;
+    @Column(name="crated_at")
+  private Timestamp cratedAt;
   
 
       
@@ -69,47 +61,29 @@ public class Photo extends KoalaLegacyEntity {
 
   
     
-    public String getFilePath() {
-		return filePath;
+    public String getUserName() {
+		return userName;
   }
-    public void setFilePath(String filePath) {
-		this.filePath = filePath;
-  }
-  
-  
-    
-    public int getSize() {
-		return size;
-  }
-    public void setSize(int size) {
-		this.size = size;
+    public void setUserName(String userName) {
+		this.userName = userName;
   }
   
   
     
-    public String getMd() {
-		return md;
+    public int getPhotoId() {
+		return photoId;
   }
-    public void setMd(String md) {
-		this.md = md;
-  }
-  
-  
-    
-    public int getLikeCount() {
-		return likeCount;
-  }
-    public void setLikeCount(int likeCount) {
-		this.likeCount = likeCount;
+    public void setPhotoId(int photoId) {
+		this.photoId = photoId;
   }
   
   
     
-    public String getOther() {
-		return other;
+    public Timestamp getCratedAt() {
+		return cratedAt;
   }
-    public void setOther(String other) {
-		this.other = other;
+    public void setCratedAt(Timestamp cratedAt) {
+		this.cratedAt = cratedAt;
   }
   
 	

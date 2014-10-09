@@ -11,10 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.shanlan.common.constant.ConstantNumber;
-import org.apache.commons.collections.CollectionUtils;
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 
+import com.shanlan.common.constant.ConstantNumber;
 import com.shanlan.common.exception.sub.business.OPFBaseException;
 import com.shanlan.common.exception.sub.business.RequestCheckingException;
 import com.shanlan.common.exception.sub.business.ServiceDisableException;

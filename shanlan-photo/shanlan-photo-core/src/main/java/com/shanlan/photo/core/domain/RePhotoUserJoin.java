@@ -21,8 +21,8 @@ import java.io.Serializable;
  * 
  */
 @Entity
-@Table(name="photo")
-public class Photo extends KoalaLegacyEntity {
+@Table(name="re_photo_user_join")
+public class RePhotoUserJoin extends KoalaLegacyEntity {
 
  private static final long serialVersionUID = 1L;
  
@@ -39,24 +39,20 @@ public class Photo extends KoalaLegacyEntity {
    
    
 
-    @Column(name="file_path")
-  private String filePath;
+    @Column(name="upo_id")
+  private int upoId;
   
 
-    @Column(name="size")
-  private int size;
+    @Column(name="user_name")
+  private String userName;
   
 
-    @Column(name="md5")
-  private String md;
+    @Column(name="photo_id")
+  private int photoId;
   
 
-    @Column(name="like_count")
-  private int likeCount;
-  
-
-    @Column(name="other")
-  private String other;
+    @Column(name="photo_path")
+  private String photoPath;
   
 
       
@@ -69,47 +65,38 @@ public class Photo extends KoalaLegacyEntity {
 
   
     
-    public String getFilePath() {
-		return filePath;
+    public int getUpoId() {
+		return upoId;
   }
-    public void setFilePath(String filePath) {
-		this.filePath = filePath;
-  }
-  
-  
-    
-    public int getSize() {
-		return size;
-  }
-    public void setSize(int size) {
-		this.size = size;
+    public void setUpoId(int upoId) {
+		this.upoId = upoId;
   }
   
   
     
-    public String getMd() {
-		return md;
+    public String getUserName() {
+		return userName;
   }
-    public void setMd(String md) {
-		this.md = md;
-  }
-  
-  
-    
-    public int getLikeCount() {
-		return likeCount;
-  }
-    public void setLikeCount(int likeCount) {
-		this.likeCount = likeCount;
+    public void setUserName(String userName) {
+		this.userName = userName;
   }
   
   
     
-    public String getOther() {
-		return other;
+    public int getPhotoId() {
+		return photoId;
   }
-    public void setOther(String other) {
-		this.other = other;
+    public void setPhotoId(int photoId) {
+		this.photoId = photoId;
+  }
+  
+  
+    
+    public String getPhotoPath() {
+		return photoPath;
+  }
+    public void setPhotoPath(String photoPath) {
+		this.photoPath = photoPath;
   }
   
 	

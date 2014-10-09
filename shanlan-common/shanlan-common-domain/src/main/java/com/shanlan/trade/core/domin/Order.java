@@ -1,4 +1,4 @@
-package com.shanlan.photo.core.domain;
+package com.shanlan.trade.core.domin;
 
 import java.util.Date;
 import java.sql.Timestamp;
@@ -21,8 +21,8 @@ import java.io.Serializable;
  * 
  */
 @Entity
-@Table(name="photo")
-public class Photo extends KoalaLegacyEntity {
+@Table(name="order")
+public class Order extends KoalaLegacyEntity {
 
  private static final long serialVersionUID = 1L;
  
@@ -39,20 +39,28 @@ public class Photo extends KoalaLegacyEntity {
    
    
 
-    @Column(name="file_path")
-  private String filePath;
+    @Column(name="buyer")
+  private String buyer;
   
 
-    @Column(name="size")
-  private int size;
+    @Column(name="seller")
+  private String seller;
   
 
-    @Column(name="md5")
-  private String md;
+    @Column(name="created_at")
+  private Timestamp createdAt;
   
 
-    @Column(name="like_count")
-  private int likeCount;
+    @Column(name="status")
+  private String status;
+  
+
+    @Column(name="receiver")
+  private String receiver;
+  
+
+    @Column(name="receive_addre_id")
+  private int receiveAddreId;
   
 
     @Column(name="other")
@@ -69,38 +77,56 @@ public class Photo extends KoalaLegacyEntity {
 
   
     
-    public String getFilePath() {
-		return filePath;
+    public String getBuyer() {
+		return buyer;
   }
-    public void setFilePath(String filePath) {
-		this.filePath = filePath;
-  }
-  
-  
-    
-    public int getSize() {
-		return size;
-  }
-    public void setSize(int size) {
-		this.size = size;
+    public void setBuyer(String buyer) {
+		this.buyer = buyer;
   }
   
   
     
-    public String getMd() {
-		return md;
+    public String getSeller() {
+		return seller;
   }
-    public void setMd(String md) {
-		this.md = md;
+    public void setSeller(String seller) {
+		this.seller = seller;
   }
   
   
     
-    public int getLikeCount() {
-		return likeCount;
+    public Timestamp getCreatedAt() {
+		return createdAt;
   }
-    public void setLikeCount(int likeCount) {
-		this.likeCount = likeCount;
+    public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+  }
+  
+  
+    
+    public String getStatus() {
+		return status;
+  }
+    public void setStatus(String status) {
+		this.status = status;
+  }
+  
+  
+    
+    public String getReceiver() {
+		return receiver;
+  }
+    public void setReceiver(String receiver) {
+		this.receiver = receiver;
+  }
+  
+  
+    
+    public int getReceiveAddreId() {
+		return receiveAddreId;
+  }
+    public void setReceiveAddreId(int receiveAddreId) {
+		this.receiveAddreId = receiveAddreId;
   }
   
   

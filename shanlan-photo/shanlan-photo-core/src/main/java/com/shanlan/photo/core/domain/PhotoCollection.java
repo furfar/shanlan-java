@@ -21,8 +21,8 @@ import java.io.Serializable;
  * 
  */
 @Entity
-@Table(name="photo")
-public class Photo extends KoalaLegacyEntity {
+@Table(name="photo_collection")
+public class PhotoCollection extends KoalaLegacyEntity {
 
  private static final long serialVersionUID = 1L;
  
@@ -39,20 +39,24 @@ public class Photo extends KoalaLegacyEntity {
    
    
 
-    @Column(name="file_path")
-  private String filePath;
+    @Column(name="name")
+  private String name;
   
 
-    @Column(name="size")
-  private int size;
+    @Column(name="creator")
+  private String creator;
   
 
-    @Column(name="md5")
-  private String md;
+    @Column(name="created_at")
+  private Timestamp createdAt;
   
 
-    @Column(name="like_count")
-  private int likeCount;
+    @Column(name="updated_at")
+  private Timestamp updatedAt;
+  
+
+    @Column(name="photo_quantity")
+  private int photoQuantity;
   
 
     @Column(name="other")
@@ -69,38 +73,47 @@ public class Photo extends KoalaLegacyEntity {
 
   
     
-    public String getFilePath() {
-		return filePath;
+    public String getName() {
+		return name;
   }
-    public void setFilePath(String filePath) {
-		this.filePath = filePath;
-  }
-  
-  
-    
-    public int getSize() {
-		return size;
-  }
-    public void setSize(int size) {
-		this.size = size;
+    public void setName(String name) {
+		this.name = name;
   }
   
   
     
-    public String getMd() {
-		return md;
+    public String getCreator() {
+		return creator;
   }
-    public void setMd(String md) {
-		this.md = md;
+    public void setCreator(String creator) {
+		this.creator = creator;
   }
   
   
     
-    public int getLikeCount() {
-		return likeCount;
+    public Timestamp getCreatedAt() {
+		return createdAt;
   }
-    public void setLikeCount(int likeCount) {
-		this.likeCount = likeCount;
+    public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+  }
+  
+  
+    
+    public Timestamp getUpdatedAt() {
+		return updatedAt;
+  }
+    public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
+  }
+  
+  
+    
+    public int getPhotoQuantity() {
+		return photoQuantity;
+  }
+    public void setPhotoQuantity(int photoQuantity) {
+		this.photoQuantity = photoQuantity;
   }
   
   

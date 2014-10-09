@@ -1,4 +1,4 @@
-package com.shanlan.photo.core.domain;
+package com.shanlan.trade.core.domin;
 
 import java.util.Date;
 import java.sql.Timestamp;
@@ -21,8 +21,8 @@ import java.io.Serializable;
  * 
  */
 @Entity
-@Table(name="photo")
-public class Photo extends KoalaLegacyEntity {
+@Table(name="re_trade_photo")
+public class ReTradePhoto extends KoalaLegacyEntity {
 
  private static final long serialVersionUID = 1L;
  
@@ -39,24 +39,12 @@ public class Photo extends KoalaLegacyEntity {
    
    
 
-    @Column(name="file_path")
-  private String filePath;
+    @Column(name="tpc_id")
+  private int tpcId;
   
 
-    @Column(name="size")
-  private int size;
-  
-
-    @Column(name="md5")
-  private String md;
-  
-
-    @Column(name="like_count")
-  private int likeCount;
-  
-
-    @Column(name="other")
-  private String other;
+    @Column(name="upo_id")
+  private int upoId;
   
 
       
@@ -69,47 +57,20 @@ public class Photo extends KoalaLegacyEntity {
 
   
     
-    public String getFilePath() {
-		return filePath;
+    public int getTpcId() {
+		return tpcId;
   }
-    public void setFilePath(String filePath) {
-		this.filePath = filePath;
-  }
-  
-  
-    
-    public int getSize() {
-		return size;
-  }
-    public void setSize(int size) {
-		this.size = size;
+    public void setTpcId(int tpcId) {
+		this.tpcId = tpcId;
   }
   
   
     
-    public String getMd() {
-		return md;
+    public int getUpoId() {
+		return upoId;
   }
-    public void setMd(String md) {
-		this.md = md;
-  }
-  
-  
-    
-    public int getLikeCount() {
-		return likeCount;
-  }
-    public void setLikeCount(int likeCount) {
-		this.likeCount = likeCount;
-  }
-  
-  
-    
-    public String getOther() {
-		return other;
-  }
-    public void setOther(String other) {
-		this.other = other;
+    public void setUpoId(int upoId) {
+		this.upoId = upoId;
   }
   
 	
