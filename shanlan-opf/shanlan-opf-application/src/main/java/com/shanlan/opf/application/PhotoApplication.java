@@ -7,7 +7,8 @@ import com.shanlan.opf.application.dto.PhotoDTO;
 
 public interface PhotoApplication {
 
-	List<PhotoCollectionDTO> getPhotoCollections(String userName);
+	List<PhotoCollectionDTO> getPhotoCollections(String userName)
+			throws Exception;
 
 	List<PhotoDTO> getPhotos(Integer photoCollectionId) throws Exception;
 

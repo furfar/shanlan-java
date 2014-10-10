@@ -24,7 +24,8 @@ public class PhotoApplicationImpl implements PhotoApplication {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<PhotoCollectionDTO> getPhotoCollections(String userName) {
+	public List<PhotoCollectionDTO> getPhotoCollections(String userName)
+			throws Exception {
 
 		List<PhotoCollectionDTO> photoCollectionDTOs = new ArrayList<PhotoCollectionDTO>();
 
@@ -34,10 +35,11 @@ public class PhotoApplicationImpl implements PhotoApplication {
 			for (PhotoCollection photoCollection : photoCollections) {
 
 				PhotoCollectionDTO photoCollectionDTO = new PhotoCollectionDTO();
+				BeanUtils.copyProperties(photoCollectionDTO, photoCollection);
 
 				List<RePhotoCollectionPhoto> rePhotoCollectionPhotos = RePhotoCollectionPhoto
 						.findByPhotoCollectionId(photoCollection.getId());
-
+				List<PhotoDTO> photoDTOs = new ArrayList<PhotoDTO>();
 				for (RePhotoCollectionPhoto rePhotoCollectionPhoto : rePhotoCollectionPhotos) {
 
 					RePhotoUserOwn rePhotoUserOwn = RePhotoUserOwn.get(
@@ -48,10 +50,11 @@ public class PhotoApplicationImpl implements PhotoApplication {
 						PhotoDTO photoDTO = new PhotoDTO(
 								rePhotoUserOwn.getPhotoId(),
 								rePhotoUserOwn.getPhotoPath());
-						photoCollectionDTO.getPhotoDTOList().add(photoDTO);
+						photoDTOs.add(photoDTO);
 					}
 
 				}
+				photoCollectionDTO.setPhotoDTOList(photoDTOs);
 				photoCollectionDTOs.add(photoCollectionDTO);
 			}
 		}
