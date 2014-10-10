@@ -1,13 +1,12 @@
 package com.shanlan.opf.application.impl;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.type.TypeReference;
@@ -24,9 +23,11 @@ import com.shanlan.common.exception.sub.business.RequestParameterException;
 import com.shanlan.common.util.JsonUtil;
 import com.shanlan.common.util.ReflectionUtils;
 import com.shanlan.opf.application.InvokeApplication;
+import com.shanlan.opf.application.PhotoApplication;
 import com.shanlan.opf.application.dto.BaseResponseDTO;
+import com.shanlan.opf.application.dto.PhotoCollectionDTO;
+import com.shanlan.opf.application.dto.PhotoDTO;
 import com.shanlan.opf.application.dto.RequestDTO;
-import com.shanlan.opf.application.dto.ServiceDTO;
 import com.shanlan.opf.application.dto.SuccessResponseDTO;
 import com.shanlan.opf.core.domain.Request;
 import com.shanlan.opf.core.domain.Service;
@@ -49,6 +50,9 @@ public class InvokeApplicationImpl implements InvokeApplication {
 	private static final Logger logger = Logger
 			.getLogger(InvokeApplicationImpl.class);
 
+	@Inject
+	private PhotoApplication photoApplication;
+
 	@Override
 	public SuccessResponseDTO invokeRemoteService(String serviceURI,
 			String param) {
@@ -58,61 +62,56 @@ public class InvokeApplicationImpl implements InvokeApplication {
 
 	@Override
 	public SuccessResponseDTO invokeLocalService(String service, String param)
-			throws OPFBaseException {
+			throws Exception {
 
 		Map<String, String> paramMap = JsonUtil.foJson(param,
 				new TypeReference<Map<String, String>>() {
 				});
-
+		String businessResult = "";
 		if (service.equals("User.login")) {
 			UserBase existUser = UserBase.login(paramMap.get("userName"),
 					paramMap.get("password"));
-			return new SuccessResponseDTO(JsonUtil.toJson(existUser));
+			businessResult = JsonUtil.toJson(existUser);
 		} else if (service.equals("User.register")) {
 			UserBase user = new UserBase(paramMap.get("userName"),
 					paramMap.get("password"), paramMap.get("nickName"),
 					paramMap.get("email"), Integer.parseInt(paramMap
 							.get("isValid")));
 			boolean result = UserBase.register(user);
-
-			return new SuccessResponseDTO(JsonUtil.toJson(result));
+			businessResult = JsonUtil.toJson(result);
+		} else if (service.equals("User.getBaseInfoById")) {
+			Integer id = Integer.parseInt(paramMap.get("id"));
+			UserBase userBase = UserBase.get(UserBase.class, id);
+			businessResult = JsonUtil.toJson(userBase);
+		} else if (service.equals("User.getBaseInfoByUserName")) {
+			UserBase userBase = UserBase.findByUserName(paramMap
+					.get("userName"));
+			businessResult = JsonUtil.toJson(userBase);
+		} else if (service.equals("Photo.getPhotoCollections")) {
+			String userName = paramMap.get("userName");
+			List<PhotoCollectionDTO> photoCollectionDTOs = photoApplication
+					.getPhotoCollections(userName);
+			businessResult = JsonUtil.toJson(photoCollectionDTOs);
+		} else if (service.equals("Photo.getPhotos")) {
+			Integer photoCollectionId = Integer.parseInt(paramMap
+					.get("photoCollectionId"));
+			List<PhotoDTO> photoDTOs = photoApplication
+					.getPhotos(photoCollectionId);
+			businessResult = JsonUtil.toJson(photoDTOs);
 		}
-		return new SuccessResponseDTO(JsonUtil.toJson(false));
+		return new SuccessResponseDTO(JsonUtil.toJson(businessResult));
 
 	}
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ServiceDTO getServiceByServiceNameAndVersion(String serviceName,
-			String serviceVersion) throws OPFBaseException {
-
-		Service service = Service.getServiceByServiceNameAndVersion(
-				serviceName, serviceVersion);
-		if (service != null) {
-			ServiceDTO serviceDTO = new ServiceDTO();
-			try {
-				BeanUtils.copyProperties(serviceDTO, service);
-			} catch (IllegalAccessException e) {
-				logger.error(e.getMessage(), e);
-				throw new RequestParameterException(e.getMessage());
-			} catch (InvocationTargetException e) {
-				logger.error(e.getMessage(), e);
-				throw new RequestParameterException(e.getMessage());
-			}
-			return serviceDTO;
-		} else {
-			return null;
-		}
-	}
-
 	public BaseResponseDTO invokeService(String request) {
 
-        RequestDTO requestDTO = new RequestDTO();
-        try {
-            requestDTO = InvokeHelper.parseRequestParameter(request);
-        } catch (Exception e) {
-            return InvokeHelper.handleException(e);
-        }
-
+		RequestDTO requestDTO = new RequestDTO();
+		try {
+			requestDTO = InvokeHelper.parseRequestParameter(request);
+		} catch (Exception e) {
+			return InvokeHelper.handleException(e);
+		}
 
 		SuccessResponseDTO successResponseDTO = new SuccessResponseDTO();
 
@@ -163,7 +162,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
 						requestDTO.getService(), requestDTO.getParam());
 			} catch (Exception e) {
 				logger.error(e.getMessage(), e);
-                return InvokeHelper.handleException(e);
+				return InvokeHelper.handleException(e);
 			}
 
 		}
@@ -216,8 +215,6 @@ public class InvokeApplicationImpl implements InvokeApplication {
 		return requestObj;
 
 	}
-
-
 
 	/**
 	 * 判断是否是HTTPS访问

@@ -1,13 +1,7 @@
-package com.shanlan.photo.core.domain;
+package com.shanlan.opf.application.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Auto Generated Entity
@@ -15,11 +9,8 @@ import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
  * @author Koala
  * 
  */
-@Entity
-@Table(name = "photo_collection")
-public class PhotoCollection extends KoalaLegacyEntity {
 
-	private static final long serialVersionUID = 1L;
+public class PhotoCollectionDTO {
 
 	/**
 	 * 
@@ -27,28 +18,21 @@ public class PhotoCollection extends KoalaLegacyEntity {
 	 * 
 	 **/
 
-	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "name")
 	private String name;
 
-	@Column(name = "creator")
 	private String creator;
 
-	@Column(name = "created_at")
 	private String createdAt;
 
-	@Column(name = "updated_at")
 	private String updatedAt;
 
-	@Column(name = "photo_quantity")
 	private int photoQuantity;
 
-	@Column(name = "other")
 	private String other;
+
+	private List<PhotoDTO> photoDTOList;
 
 	public void setId(int id) {
 		this.id = id;
@@ -106,25 +90,16 @@ public class PhotoCollection extends KoalaLegacyEntity {
 		return id;
 	}
 
-	public boolean existed() {
-		// TODO Auto-generated method stub
-		return false;
+	public List<PhotoDTO> getPhotoDTOList() {
+		if (photoDTOList == null) {
+			return new ArrayList<PhotoDTO>();
+		} else {
+			return photoDTOList;
+		}
 	}
 
-	public boolean notExisted() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean existed(String propertyName, Object propertyValue) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String[] businessKeys() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setPhotoDTOList(List<PhotoDTO> photoDTOList) {
+		this.photoDTOList = photoDTOList;
 	}
 
 }

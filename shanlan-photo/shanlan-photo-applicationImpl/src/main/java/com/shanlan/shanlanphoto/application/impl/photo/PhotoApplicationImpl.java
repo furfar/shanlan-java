@@ -1,4 +1,3 @@
-
 package com.shanlan.shanlanphoto.application.impl.photo;
 
 import java.text.MessageFormat;

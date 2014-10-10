@@ -5,33 +5,41 @@
  */
 package com.shanlan.user.core.domain;
 
-import com.shanlan.common.constant.ConstantRegex;
-import com.shanlan.common.exception.sub.business.OPFBaseException;
-import com.shanlan.common.exception.sub.business.RequestAuthenticationException;
-import com.shanlan.common.exception.sub.business.RequestParameterException;
-import com.shanlan.common.util.SignUtils;
-import org.apache.commons.collections.CollectionUtils;
+import java.io.IOException;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.StringUtils;
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.*;
-import java.io.IOException;
-import java.util.List;
+import com.shanlan.common.constant.ConstantRegex;
+import com.shanlan.common.exception.sub.business.OPFBaseException;
+import com.shanlan.common.exception.sub.business.RequestAuthenticationException;
+import com.shanlan.common.exception.sub.business.RequestParameterException;
+import com.shanlan.common.util.SignUtils;
 
 /**
  * @ClassName:User
  * @Description: 用户基本信息
  * @Author Albert
  * @Date:2013-4-7 下午12:10:04
- * @Remarks:
+ * @Remarks:Ø
  * @Version:V1.1
  */
 @Entity
 @Table(name = "KS_IDENTITY")
 public class UserBase extends KoalaLegacyEntity {
-    private static final Logger logger = LoggerFactory.getLogger(UserBase.class);
+
+	private static final long serialVersionUID = 7697595059618556524L;
+	private static final Logger logger = LoggerFactory.getLogger(UserBase.class);
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
