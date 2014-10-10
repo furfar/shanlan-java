@@ -83,7 +83,7 @@ public class InvokeHelper {
 
 	
 	/**
-	 * @param baseRequestHTTP
+	 * @param request
 	 * @return
 	 */
 	public static Map<String, String> getParamMap(Request request) {

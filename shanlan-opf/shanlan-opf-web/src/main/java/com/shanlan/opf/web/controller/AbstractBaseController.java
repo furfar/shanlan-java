@@ -155,6 +155,8 @@ public abstract class AbstractBaseController {
                     errorResponse.getMessage());
             return resultMav;
         }
+        resultMav.addObject(ErrorResponse.ERROR_CODE_STRING,"999");
+        resultMav.addObject(ErrorResponse.ERROR_MESSAGE_STRING,e.getMessage());
 		return resultMav;
 
 	}

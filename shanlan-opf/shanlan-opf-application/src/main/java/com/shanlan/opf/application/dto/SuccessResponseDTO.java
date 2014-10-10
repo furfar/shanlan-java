@@ -10,20 +10,13 @@ package com.shanlan.opf.application.dto;
  * @Remarks:
  * @Version:V1.1
  */
-public class SuccessResponseDTO {
+public class SuccessResponseDTO extends BaseResponseDTO{
 
-	public static final int FLAG_FAILURE = 1;
-	public static final int FLAG_SUCCESS = 0;
+
 
 	private String businessResult;
-	/**
-	 * 标记，0表示成功，1表示失败
-	 */
-	protected Integer flag;
 
-	/**
-	 * @param flag
-	 */
+
 	public SuccessResponseDTO() {
 		this.flag = FLAG_SUCCESS;
 	}

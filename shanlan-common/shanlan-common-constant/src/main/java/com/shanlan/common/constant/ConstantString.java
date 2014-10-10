@@ -17,8 +17,8 @@ public class ConstantString {
 
 	public static final String OPF_URI_HTTPS = "https://localhost:8443/opf/services";
 
-	public static final int FLAG_FAILURE = 1;
-	public static final int FLAG_SUCCESS = 0;
+	public static final int FLAG_FAILURE = 0;
+	public static final int FLAG_SUCCESS = 1;
 
 	public static final String PARAM = "param";
 }
