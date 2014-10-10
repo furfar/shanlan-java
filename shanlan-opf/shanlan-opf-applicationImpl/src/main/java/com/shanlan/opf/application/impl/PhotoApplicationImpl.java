@@ -40,8 +40,11 @@ public class PhotoApplicationImpl implements PhotoApplication {
 				List<RePhotoCollectionPhoto> rePhotoCollectionPhotos = RePhotoCollectionPhoto
 						.findByPhotoCollectionId(photoCollection.getId());
 				List<PhotoDTO> photoDTOs = new ArrayList<PhotoDTO>();
+				int count = 0;
 				for (RePhotoCollectionPhoto rePhotoCollectionPhoto : rePhotoCollectionPhotos) {
-
+					if (count >= 4) {//目前暂时只取前4张
+						break;
+					}
 					RePhotoUserOwn rePhotoUserOwn = RePhotoUserOwn.get(
 							RePhotoUserOwn.class,
 							rePhotoCollectionPhoto.getUpoId());
@@ -51,6 +54,7 @@ public class PhotoApplicationImpl implements PhotoApplication {
 								rePhotoUserOwn.getPhotoId(),
 								rePhotoUserOwn.getPhotoPath());
 						photoDTOs.add(photoDTO);
+						count++;
 					}
 
 				}

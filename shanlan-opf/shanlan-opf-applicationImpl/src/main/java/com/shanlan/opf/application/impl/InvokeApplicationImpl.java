@@ -99,7 +99,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
 					.getPhotos(photoCollectionId);
 			businessResult = JsonUtil.toJson(photoDTOs);
 		}
-		return new SuccessResponseDTO(JsonUtil.toJson(businessResult));
+		return new SuccessResponseDTO(businessResult);
 
 	}
 
