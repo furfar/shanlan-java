@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.type.TypeReference;
@@ -29,6 +30,7 @@ import com.shanlan.opf.application.dto.PhotoCollectionDTO;
 import com.shanlan.opf.application.dto.PhotoDTO;
 import com.shanlan.opf.application.dto.RequestDTO;
 import com.shanlan.opf.application.dto.SuccessResponseDTO;
+import com.shanlan.opf.application.dto.UserBaseDTO;
 import com.shanlan.opf.core.domain.Request;
 import com.shanlan.opf.core.domain.Service;
 import com.shanlan.opf.infra.InvokeHelper;
@@ -82,11 +84,15 @@ public class InvokeApplicationImpl implements InvokeApplication {
 		} else if (service.equals("User.getBaseInfoById")) {
 			Integer id = Integer.parseInt(paramMap.get("id"));
 			UserBase userBase = UserBase.get(UserBase.class, id);
-			businessResult = JsonUtil.toJson(userBase);
+			UserBaseDTO userBaseDTO = new UserBaseDTO();
+			BeanUtils.copyProperties(userBaseDTO, userBase);
+			businessResult = JsonUtil.toJson(userBaseDTO);
 		} else if (service.equals("User.getBaseInfoByUserName")) {
 			UserBase userBase = UserBase.findByUserName(paramMap
 					.get("userName"));
-			businessResult = JsonUtil.toJson(userBase);
+			UserBaseDTO userBaseDTO = new UserBaseDTO();
+			BeanUtils.copyProperties(userBaseDTO, userBase);
+			businessResult = JsonUtil.toJson(userBaseDTO);
 		} else if (service.equals("Photo.getPhotoCollections")) {
 			String userName = paramMap.get("userName");
 			List<PhotoCollectionDTO> photoCollectionDTOs = photoApplication

@@ -10,7 +10,7 @@ package com.shanlan.opf.application.dto;
  * @Version:V1.1
  */
 
-public class UserBase {
+public class UserBaseDTO {
 
 	private int id;
 
@@ -25,10 +25,10 @@ public class UserBase {
 	/**
      *
      */
-	public UserBase() {
+	public UserBaseDTO() {
 	}
 
-	public UserBase(String userAccount, String nickName, String email,
+	public UserBaseDTO(String userAccount, String nickName, String email,
 			Integer isValid) {
 		super();
 		this.userName = userAccount;
@@ -41,7 +41,7 @@ public class UserBase {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -79,7 +79,7 @@ public class UserBase {
 
 	@Override
 	public String toString() {
-		return "UserBase [id=" + id + ", userName=" + userName + ", nickName="
+		return "UserBaseDTO [id=" + id + ", userName=" + userName + ", nickName="
 				+ nickName + ", email=" + email + ", isValid=" + isValid + "]";
 	}
 }
