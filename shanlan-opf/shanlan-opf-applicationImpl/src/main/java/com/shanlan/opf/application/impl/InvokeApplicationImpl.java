@@ -35,6 +35,7 @@ import com.shanlan.opf.core.domain.Service;
 import com.shanlan.opf.infra.InvokeHelper;
 import com.shanlan.photo.application.PhotoApplication;
 import com.shanlan.user.core.domain.UserBase;
+import com.shanlan.user.core.domain.UserIntroduction;
 
 /**
  * @ClassName:InvokeApplicationImpl
@@ -105,10 +106,10 @@ public class InvokeApplicationImpl implements InvokeApplication {
 					.getPhotos(photoCollectionId);
 			businessResult = JsonUtil.toJson(photoDTOs);
 		} else if (service.equals("User.getIntroductions")) {
-//			String userName = paramMap.get("userName");
-//			List<UserIntroduction> userIntroductions = UserIntroduction
-//					.findByUserName(userName);
-//			businessResult = JsonUtil.toJson(userIntroductions);
+			String userName = paramMap.get("userName");
+			List<UserIntroduction> userIntroductions = UserIntroduction
+					.findByUserName(userName);
+			businessResult = JsonUtil.toJson(userIntroductions);
 		}
 		return new SuccessResponseDTO(businessResult);
 

@@ -1,112 +1,85 @@
 package com.shanlan.user.application.dto;
 
-import java.sql.Timestamp;
 import java.io.Serializable;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.openkoala.koala.springmvc.JsonTimestampSerializer;
-import org.openkoala.koala.springmvc.JsonDateSerializer;
-
 
 public class UserIntroductionDTO implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3801724043763364259L;
+
 	private Integer id;
 
-		
-	private Timestamp updatedAt;
-	
-		
-	private String content;
-	
-		
-	private String title;
-	
-						
-	private Short sequence;
-	
-		
-	private Timestamp createdAt;
-	
-		
-	private String userName;
-	
-			
-		
+	private String updatedAt;
 
-	public void setUpdatedAt(Timestamp updatedAt) { 
+	private String content;
+
+	private String title;
+
+	private Short sequence;
+
+	private String createdAt;
+
+	private String userName;
+
+	public void setUpdatedAt(String updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
-	public Timestamp getUpdatedAt() {
+	public String getUpdatedAt() {
 		return this.updatedAt;
 	}
-	
-			
-		
 
-	public void setContent(String content) { 
+	public void setContent(String content) {
 		this.content = content;
 	}
 
 	public String getContent() {
 		return this.content;
 	}
-	
-			
-		
 
-	public void setTitle(String title) { 
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
 	public String getTitle() {
 		return this.title;
 	}
-	
-								
-		
 
-	public void setSequence(Short sequence) { 
+	public void setSequence(Short sequence) {
 		this.sequence = sequence;
 	}
 
 	public Short getSequence() {
 		return this.sequence;
 	}
-	
-			
-		
 
-	public void setCreatedAt(Timestamp createdAt) { 
+	public void setCreatedAt(String createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Timestamp getCreatedAt() {
+	public String getCreatedAt() {
 		return this.createdAt;
 	}
-	
-			
-		
 
-	public void setUserName(String userName) { 
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
 	public String getUserName() {
 		return this.userName;
 	}
-	
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
 
-    @Override
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

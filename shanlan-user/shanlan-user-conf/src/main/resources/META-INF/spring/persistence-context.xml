@@ -25,6 +25,7 @@
 		<property name="packagesToScan">
 			<list>
 				<value>com.shanlan.opf.core.domain</value>
+                <value>com.shanlan.user.core.domain</value>
 				<value>org.openkoala.koala.auth.core.*</value>
 			</list>
 		</property>

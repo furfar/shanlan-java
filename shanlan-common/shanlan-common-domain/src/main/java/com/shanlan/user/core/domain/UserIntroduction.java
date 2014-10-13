@@ -5,6 +5,9 @@
  */
 package com.shanlan.user.core.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.shanlan.common.util.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 
 /**
@@ -27,8 +32,8 @@ import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 public class UserIntroduction extends KoalaLegacyEntity {
 
 	private static final long serialVersionUID = 7697595059618556524L;
-//	private static final Logger logger = LoggerFactory
-//			.getLogger(UserIntroduction.class);
+	// private static final Logger logger = LoggerFactory
+	// .getLogger(UserIntroduction.class);
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,7 +55,7 @@ public class UserIntroduction extends KoalaLegacyEntity {
 	private String createdAt;
 
 	@Column(name = "updated_at")
-	private String updateddAt;
+	private String updatedAt;
 
 	/**
      *
@@ -103,15 +108,23 @@ public class UserIntroduction extends KoalaLegacyEntity {
 	}
 
 	public void setCreatedAt(String createdAt) {
-		this.createdAt = createdAt;
+		if (StringUtils.isBlank(createdAt)) {
+			this.createdAt = DateUtil.getNow(DateUtil.format1);
+		} else {
+			this.createdAt = createdAt;
+		}
 	}
 
 	public String getUpdateddAt() {
-		return updateddAt;
+		return updatedAt;
 	}
 
-	public void setUpdateddAt(String updateddAt) {
-		this.updateddAt = updateddAt;
+	public void setUpdatedAt(String updatedAt) {
+		if (StringUtils.isBlank(updatedAt)) {
+			this.updatedAt = null;
+		} else {
+			this.updatedAt = updatedAt;
+		}
 	}
 
 	@Override
@@ -125,9 +138,17 @@ public class UserIntroduction extends KoalaLegacyEntity {
 		return "UserIntroduction [id=" + id + ", userName=" + userName
 				+ ", title=" + title + ", content=" + content + ", sequence="
 				+ sequence + ", createdAt=" + createdAt + ", updateddAt="
-				+ updateddAt + "]";
+				+ updatedAt + "]";
 	}
 
-	
+	public static List<UserIntroduction> findByUserName(String userName) {
+		List<UserIntroduction> userIntroductions = new ArrayList<UserIntroduction>();
+		if (StringUtils.isNotBlank(userName)) {
+			String propName = "userName";
+			userIntroductions = findByProperty(UserIntroduction.class,
+					propName, userName);
+		}
+		return userIntroductions;
+	}
 
 }
