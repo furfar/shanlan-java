@@ -1,4 +1,4 @@
-package com.shanlan.user.web.controller.service;
+package com.shanlan.opf.web.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.shanlan.user.application.dto.ServiceDTO;
-import com.shanlan.user.application.service.ServiceApplication;
+import com.shanlan.opf.application.ServiceApplication;
+import com.shanlan.opf.application.dto.ServiceDTO;
 
 @Controller
 @RequestMapping("/Service")

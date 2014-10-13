@@ -24,7 +24,6 @@ import com.shanlan.common.exception.sub.business.RequestParameterException;
 import com.shanlan.common.util.JsonUtil;
 import com.shanlan.common.util.ReflectionUtils;
 import com.shanlan.opf.application.InvokeApplication;
-import com.shanlan.opf.application.PhotoApplication;
 import com.shanlan.opf.application.dto.BaseResponseDTO;
 import com.shanlan.opf.application.dto.PhotoCollectionDTO;
 import com.shanlan.opf.application.dto.PhotoDTO;
@@ -34,6 +33,7 @@ import com.shanlan.opf.application.dto.UserBaseDTO;
 import com.shanlan.opf.core.domain.Request;
 import com.shanlan.opf.core.domain.Service;
 import com.shanlan.opf.infra.InvokeHelper;
+import com.shanlan.photo.application.PhotoApplication;
 import com.shanlan.user.core.domain.UserBase;
 
 /**
@@ -104,6 +104,11 @@ public class InvokeApplicationImpl implements InvokeApplication {
 			List<PhotoDTO> photoDTOs = photoApplication
 					.getPhotos(photoCollectionId);
 			businessResult = JsonUtil.toJson(photoDTOs);
+		} else if (service.equals("User.getIntroductions")) {
+//			String userName = paramMap.get("userName");
+//			List<UserIntroduction> userIntroductions = UserIntroduction
+//					.findByUserName(userName);
+//			businessResult = JsonUtil.toJson(userIntroductions);
 		}
 		return new SuccessResponseDTO(businessResult);
 

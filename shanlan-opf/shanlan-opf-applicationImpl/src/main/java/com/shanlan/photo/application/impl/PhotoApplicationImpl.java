@@ -1,4 +1,4 @@
-package com.shanlan.opf.application.impl;
+package com.shanlan.photo.application.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shanlan.opf.application.PhotoApplication;
 import com.shanlan.opf.application.dto.PhotoCollectionDTO;
 import com.shanlan.opf.application.dto.PhotoDTO;
+import com.shanlan.photo.application.PhotoApplication;
 import com.shanlan.photo.core.domain.Photo;
 import com.shanlan.photo.core.domain.PhotoCollection;
 import com.shanlan.photo.core.domain.RePhotoCollectionPhoto;

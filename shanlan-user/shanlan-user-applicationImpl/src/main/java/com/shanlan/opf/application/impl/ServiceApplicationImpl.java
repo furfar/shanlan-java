@@ -1,5 +1,5 @@
 
-package com.shanlan.user.application.impl.service;
+package com.shanlan.opf.application.impl;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -16,10 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shanlan.opf.application.ServiceApplication;
+import com.shanlan.opf.application.dto.ServiceDTO;
 import com.shanlan.opf.core.domain.Service;
 import com.shanlan.opf.core.domain.ServiceDetail;
-import com.shanlan.user.application.dto.ServiceDTO;
-import com.shanlan.user.application.service.ServiceApplication;
 
 @Named
 @Transactional

@@ -1,9 +1,11 @@
 
-package com.shanlan.user.application.service;
+package com.shanlan.opf.application;
 
 import java.util.List;
+
 import org.dayatang.querychannel.Page;
-import com.shanlan.user.application.dto.*;
+
+import com.shanlan.opf.application.dto.*;
 
 public interface ServiceApplication {
 

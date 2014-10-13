@@ -1,14 +1,16 @@
 
-package com.shanlan.user.web.controller.service;
+package com.shanlan.opf.web.controller;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import com.shanlan.opf.application.ServiceApplication;
+import com.shanlan.opf.application.ServiceDetailApplication;
+import com.shanlan.opf.application.dto.*;
 import com.shanlan.opf.core.domain.Service;
 import com.shanlan.opf.core.domain.ServiceDetail;
-import com.shanlan.user.application.service.ServiceApplication;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Controller;
@@ -17,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.dayatang.querychannel.Page;
-
-import com.shanlan.user.application.service.ServiceDetailApplication;
-import com.shanlan.user.application.dto.*;
 
 @Controller
 @RequestMapping("/ServiceDetail")

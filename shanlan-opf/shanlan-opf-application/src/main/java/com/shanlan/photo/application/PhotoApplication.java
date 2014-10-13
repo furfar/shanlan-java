@@ -1,4 +1,4 @@
-package com.shanlan.opf.application;
+package com.shanlan.photo.application;
 
 import java.util.List;
 
