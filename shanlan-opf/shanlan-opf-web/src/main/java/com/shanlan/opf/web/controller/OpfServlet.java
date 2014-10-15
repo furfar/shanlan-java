@@ -10,9 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.shanlan.common.constant.ConstantNumber;
 import com.shanlan.common.constant.ConstantString;
@@ -23,6 +21,7 @@ import com.shanlan.opf.application.dto.BaseResponseDTO;
 import com.shanlan.opf.application.dto.ErrorResponseDTO;
 import com.shanlan.opf.application.dto.RequestDTO;
 import com.shanlan.opf.application.dto.SuccessResponseDTO;
+import com.shanlan.opf.application.impl.InvokeApplicationImpl;
 import com.shanlan.opf.infra.helper.InvokeHelper;
 
 @Controller
@@ -139,18 +138,19 @@ public class OpfServlet extends HttpServlet {
 	}
 
 	public void init(ServletConfig servletConfig) throws ServletException {
-		ApplicationContext ctx = getApplicationContext(servletConfig);
-		this.invokeApplication = ctx.getBean(InvokeApplication.class);
-		if (this.invokeApplication == null) {
-			logger.error("未找到" + InvokeApplication.class.getName() + "的Bean");
-		}
+		invokeApplication=new InvokeApplicationImpl();
+//		ApplicationContext ctx = getApplicationContext(servletConfig);
+//		this.invokeApplication = ctx.getBean(InvokeApplication.class);
+//		if (this.invokeApplication == null) {
+//			logger.error("未找到" + InvokeApplication.class.getName() + "的Bean");
+//		}
 	}
 
-	private ApplicationContext getApplicationContext(ServletConfig servletConfig) {
-		return (ApplicationContext) servletConfig
-				.getServletContext()
-				.getAttribute(
-						WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-	}
+//	private ApplicationContext getApplicationContext(ServletConfig servletConfig) {
+//		return (ApplicationContext) servletConfig
+//				.getServletContext()
+//				.getAttribute(
+//						WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+//	}
 
 }
