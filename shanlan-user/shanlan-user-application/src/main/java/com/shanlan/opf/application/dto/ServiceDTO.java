@@ -14,7 +14,8 @@ public class ServiceDTO implements Serializable {
 	private String serviceName;
 
 	private Integer enable;
-//	private String enableAsString;
+
+	private String method;
 
 	private String serviceVersion;
 
@@ -23,8 +24,6 @@ public class ServiceDTO implements Serializable {
 	private String serviceGroup;
 
 	private Integer isLocal;
-
-//	private String isLocalAsString;
 
 	private String url;
 
@@ -42,32 +41,15 @@ public class ServiceDTO implements Serializable {
 
 	public void setEnable(Integer enable) {
 		this.enable = enable;
-//		this.enableAsString = enable ? "1" : "0";
 	}
 
-//	public String getEnableAsString() {
-//		return this.enableAsString;
-//	}
-//
-//	public String getIsLocalAsString() {
-//		return this.isLocalAsString;
-//	}
+	public String getMethod() {
+		return method;
+	}
 
-//	public void setEnableAsString(Integer enable) {
-//		this.enableAsString = enable;
-//		if (enable == null || "".equals(enable.trim()))
-//			this.enable = null;
-//		else
-//			this.enable = "1".equals(enable);
-//	}
-
-//	public void setIsLocalAsString(String isLocal) {
-//		this.isLocalAsString = isLocal;
-//		if (isLocal == null || "".equals(isLocal.trim()))
-//			this.isLocal = null;
-//		else
-//			this.isLocal = "1".equals(isLocal);
-//	}
+	public void setMethod(String method) {
+		this.method = method;
+	}
 
 	public void setServiceVersion(String serviceVersion) {
 		this.serviceVersion = serviceVersion;
@@ -95,7 +77,7 @@ public class ServiceDTO implements Serializable {
 
 	public void setIsLocal(Integer isLocal) {
 		this.isLocal = isLocal;
-//		this.isLocalAsString = isLocal ? "1" : "0";
+		// this.isLocalAsString = isLocal ? "1" : "0";
 	}
 
 	public Integer getIsLocal() {
@@ -143,18 +125,12 @@ public class ServiceDTO implements Serializable {
 		return true;
 	}
 
-
-    @Override
-    public String toString() {
-        return "ServiceDTO{" +
-                "id=" + id +
-                ", serviceName='" + serviceName + '\'' +
-                ", enable=" + enable +
-                ", serviceVersion='" + serviceVersion + '\'' +
-                ", type='" + type + '\'' +
-                ", group='" + serviceGroup + '\'' +
-                ", isLocal=" + isLocal +
-                ", url='" + url + '\'' +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "ServiceDTO{" + "id=" + id + ", serviceName='" + serviceName
+				+ '\'' + ", enable=" + enable + ", serviceVersion='"
+				+ serviceVersion + '\'' + ", type='" + type + '\''
+				+ ", group='" + serviceGroup + '\'' + ", isLocal=" + isLocal
+				+ ", url='" + url + '\'' + '}';
+	}
 }

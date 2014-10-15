@@ -93,6 +93,7 @@ $(function () {
                 columns: [
                     { title: 'serviceName', name: 'serviceName', width: width},
                     { title: 'serviceVersion', name: 'serviceVersion', width: width},
+                    { title: 'method', name: 'method', width: width},
                     { title: 'url', name: 'url', width: width},
                     { title: 'enable', name: 'enable', width: width},
                     { title: 'type', name: 'type', width: width},
