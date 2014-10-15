@@ -11,29 +11,24 @@ package com.shanlan.opf.application.dto;
  */
 public class BaseResponseDTO {
 
-    public static final int FLAG_FAILURE = 0;
-    public static final int FLAG_SUCCESS = 1;
-
 	/**
 	 * 标记，0表示成功，1表示失败
 	 */
-	protected Integer flag;
-	
+	protected int code;
 
 	/**
-	 * @return the flag
+	 * @return the code
 	 */
-	public Integer getFlag() {
-		return flag;
+	public int getCode() {
+		return code;
 	}
 
 	/**
-	 * @param flag the flag to set
+	 * @param code
+	 *            the code to set
 	 */
-	public void setFlag(Integer flag) {
-		this.flag = flag;
+	public void setCode(int flag) {
+		this.code = flag;
 	}
-
-
 
 }

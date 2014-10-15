@@ -13,4 +13,6 @@ public class ConstantNumber {
      */
     public static final Integer IS_LOCAL_SERVICE_FALSE=0;
 
+    
+	public static final int FLAG_SUCCESS = 200;
 }

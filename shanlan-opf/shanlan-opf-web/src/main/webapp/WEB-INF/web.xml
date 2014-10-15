@@ -37,9 +37,25 @@
 
 
 	<!-- 加入SpringMVC -->
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>spring</servlet-name> -->
+<!-- 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>contextConfigLocation</param-name> -->
+<!-- 			<param-value>classpath:koala-spring-servlet.xml</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<load-on-startup>1</load-on-startup> -->
+<!-- 	</servlet> -->
+
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>spring</servlet-name> -->
+<!-- 		<url-pattern>/services/*</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+
+
 	<servlet>
-		<servlet-name>spring</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<servlet-name>opf</servlet-name>
+		<servlet-class>com.shanlan.opf.web.controller.OpfServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:koala-spring-servlet.xml</param-value>
@@ -48,9 +64,11 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>spring</servlet-name>
+		<servlet-name>opf</servlet-name>
 		<url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
+	
+	
 
 
 

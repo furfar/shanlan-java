@@ -1,5 +1,6 @@
 package com.shanlan.opf.application.dto;
 
+import com.shanlan.common.constant.ConstantNumber;
 
 /**
  * @ClassName:SuccessResponseDTO
@@ -10,38 +11,35 @@ package com.shanlan.opf.application.dto;
  * @Remarks:
  * @Version:V1.1
  */
-public class SuccessResponseDTO extends BaseResponseDTO{
+public class SuccessResponseDTO extends BaseResponseDTO {
 
-
-
-	private String businessResult;
-
+	private String data;
 
 	public SuccessResponseDTO() {
-		this.flag = FLAG_SUCCESS;
+		this.code = ConstantNumber.FLAG_SUCCESS;
 	}
 
 	/**
-	 * @param businessResult
+	 * @param data
 	 */
-	public SuccessResponseDTO(String businessResult) {
-		this.flag = FLAG_SUCCESS;
-		this.businessResult = businessResult;
+	public SuccessResponseDTO(String data) {
+		this.code = ConstantNumber.FLAG_SUCCESS;
+		this.data = data;
 	}
 
 	/**
-	 * @return the businessResult
+	 * @return the data
 	 */
-	public String getBusinessResult() {
-		return businessResult;
+	public String getData() {
+		return data;
 	}
 
 	/**
-	 * @param businessResult
-	 *            the businessResult to set
+	 * @param data
+	 *            the data to set
 	 */
-	public void setBusinessResult(String businessResult) {
-		this.businessResult = businessResult;
+	public void setData(String businessResult) {
+		this.data = businessResult;
 	}
 
 }

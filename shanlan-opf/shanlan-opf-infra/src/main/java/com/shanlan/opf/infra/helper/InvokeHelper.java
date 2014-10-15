@@ -1,4 +1,4 @@
-package com.shanlan.opf.infra;
+package com.shanlan.opf.infra.helper;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -167,40 +167,40 @@ public class InvokeHelper {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO();
 
         if (e instanceof RequestFormatException) {
-            errorResponse.setCode("101");
+            errorResponse.setCode(101);
             errorResponse.setMessage(e.getMessage());
         }
 
         else if (e instanceof RequestMappingException) {
-            errorResponse.setCode("201");
+            errorResponse.setCode(102);
             errorResponse.setMessage(e.getMessage());
         }
 
         else if (e instanceof RequestAuthenticationException) {
-            errorResponse.setCode("301");
+            errorResponse.setCode(103);
             errorResponse.setMessage(e.getMessage());
         }
 
         else if (e instanceof RequestAuthorizationException) {
-            errorResponse.setCode("401");
+            errorResponse.setCode(104);
             errorResponse.setMessage(e.getMessage());
         }
 
         else if (e instanceof RequestParameterException) {
-            errorResponse.setCode("501");
+            errorResponse.setCode(105);
             errorResponse.setMessage(e.getMessage());
         }
 
         else if (e instanceof ServiceDisableException) {
-            errorResponse.setCode("601");
+            errorResponse.setCode(601);
             errorResponse.setMessage(e.getMessage());
         }
 
         else if (e instanceof RequestCheckingException) {
-            errorResponse.setCode("601");
+            errorResponse.setCode(701);
             errorResponse.setMessage(e.getMessage());
         } else {
-            errorResponse.setCode("999");
+            errorResponse.setCode(999);
             errorResponse.setMessage(e.getMessage());
         }
 

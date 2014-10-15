@@ -1,6 +1,6 @@
 package com.shanlan.opf.core.domain;
 
-import com.shanlan.common.constant.ConstantString;
+import com.shanlan.common.constant.ConstantNumber;
 
 /**
  * @ClassName:SuccessResponse
@@ -13,37 +13,36 @@ import com.shanlan.common.constant.ConstantString;
  */
 public class SuccessResponse extends BaseResponse {
 
-	private String businessResult;
+	private String data;
 
 	/**
 	 * @param flag
 	 */
 	public SuccessResponse() {
-		super.flag = ConstantString.FLAG_SUCCESS;
+		super.flag = ConstantNumber.FLAG_SUCCESS;
 	}
 
 	/**
-	 * @param businessResult
+	 * @param data
 	 */
-	public SuccessResponse(String businessResult) {
-		super.flag = ConstantString.FLAG_SUCCESS;
-		this.businessResult = businessResult;
+	public SuccessResponse(String data) {
+		super.flag = ConstantNumber.FLAG_SUCCESS;
+		this.data = data;
 	}
 
 	/**
-	 * @return the businessResult
+	 * @return the data
 	 */
 	public String getBusinessResult() {
-		return businessResult;
+		return data;
 	}
 
 	/**
-	 * @param businessResult the businessResult to set
+	 * @param data
+	 *            the data to set
 	 */
 	public void setBusinessResult(String businessResult) {
-		this.businessResult = businessResult;
+		this.data = businessResult;
 	}
-
-
 
 }

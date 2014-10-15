@@ -1,6 +1,7 @@
 package com.shanlan.opf.application;
 
 import com.shanlan.opf.application.dto.BaseResponseDTO;
+import com.shanlan.opf.application.dto.RequestDTO;
 import com.shanlan.opf.application.dto.SuccessResponseDTO;
 
 
@@ -30,5 +31,5 @@ public interface InvokeApplication {
 	SuccessResponseDTO invokeLocalService(String service,String param) throws Exception;
 
 
-    BaseResponseDTO invokeService(String request) ;
+    BaseResponseDTO invokeService(RequestDTO requestDTO, String method) ;
 }

@@ -27,155 +27,175 @@ import com.shanlan.common.exception.sub.business.ServiceDisableException;
 @Table(name = "service")
 public class Service extends KoalaLegacyEntity {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键
-     */
+	/**
+	 * 主键
+	 */
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 
-    @Column(name = "service_name")
-    private String serviceName;
+	@Column(name = "service_name")
+	private String serviceName;
 
-    @Column(name = "service_version")
-    private String serviceVersion;
+	@Column(name = "service_version")
+	private String serviceVersion;
 
-    @Column(name = "url")
-    private String url;
+	@Column(name = "method")
+	private String method;
 
-    @Column(name = "enable")
-    private Integer enable;
+	@Column(name = "url")
+	private String url;
 
-    @Column(name = "type")
-    private String type;
+	@Column(name = "enable")
+	private Integer enable;
 
-    @Column(name = "service_group")
-    private String serviceGroup;
+	@Column(name = "type")
+	private String type;
 
-    @Column(name = "is_local")
-    private Integer isLocal;
+	@Column(name = "service_group")
+	private String serviceGroup;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	@Column(name = "is_local")
+	private Integer isLocal;
 
-    public String getServiceName() {
-        return serviceName;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setServiceName(String name) {
-        this.serviceName = name;
-    }
+	public String getServiceName() {
+		return serviceName;
+	}
 
-    public String getServiceVersion() {
-        return serviceVersion;
-    }
+	public void setServiceName(String name) {
+		this.serviceName = name;
+	}
 
-    public void setServiceVersion(String serviceVersion) {
-        this.serviceVersion = serviceVersion;
-    }
+	public String getServiceVersion() {
+		return serviceVersion;
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public void setServiceVersion(String serviceVersion) {
+		this.serviceVersion = serviceVersion;
+	}
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+	public String getMethod() {
+		return method;
+	}
 
-    public Integer getEnable() {
-        return enable;
-    }
+	public void setMethod(String method) {
+		this.method = method;
+	}
 
-    public void setEnable(Integer enable) {
-        this.enable = enable;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public Integer getEnable() {
+		return enable;
+	}
 
-    public String getServiceGroup() {
-        return serviceGroup;
-    }
+	public void setEnable(Integer enable) {
+		this.enable = enable;
+	}
 
-    public void setServiceGroup(String serviceGroup) {
-        this.serviceGroup = serviceGroup;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public Integer getIsLocal() {
-        return isLocal;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public void setIsLocal(Integer isLocal) {
-        this.isLocal = isLocal;
-    }
+	public String getServiceGroup() {
+		return serviceGroup;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setServiceGroup(String serviceGroup) {
+		this.serviceGroup = serviceGroup;
+	}
 
-    public boolean existed() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+	public Integer getIsLocal() {
+		return isLocal;
+	}
 
-    public boolean notExisted() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+	public void setIsLocal(Integer isLocal) {
+		this.isLocal = isLocal;
+	}
 
-    public boolean existed(String propertyName, Object propertyValue) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    @Override
-    public String[] businessKeys() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	public boolean existed() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    public static Service getServiceByServiceNameAndVersion(String serviceName,
-                                                            String serviceVersion) throws OPFBaseException {
-        Map<String, Object> propValues = new HashMap<String, Object>();
-        propValues.put("serviceName", serviceName);
-        propValues.put("serviceVersion", serviceVersion);
-        List<Service> services = findByProperties(Service.class, propValues);
-        if (services != null && services.size() > 0) {
-            Service service = services.get(0);
-            if (service != null) {
+	public boolean notExisted() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-                if (ConstantNumber.IS_LOCAL_SERVICE_TRUE != service.getEnable()) {// 如果服务不可用
-                    throw new ServiceDisableException("the service name '"
-                            + serviceName + "' version '"+serviceVersion+"' was disable");
-                }
+	public boolean existed(String propertyName, Object propertyValue) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-            } else {
-                throw new RequestCheckingException("the service name '"
-                        + serviceName + "' version '"+serviceVersion+"' did not exist,please check the input service name and version");
-            }
-            return service;
-        }else{
-            throw new RequestCheckingException("the service name '"
-                    + serviceName + "' version '"+serviceVersion+"' did not exist,please check the input service name and version");
-        }
-    }
+	@Override
+	public String[] businessKeys() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public String toString() {
-        return "Service{" + "id=" + id + ", serviceName='" + serviceName + '\''
-                + ", serviceVersion='" + serviceVersion + '\'' + ", url='"
-                + url + '\'' + ", enable=" + enable + ", type='" + type + '\''
-                + ", serviceGroup='" + serviceGroup + '\'' + ", isLocal="
-                + isLocal + '}';
-    }
+	public static Service getServiceByServiceNameAndVersion(String serviceName,
+			String serviceVersion) throws OPFBaseException {
+		Map<String, Object> propValues = new HashMap<String, Object>();
+		propValues.put("serviceName", serviceName);
+		propValues.put("serviceVersion", serviceVersion);
+		List<Service> services = findByProperties(Service.class, propValues);
+		if (services != null && services.size() > 0) {
+			Service service = services.get(0);
+			if (service != null) {
+
+				if (ConstantNumber.IS_LOCAL_SERVICE_TRUE != service.getEnable()) {// 如果服务不可用
+					throw new ServiceDisableException("the service name '"
+							+ serviceName + "' version '" + serviceVersion
+							+ "' was disable");
+				}
+
+			} else {
+				throw new RequestCheckingException(
+						"the service name '"
+								+ serviceName
+								+ "' version '"
+								+ serviceVersion
+								+ "' did not exist,please check the input service name and version");
+			}
+			return service;
+		} else {
+			throw new RequestCheckingException(
+					"the service name '"
+							+ serviceName
+							+ "' version '"
+							+ serviceVersion
+							+ "' did not exist,please check the input service name and version");
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Service{" + "id=" + id + ", serviceName='" + serviceName + '\''
+				+ ", serviceVersion='" + serviceVersion + '\'' + ", url='"
+				+ url + '\'' + ", enable=" + enable + ", type='" + type + '\''
+				+ ", serviceGroup='" + serviceGroup + '\'' + ", isLocal="
+				+ isLocal + '}';
+	}
 }

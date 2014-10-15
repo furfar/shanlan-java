@@ -32,7 +32,7 @@ import com.shanlan.opf.application.dto.SuccessResponseDTO;
 import com.shanlan.opf.application.dto.UserBaseDTO;
 import com.shanlan.opf.core.domain.Request;
 import com.shanlan.opf.core.domain.Service;
-import com.shanlan.opf.infra.InvokeHelper;
+import com.shanlan.opf.infra.helper.InvokeHelper;
 import com.shanlan.photo.application.PhotoApplication;
 import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.domain.UserIntroduction;
@@ -116,14 +116,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
 	}
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public BaseResponseDTO invokeService(String request) {
-
-		RequestDTO requestDTO = new RequestDTO();
-		try {
-			requestDTO = InvokeHelper.parseRequestParameter(request);
-		} catch (Exception e) {
-			return InvokeHelper.handleException(e);
-		}
+	public BaseResponseDTO invokeService(RequestDTO requestDTO, String method) {
 
 		SuccessResponseDTO successResponseDTO = new SuccessResponseDTO();
 
@@ -157,6 +150,13 @@ public class InvokeApplicationImpl implements InvokeApplication {
 
 			service = Service.getServiceByServiceNameAndVersion(
 					requestDTO.getService(), requestDTO.getV());
+
+			if (!method.equals(service.getMethod())) {
+				throw new RequestParameterException("The HTTP Method '"
+						+ method + "' does not match the Method '"
+						+ service.getMethod() + "' of '"
+						+ service.getServiceName() + "' ");
+			}
 
 		} catch (OPFBaseException e) {
 			return InvokeHelper.handleException(e);

@@ -28,6 +28,7 @@ import com.shanlan.common.util.SignUtils;
 import com.shanlan.opf.core.domain.ErrorResponse;
 import com.shanlan.opf.core.domain.Request;
 import com.shanlan.opf.core.domain.SuccessResponse;
+import com.shanlan.opf.infra.helper.InvokeHelper;
 
 /**
  * @ClassName:OPFClient
@@ -38,10 +39,10 @@ import com.shanlan.opf.core.domain.SuccessResponse;
  * @Remarks:
  * @Version:V1.1
  */
-public class OPFClientHTTP {
+public class OpfClientHTTP {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(OPFClientHTTP.class);
+			.getLogger(OpfClientHTTP.class);
 
 	public static void main(String[] args) {
 
@@ -58,7 +59,7 @@ public class OPFClientHTTP {
 
 		SuccessResponse successResponse = null;
 		try {
-			successResponse = OPFClientHTTP.getResponse(request);
+			successResponse = OpfClientHTTP.getResponse(request);
 		} catch (OPFBaseException e) {
 			System.out.println(e.getMessage());
 		}
