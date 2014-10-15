@@ -91,6 +91,12 @@ $(function () {
                 ],
                 url: "${pageContext.request.contextPath}/Service/pageJson.koala",
                 columns: [
+                    { title: '操作', width: 120, render: function (rowdata, name, index) {
+                        var param = '"' + rowdata.id + '"';
+                        var h = "<a href='javascript:openDetailsPage(" + param + ")'>查看</a> ";
+                        return h;
+                    }
+                    },
                     { title: 'serviceName', name: 'serviceName', width: width},
                     { title: 'serviceVersion', name: 'serviceVersion', width: width},
                     { title: 'method', name: 'method', width: width},
@@ -98,13 +104,8 @@ $(function () {
                     { title: 'enable', name: 'enable', width: width},
                     { title: 'type', name: 'type', width: width},
                     { title: 'serviceGroup', name: 'serviceGroup', width: width},
-                    { title: 'isLocal', name: 'isLocal', width: width},
-                    { title: '操作', width: 120, render: function (rowdata, name, index) {
-                        var param = '"' + rowdata.id + '"';
-                        var h = "<a href='javascript:openDetailsPage(" + param + ")'>查看</a> ";
-                        return h;
-                    }
-                    }
+                    { title: 'isLocal', name: 'isLocal', width: width}
+
                 ]
             }).on({
                 'add': function () {
