@@ -35,8 +35,11 @@ public class District extends KoalaLegacyEntity {
 	@Column(name = "name")
 	private String name;
 
+	/**
+	 * 地区等级：1，国家；2，省级；3，市级；4，县级；5，乡镇。目前只使用前3级
+	 */
 	@Column(name = "level")
-	private Boolean level;
+	private Integer level;
 
 	@Column(name = "upid")
 	private int upid;
@@ -53,11 +56,11 @@ public class District extends KoalaLegacyEntity {
 		this.name = name;
 	}
 
-	public Boolean getLevel() {
+	public Integer getLevel() {
 		return level;
 	}
 
-	public void setLevel(Boolean level) {
+	public void setLevel(Integer level) {
 		this.level = level;
 	}
 
