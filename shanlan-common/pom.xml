@@ -19,7 +19,7 @@
     <dependencies>
     </dependencies>
     <modules>
-        <module>shanlan-common-domain</module>
+        <module>shanlan-common-core</module>
         <module>shanlan-common-exception</module>
         <module>shanlan-common-util</module>
         <module>shanlan-common-constant</module>

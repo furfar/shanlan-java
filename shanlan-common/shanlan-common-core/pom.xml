@@ -8,8 +8,8 @@
 		<artifactId>shanlan-common</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>shanlan-common-domain</artifactId>
-	<name>shanlan-common-domain</name>
+	<artifactId>shanlan-common-core</artifactId>
+	<name>shanlan-common-core</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
