@@ -14,7 +14,7 @@
     <properties> 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
         <project.type>bizModel</project.type>  
-        <base.package>com.shanlan.shanlanbasic.core</base.package> 
+        <base.package>com.shanlan.basic.core</base.package> 
     </properties>  
     <dependencies> 
         <dependency> 
@@ -31,17 +31,9 @@
         <!-- 加入对DOMAIN层的依赖 -->  
         <dependency>
 			<groupId>com.shanlan</groupId>
-			<artifactId>shanlan-common-domain</artifactId>
+			<artifactId>shanlan-common-core</artifactId>
 			<version>${project.parent.version}</version>  
 		</dependency>
-        <dependency> 
-            <groupId>org.dayatang.dddlib</groupId>  
-            <artifactId>dddlib-domain</artifactId> 
-        </dependency>  
-        <dependency> 
-            <groupId>org.openkoala.koalacommons</groupId>  
-            <artifactId>koala-commons-domain</artifactId> 
-        </dependency>  
         <!-- 加入CONF依赖 -->  
         <dependency> 
             <groupId>com.shanlan</groupId>  

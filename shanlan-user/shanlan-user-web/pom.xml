@@ -51,6 +51,17 @@
 		</dependency>
 
 
+<!-- 		添加其它子系统的依赖 -->
+		<dependency>
+			<groupId>com.shanlan</groupId>
+			<artifactId>shanlan-basic-application</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.shanlan</groupId>
+			<artifactId>shanlan-basic-applicationImpl</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.shanlan</groupId>
 			<artifactId>shanlan-photo-application</artifactId>
@@ -61,6 +72,17 @@
 			<artifactId>shanlan-photo-applicationImpl</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.shanlan</groupId>
+			<artifactId>shanlan-trade-application</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.shanlan</groupId>
+			<artifactId>shanlan-trade-applicationImpl</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+
 
 
 
