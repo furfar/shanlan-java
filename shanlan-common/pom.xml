@@ -24,4 +24,5 @@
         <module>shanlan-common-util</module>
         <module>shanlan-common-constant</module>
     </modules>
+    <description>各子系统公用的模块</description>
 </project>
