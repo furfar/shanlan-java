@@ -1,127 +1,83 @@
 package com.shanlan.photo.application.dto;
 
-import java.sql.Timestamp;
 import java.io.Serializable;
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.openkoala.koala.springmvc.JsonTimestampSerializer;
-import org.openkoala.koala.springmvc.JsonDateSerializer;
-
 
 public class PhotoDTO implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5716137194179265829L;
+
 	private Integer id;
 
-		
-	private String title;
-	
-		
 	private String other;
-	
-		
+
+	private Integer likeCount;
+
 	private String filePath;
-	
-		
-	private String fileName;
-	
-		
-	private Date uploadedAt;
-	
-		
-	private String creator;
-	
-						
+
+	private String md5;
+
 	private Integer size;
-	
-			
-		
 
-	public void setTitle(String title) { 
-		this.title = title;
+	public PhotoDTO(int photoId, String photoPath) {
+		this.id = photoId;
+		this.filePath = photoPath;
 	}
 
-	public String getTitle() {
-		return this.title;
+	public PhotoDTO() {
 	}
-	
-			
-		
 
-	public void setOther(String other) { 
+	public void setOther(String other) {
 		this.other = other;
 	}
 
 	public String getOther() {
 		return this.other;
 	}
-	
-			
-		
 
-	public void setFilePath(String filePath) { 
+	public void setLikeCount(Integer likeCount) {
+		this.likeCount = likeCount;
+	}
+
+	public Integer getLikeCount() {
+		return this.likeCount;
+	}
+
+	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
 
 	public String getFilePath() {
 		return this.filePath;
 	}
-	
-			
-		
 
-	public void setFileName(String fileName) { 
-		this.fileName = fileName;
+	public void setMd5(String md5) {
+		this.md5 = md5;
 	}
 
-	public String getFileName() {
-		return this.fileName;
-	}
-	
-			
-		
-
-	public void setUploadedAt(Date uploadedAt) {
-		this.uploadedAt = uploadedAt;
+	public String getMd5() {
+		return this.md5;
 	}
 
-	public Date getUploadedAt() {
-		return this.uploadedAt;
-	}
-	
-			
-		
-
-	public void setCreator(String creator) { 
-		this.creator = creator;
-	}
-
-	public String getCreator() {
-		return this.creator;
-	}
-	
-								
-		
-
-	public void setSize(Integer size) { 
+	public void setSize(Integer size) {
 		this.size = size;
 	}
 
 	public Integer getSize() {
 		return this.size;
 	}
-	
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
 
-    @Override
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

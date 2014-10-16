@@ -6,15 +6,15 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.dayatang.querychannel.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.dayatang.querychannel.Page;
 
-import com.shanlan.photo.application.dto.*;
-import com.shanlan.photo.application.photo.PhotoApplication;
+import com.shanlan.photo.application.PhotoApplication;
+import com.shanlan.photo.application.dto.PhotoDTO;
 
 @Controller
 @RequestMapping("/Photo")

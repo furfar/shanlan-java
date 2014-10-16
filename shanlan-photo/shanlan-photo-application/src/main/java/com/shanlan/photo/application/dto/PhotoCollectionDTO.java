@@ -1,4 +1,4 @@
-package com.shanlan.opf.application.dto;
+package com.shanlan.photo.application.dto;
 
 import java.util.ArrayList;
 import java.util.List;
