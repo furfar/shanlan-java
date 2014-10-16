@@ -34,7 +34,7 @@ public class PhotoCollectionDTO {
 
 	private List<PhotoDTO> photoDTOList;
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

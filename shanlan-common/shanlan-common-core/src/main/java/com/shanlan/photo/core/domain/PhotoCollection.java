@@ -54,7 +54,7 @@ public class PhotoCollection extends KoalaLegacyEntity {
 	@Column(name = "other")
 	private String other;
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
