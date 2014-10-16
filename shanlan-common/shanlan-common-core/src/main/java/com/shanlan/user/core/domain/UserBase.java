@@ -27,7 +27,7 @@ import com.shanlan.common.exception.sub.business.RequestParameterException;
 import com.shanlan.common.util.SignUtils;
 
 /**
- * @ClassName:User
+ * @ClassName:UserDetail
  * @Description: 用户基本信息
  * @Author Albert
  * @Date:2013-4-7 下午12:10:04

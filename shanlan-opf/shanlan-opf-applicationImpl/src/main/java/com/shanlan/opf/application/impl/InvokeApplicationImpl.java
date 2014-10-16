@@ -82,11 +82,11 @@ public class InvokeApplicationImpl implements InvokeApplication {
                 }
         );
         String businessResult = "";
-        if (service.equals("User.login")) {
+        if (service.equals("UserDetail.login")) {
             UserBase existUser = UserBase.login(paramMap.get("userName"),
                     paramMap.get("password"));
             businessResult = JsonUtil.toJson(existUser);
-        } else if (service.equals("User.register")) {
+        } else if (service.equals("UserDetail.register")) {
             UserBase user = new UserBase(paramMap.get("userName"),
                     paramMap.get("password"), paramMap.get("nickName"),
                     paramMap.get("email"), Integer.parseInt(paramMap
@@ -94,13 +94,13 @@ public class InvokeApplicationImpl implements InvokeApplication {
             );
             boolean result = UserBase.register(user);
             businessResult = JsonUtil.toJson(result);
-        } else if (service.equals("User.getBaseInfoById")) {
+        } else if (service.equals("UserDetail.getBaseInfoById")) {
             Integer id = Integer.parseInt(paramMap.get("id"));
             UserBase userBase = UserBase.get(UserBase.class, id);
             UserBaseDTO userBaseDTO = new UserBaseDTO();
             BeanUtils.copyProperties(userBaseDTO, userBase);
             businessResult = JsonUtil.toJson(userBaseDTO);
-        } else if (service.equals("User.getBaseInfoByUserName")) {
+        } else if (service.equals("UserDetail.getBaseInfoByUserName")) {
             UserBase userBase = UserBase.findByUserName(paramMap
                     .get("userName"));
             UserBaseDTO userBaseDTO = new UserBaseDTO();
@@ -116,7 +116,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
                     .get("photoCollectionId"));
             List<Photo> photos = PhotoService.getPhotos(photoCollectionId);
             businessResult = JsonUtil.toJson(photos);
-        } else if (service.equals("User.getIntroductions")) {
+        } else if (service.equals("UserDetail.getIntroductions")) {
             String userName = paramMap.get("userName");
             List<UserIntroduction> userIntroductions = UserIntroduction
                     .findByUserName(userName);

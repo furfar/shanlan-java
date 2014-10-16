@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
-@RequestMapping("/auth/User")
+@RequestMapping("/auth/UserDetail")
 public class UserController extends BaseController{
 
 	private static final String INIT_PASSWORD = "888888";
@@ -70,7 +70,7 @@ public class UserController extends BaseController{
 	@RequestMapping("/list")
 	public String list(Long roleId, ModelMap modelMap) {
 		modelMap.addAttribute("roleId", roleId);
-		return "auth/User-list";
+		return "auth/UserDetail-list";
 	}
 
 	@ResponseBody
@@ -137,7 +137,7 @@ public class UserController extends BaseController{
 
 	
 	private void initSearchCondition(QueryConditionVO search,String userNameForSearch,String userAccountForSearch) {
-		search.setObjectName("User");
+		search.setObjectName("UserDetail");
 		List<QueryItemVO> searchConditions = new ArrayList<QueryItemVO>();
 
 		if (userNameForSearch != null) {

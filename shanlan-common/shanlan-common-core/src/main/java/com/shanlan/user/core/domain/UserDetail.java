@@ -1,5 +1,6 @@
 package com.shanlan.user.core.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -38,7 +39,7 @@ public class UserDetail extends KoalaLegacyEntity {
 	private String userName;
 
 	@Column(name = "gender")
-	private Boolean gender;
+	private Integer gender;
 
 	@Column(name = "real_name")
 	private String realName;
@@ -82,7 +83,7 @@ public class UserDetail extends KoalaLegacyEntity {
 	@Column(name = "other")
 	private String other;
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -94,11 +95,11 @@ public class UserDetail extends KoalaLegacyEntity {
 		this.userName = userName;
 	}
 
-	public Boolean getGender() {
+	public Integer getGender() {
 		return gender;
 	}
 
-	public void setGender(Boolean gender) {
+	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
 
@@ -214,8 +215,9 @@ public class UserDetail extends KoalaLegacyEntity {
 		this.other = other;
 	}
 
-	public Integer getId() {
-		return id;
+	public Serializable getId() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public boolean existed() {

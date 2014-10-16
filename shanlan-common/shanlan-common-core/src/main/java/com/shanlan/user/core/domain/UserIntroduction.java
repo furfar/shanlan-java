@@ -20,7 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 
 /**
- * @ClassName:User
+ * @ClassName:UserDetail
  * @Description: 用户基本信息
  * @Author Albert
  * @Date:2013-4-7 下午12:10:04
