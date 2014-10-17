@@ -83,7 +83,7 @@ public class UserDetail extends KoalaLegacyEntity {
 	@Column(name = "other")
 	private String other;
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -215,9 +215,8 @@ public class UserDetail extends KoalaLegacyEntity {
 		this.other = other;
 	}
 
-	public Serializable getId() {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer getId() {
+        return id;
 	}
 
 	public boolean existed() {

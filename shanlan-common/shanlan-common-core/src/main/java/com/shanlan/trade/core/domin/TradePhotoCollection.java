@@ -1,171 +1,149 @@
 package com.shanlan.trade.core.domin;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.sql.Timestamp;
-import java.util.List;
 
-import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
-import java.io.Serializable;
 
 /**
  * Auto Generated Entity
  * 
- * @author Koala 
+ * @author Koala
  * 
  */
+/**
+ * @author albertliu
+ *交易照片集
+ */
 @Entity
-@Table(name="trade_photo_collection")
+@Table(name = "trade_photo_collection")
 public class TradePhotoCollection extends KoalaLegacyEntity {
 
- private static final long serialVersionUID = 1L;
- 
-/**
-*
-* 主键
-*
-**/
-      
-       @Id
-       @Column(name="id")
-	   //@GeneratedValue(strategy = GenerationType.AUTO)
-       private int id;
-   
-   
+	private static final long serialVersionUID = 1L;
 
-    @Column(name="name")
-  private String name;
-  
+	/**
+	 *
+	 * 主键
+	 *
+	 **/
 
-    @Column(name="description")
-  private String description;
-  
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 
-    @Column(name="owner")
-  private String owner;
-  
+	@Column(name = "name")
+	private String name;
 
-    @Column(name="order_id")
-  private int orderId;
-  
+	@Column(name = "description")
+	private String description;
 
-    @Column(name="photo_quantity")
-  private int photoQuantity;
-  
+	@Column(name = "owner")
+	private String owner;
 
-    @Column(name="created_at")
-  private Timestamp createdAt;
-  
+	@Column(name = "order_id")
+	private int orderId;
 
-    @Column(name="updated_at")
-  private Timestamp updatedAt;
-  
+	@Column(name = "photo_quantity")
+	private int photoQuantity;
 
-      
-         
-       public void setId(int id) {
-		  this.id = id;
-       }
-   
-   
+	@Column(name = "created_at")
+	private Date createdAt;
 
-  
-    
-    public String getName() {
+	@Column(name = "updated_at")
+	private Date updatedAt;
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
 		return name;
-  }
-    public void setName(String name) {
+	}
+
+	public void setName(String name) {
 		this.name = name;
-  }
-  
-  
-    
-    public String getDescription() {
+	}
+
+	public String getDescription() {
 		return description;
-  }
-    public void setDescription(String description) {
+	}
+
+	public void setDescription(String description) {
 		this.description = description;
-  }
-  
-  
-    
-    public String getOwner() {
+	}
+
+	public String getOwner() {
 		return owner;
-  }
-    public void setOwner(String owner) {
+	}
+
+	public void setOwner(String owner) {
 		this.owner = owner;
-  }
-  
-  
-    
-    public int getOrderId() {
+	}
+
+	public int getOrderId() {
 		return orderId;
-  }
-    public void setOrderId(int orderId) {
+	}
+
+	public void setOrderId(int orderId) {
 		this.orderId = orderId;
-  }
-  
-  
-    
-    public int getPhotoQuantity() {
+	}
+
+	public int getPhotoQuantity() {
 		return photoQuantity;
-  }
-    public void setPhotoQuantity(int photoQuantity) {
+	}
+
+	public void setPhotoQuantity(int photoQuantity) {
 		this.photoQuantity = photoQuantity;
-  }
-  
-  
-    
-    public Timestamp getCreatedAt() {
+	}
+
+	public Date getCreatedAt() {
 		return createdAt;
-  }
-    public void setCreatedAt(Timestamp createdAt) {
+	}
+
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
-  }
-  
-  
-    
-    public Timestamp getUpdatedAt() {
+	}
+
+	public Date getUpdatedAt() {
 		return updatedAt;
-  }
-    public void setUpdatedAt(Timestamp updatedAt) {
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
-  }
-  
-	
+	}
+
 	public Serializable getId() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	public boolean existed() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-
 
 	public boolean notExisted() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-
 	public boolean existed(String propertyName, Object propertyValue) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-   @Override
-    public String[] businessKeys() {
-     // TODO Auto-generated method stub
-     return null;
-    }
-	
+	@Override
+	public String[] businessKeys() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

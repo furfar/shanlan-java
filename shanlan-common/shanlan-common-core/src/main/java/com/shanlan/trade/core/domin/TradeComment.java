@@ -1,5 +1,7 @@
 package com.shanlan.trade.core.domin;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,7 +44,7 @@ public class TradeComment extends KoalaLegacyEntity {
 	private String ratee;
 
 	@Column(name = "score")
-	private Boolean score;
+	private Integer score;
 
 	@Column(name = "content")
 	private String content;
@@ -54,7 +56,7 @@ public class TradeComment extends KoalaLegacyEntity {
 	private String type;
 
 	@Column(name = "crated_at")
-	private String cratedAt;
+	private Date cratedAt;
 
 	public void setId(Integer id) {
 		this.id = id;
@@ -84,11 +86,11 @@ public class TradeComment extends KoalaLegacyEntity {
 		this.ratee = ratee;
 	}
 
-	public Boolean getScore() {
+	public Integer getScore() {
 		return score;
 	}
 
-	public void setScore(Boolean score) {
+	public void setScore(Integer score) {
 		this.score = score;
 	}
 
@@ -116,11 +118,11 @@ public class TradeComment extends KoalaLegacyEntity {
 		this.type = type;
 	}
 
-	public String getCratedAt() {
+	public Date getCratedAt() {
 		return cratedAt;
 	}
 
-	public void setCratedAt(String cratedAt) {
+	public void setCratedAt(Date cratedAt) {
 		this.cratedAt = cratedAt;
 	}
 

@@ -1,5 +1,7 @@
 package com.shanlan.trade.core.domin;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,7 +41,7 @@ public class Order extends KoalaLegacyEntity {
 	private String seller;
 
 	@Column(name = "created_at")
-	private String createdAt;
+	private Date createdAt;
 
 	@Column(name = "status")
 	private String status;
@@ -47,6 +49,9 @@ public class Order extends KoalaLegacyEntity {
 	@Column(name = "receiver")
 	private String receiver;
 
+	/**
+	 * 收件人地址ID
+	 */
 	@Column(name = "receive_addre_id")
 	private int receiveAddreId;
 
@@ -73,11 +78,11 @@ public class Order extends KoalaLegacyEntity {
 		this.seller = seller;
 	}
 
-	public String getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(String createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
