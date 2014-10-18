@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
-@RequestMapping("/auth/UserDetail")
+@RequestMapping("/auth/User")
 public class UserController extends BaseController{
 
 	private static final String INIT_PASSWORD = "888888";
