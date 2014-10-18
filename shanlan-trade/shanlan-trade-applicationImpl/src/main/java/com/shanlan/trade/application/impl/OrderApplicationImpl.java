@@ -128,6 +128,7 @@ public class OrderApplicationImpl implements OrderApplication {
 	   		jpql.append(" and _order.receiver like ?");
 	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getReceiver()));
 	   	}		
+	
 	   	if (queryVo.getReceiveAddreId() != null) {
 	   		jpql.append(" and _order.receiveAddreId=?");
 	   		conditionVals.add(queryVo.getReceiveAddreId());
@@ -149,7 +150,7 @@ public class OrderApplicationImpl implements OrderApplication {
             	e.printStackTrace();
             } 
             
-                                                                                                                           result.add(orderDTO);
+                                                                                                                                          result.add(orderDTO);
         }
         return new Page<OrderDTO>(pages.getStart(), pages.getResultCount(), pageSize, result);
 	}
