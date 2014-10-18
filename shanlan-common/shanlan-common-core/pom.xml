@@ -41,6 +41,14 @@
 			<artifactId>koala-commons-domain</artifactId>
 			<version>${koala.version}</version>
 		</dependency>
+
+		<!-- 加入对查询通道的依赖 -->
+		<dependency>
+			<groupId>org.dayatang.dddlib</groupId>
+			<artifactId>dddlib-query-channel</artifactId>
+			<version>${dddlib.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
