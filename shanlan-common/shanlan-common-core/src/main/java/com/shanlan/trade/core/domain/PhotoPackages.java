@@ -1,152 +1,154 @@
-package com.shanlan.trade.core.domin;
+package com.shanlan.trade.core.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.apache.commons.lang.StringUtils;
 
-import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Auto Generated Entity
- * 
+ *
  * @author Koala
- * 
  */
 @Entity
 @Table(name = "photo_packages")
-public class PhotoPackages extends KoalaLegacyEntity {
+@PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
+@DiscriminatorColumn(name = "PHOTO_PACKAGES")
+public class PhotoPackages extends Goods {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 *
-	 * 主键
-	 *
-	 **/
 
-	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+//	/**
+//	 *
+//	 * 主键
+//	 *
+//	 **/
+//
+//	@Id
+//	@Column(name = "id")
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	private int id;
 
-	@Column(name = "goods_id")
-	private int goodsId;
+//	@Column(name = "goods_id")
+//	private int goodsId;
 
-	@Column(name = "photographer")
-	private String photographer;
 
-	@Column(name = "days")
-	private short days;
+    @Basic
 
-	@Column(name = "photo_counts")
-	private short photoCounts;
+    @Column(name = "photographer")
+    private String photographer;
 
-	@Column(name = "alter_counts")
-	private short alterCounts;
+    @Column(name = "days")
+    private Integer days;
 
-	@Column(name = "place_id")
-	private int placeId;
+    @Column(name = "photo_count")
+    private Integer photoCount;
 
-	@Column(name = "note")
-	private String note;
+    @Column(name = "alter_count")
+    private Integer alterCount;
 
-	@Column(name = "other")
-	private String other;
+    @Column(name = "place_id")
+    private int placeId;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @Column(name = "other")
+    private String other;
 
-	public int getGoodsId() {
-		return goodsId;
-	}
+//	public void setId(Integer id) {
+//		this.id = id;
+//	}
 
-	public void setGoodsId(int goodsId) {
-		this.goodsId = goodsId;
-	}
+//	public int getGoodsId() {
+//		return goodsId;
+//	}
+//
+//	public void setGoodsId(int goodsId) {
+//		this.goodsId = goodsId;
+//	}
 
-	public String getPhotographer() {
-		return photographer;
-	}
+    public String getPhotographer() {
+        return photographer;
+    }
 
-	public void setPhotographer(String photographer) {
-		this.photographer = photographer;
-	}
+    public void setPhotographer(String photographer) {
+        this.photographer = photographer;
+    }
 
-	public short getDays() {
-		return days;
-	}
+    public Integer getDays() {
+        return days;
+    }
 
-	public void setDays(short days) {
-		this.days = days;
-	}
+    public void setDays(Integer days) {
+        this.days = days;
+    }
 
-	public short getPhotoCounts() {
-		return photoCounts;
-	}
+    public Integer getPhotoCount() {
+        return photoCount;
+    }
 
-	public void setPhotoCounts(short photoCounts) {
-		this.photoCounts = photoCounts;
-	}
+    public void setPhotoCount(Integer photoCount) {
+        this.photoCount = photoCount;
+    }
 
-	public short getAlterCounts() {
-		return alterCounts;
-	}
+    public Integer getAlterCount() {
+        return alterCount;
+    }
 
-	public void setAlterCounts(short alterCounts) {
-		this.alterCounts = alterCounts;
-	}
+    public void setAlterCount(Integer alterCount) {
+        this.alterCount = alterCount;
+    }
 
-	public int getPlaceId() {
-		return placeId;
-	}
+    public int getPlaceId() {
+        return placeId;
+    }
 
-	public void setPlaceId(int placeId) {
-		this.placeId = placeId;
-	}
+    public void setPlaceId(int placeId) {
+        this.placeId = placeId;
+    }
 
-	public String getNote() {
-		return note;
-	}
+    public String getOther() {
+        return other;
+    }
 
-	public void setNote(String note) {
-		this.note = note;
-	}
+    public void setOther(String other) {
+        this.other = other;
+    }
 
-	public String getOther() {
-		return other;
-	}
+//	public Integer getId() {
+//		return id;
+//	}
 
-	public void setOther(String other) {
-		this.other = other;
-	}
+    public boolean existed() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public boolean notExisted() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	public boolean existed() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    public boolean existed(String propertyName, Object propertyValue) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	public boolean notExisted() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public String[] businessKeys() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public boolean existed(String propertyName, Object propertyValue) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-	@Override
-	public String[] businessKeys() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public static List<PhotoPackages> list(String photographerUserName) {
+        List<PhotoPackages> photoPackagesList = new ArrayList<PhotoPackages>();
+        if (StringUtils.isNotBlank(photographerUserName)) {
+            photoPackagesList = findByProperty(PhotoPackages.class, "photographer", photographerUserName);
+        }
+        return photoPackagesList;
+    }
+
+
 
 }

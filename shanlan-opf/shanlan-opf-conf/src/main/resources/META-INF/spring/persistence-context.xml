@@ -27,6 +27,7 @@
 				<value>com.shanlan.opf.core.domain</value>
 				<value>com.shanlan.user.core.domain</value>
 				<value>com.shanlan.photo.core.domain</value>
+				<value>com.shanlan.trade.core.domain</value>
 			</list>
 		</property>
 		<!-- 如果权限使用了不同的数据源，则去掉securitymappings -->

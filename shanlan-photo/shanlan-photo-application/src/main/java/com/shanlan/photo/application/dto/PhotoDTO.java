@@ -17,8 +17,6 @@ public class PhotoDTO implements Serializable {
 
 	private String filePath;
 
-	private String md5;
-
 	private Integer size;
 
 	public PhotoDTO(int photoId, String photoPath) {
@@ -51,14 +49,6 @@ public class PhotoDTO implements Serializable {
 
 	public String getFilePath() {
 		return this.filePath;
-	}
-
-	public void setMd5(String md5) {
-		this.md5 = md5;
-	}
-
-	public String getMd5() {
-		return this.md5;
 	}
 
 	public void setSize(Integer size) {

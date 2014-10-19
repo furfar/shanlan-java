@@ -1,4 +1,4 @@
-package com.shanlan.trade.core.domin;
+package com.shanlan.trade.core.domain;
 
 import java.util.Date;
 

@@ -1,13 +1,8 @@
-package com.shanlan.trade.core.domin;
+package com.shanlan.trade.core.domain;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 
@@ -19,6 +14,8 @@ import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
  */
 @Entity
 @Table(name = "goods")
+@Inheritance(strategy=InheritanceType.JOINED)
+@DiscriminatorColumn(name="type")
 public class Goods extends KoalaLegacyEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -34,11 +31,13 @@ public class Goods extends KoalaLegacyEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
+	
+	@Basic
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "descripton")
-	private String descripton;
+	@Column(name = "description")
+	private String description;
 
 	@Column(name = "price")
 	private float price;
@@ -64,6 +63,11 @@ public class Goods extends KoalaLegacyEntity {
 	@Column(name = "other")
 	private String other;
 
+
+    public enum Type{
+        PHOTO_PACKAGES,CLOTHING
+    }
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -76,12 +80,12 @@ public class Goods extends KoalaLegacyEntity {
 		this.name = name;
 	}
 
-	public String getDescripton() {
-		return descripton;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDescripton(String descripton) {
-		this.descripton = descripton;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public float getPrice() {

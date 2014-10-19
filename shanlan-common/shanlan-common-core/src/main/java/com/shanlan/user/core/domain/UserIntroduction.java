@@ -48,6 +48,9 @@ public class UserIntroduction extends KoalaLegacyEntity {
 	@Column(name = "content")
 	private String content;
 
+	@Column(name = "type")
+	private String type;
+
 	@Column(name = "sequence")
 	private Integer sequence;
 
@@ -93,6 +96,14 @@ public class UserIntroduction extends KoalaLegacyEntity {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public Integer getSequence() {

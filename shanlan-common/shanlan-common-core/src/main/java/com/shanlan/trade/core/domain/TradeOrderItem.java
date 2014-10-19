@@ -1,4 +1,4 @@
-package com.shanlan.trade.core.domin;
+package com.shanlan.trade.core.domain;
 
 import javax.persistence.*;
 
@@ -11,8 +11,8 @@ import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
  * 
  */
 @Entity
-@Table(name = "order_item")
-public class OrderItem extends KoalaLegacyEntity {
+@Table(name = "trade_order_item")
+public class TradeOrderItem extends KoalaLegacyEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,8 +27,8 @@ public class OrderItem extends KoalaLegacyEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "order_id")
-	private Integer orderId;
+//	@Column(name = "order_id")
+//	private Integer orderId;
 
 	@Column(name = "goods_id")
 	private int goodsId;
@@ -39,19 +39,22 @@ public class OrderItem extends KoalaLegacyEntity {
 	@Column(name = "price")
 	private float price;
 
-	private Order order;
+	// 这里设置JoinColum设置了外键的名字，并且orderItem是关系维护端
+	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, optional = true)
+	@JoinColumn(name = "order_id")
+	private TradeOrder tradeOrder;
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(int orderId) {
-		this.orderId = orderId;
-	}
+//	public int getOrderId() {
+//		return orderId;
+//	}
+//
+//	public void setOrderId(int orderId) {
+//		this.orderId = orderId;
+//	}
 
 	public int getGoodsId() {
 		return goodsId;
@@ -102,15 +105,13 @@ public class OrderItem extends KoalaLegacyEntity {
 		return null;
 	}
 
-	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, optional = true)
-	@JoinColumn(name = "order_id")
-	// 这里设置JoinColum设置了外键的名字，并且orderItem是关系维护端
-	public Order getOrder() {
-		return order;
+
+	public TradeOrder getOrder() {
+		return tradeOrder;
 	}
 
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setOrder(TradeOrder tradeOrder) {
+		this.tradeOrder = tradeOrder;
 	}
 
 }

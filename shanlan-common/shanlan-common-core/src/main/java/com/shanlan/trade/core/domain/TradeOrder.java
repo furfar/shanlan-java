@@ -1,17 +1,10 @@
-package com.shanlan.trade.core.domin;
+package com.shanlan.trade.core.domain;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 
@@ -22,8 +15,8 @@ import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
  * 
  */
 @Entity
-@Table(name = "order")
-public class Order extends KoalaLegacyEntity {
+@Table(name = "trade_order")
+public class TradeOrder extends KoalaLegacyEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,13 +46,17 @@ public class Order extends KoalaLegacyEntity {
 	@Column(name = "receiver")
 	private String receiver;
 
-	private Set<OrderItem> orderItems = new HashSet<OrderItem>();
+	// 这里配置关系，并且确定关系维护端和被维护端。mappBy表示关系被维护端，只有关系端有权去更新外键。
+	//这里还有注意OneToMany默认的加载方式是赖加载。当看到设置关系中最后一个单词是Many，那么该加载默认为懒加载
+	@OneToMany(cascade = { CascadeType.REFRESH, CascadeType.PERSIST,
+			CascadeType.MERGE, CascadeType.REMOVE },fetch= FetchType.EAGER, mappedBy = "tradeOrder")
+	private Set<TradeOrderItem> tradeOrderItems;
 
 	/**
 	 * 收件人地址ID
 	 */
 	@Column(name = "receive_addre_id")
-	private int receiveAddreId;
+	private Integer receiveAddreId;
 
 	@Column(name = "other")
 	private String other;
@@ -108,11 +105,11 @@ public class Order extends KoalaLegacyEntity {
 		this.receiver = receiver;
 	}
 
-	public int getReceiveAddreId() {
+	public Integer getReceiveAddreId() {
 		return receiveAddreId;
 	}
 
-	public void setReceiveAddreId(int receiveAddreId) {
+	public void setReceiveAddreId(Integer receiveAddreId) {
 		this.receiveAddreId = receiveAddreId;
 	}
 
@@ -149,20 +146,18 @@ public class Order extends KoalaLegacyEntity {
 		return null;
 	}
 
-	@OneToMany(cascade = { CascadeType.REFRESH, CascadeType.PERSIST,
-			CascadeType.MERGE, CascadeType.REMOVE }, mappedBy = "order")
-	// 这里配置关系，并且确定关系维护端和被维护端。mappBy表示关系被维护端，只有关系端有权去更新外键。这里还有注意OneToMany默认的加载方式是赖加载。当看到设置关系中最后一个单词是Many，那么该加载默认为懒加载
-	public Set<OrderItem> getItems() {
-		return orderItems;
+
+	public Set<TradeOrderItem> getTradeOrderItems() {
+		return tradeOrderItems;
 	}
 
-	public void setItems(Set<OrderItem> items) {
-		this.orderItems = items;
+	public void setTradeOrderItems(Set<TradeOrderItem> items) {
+		this.tradeOrderItems = items;
 	}
 
-	public void addOrderItem(OrderItem orderItem) {
-		orderItem.setOrder(this);// 用关系维护端来维护关系
-		this.orderItems.add(orderItem);
+	public void addOrderItem(TradeOrderItem tradeOrderItem) {
+		tradeOrderItem.setOrder(this);// 用关系维护端来维护关系
+		this.tradeOrderItems.add(tradeOrderItem);
 	}
 
 }

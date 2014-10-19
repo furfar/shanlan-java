@@ -1,94 +1,75 @@
 package com.shanlan.trade.application.dto;
 
-import java.util.Set;
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Set;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.openkoala.koala.springmvc.JsonTimestampSerializer;
 import org.openkoala.koala.springmvc.JsonDateSerializer;
-
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class OrderDTO implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1834204467417643097L;
+
 	private Integer id;
 
-						
 	private Integer receiveAddreId;
-	
-		
-	private String other;
-	
-		
-	private String receiver;
-	
-		
-	private String status;
-	
-		
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date createdAt;
-	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date createdAtEnd;
-		
-	private String buyer;
-	
-		
-	private Set orderItems;
-	
-		
-	private String seller;
-	
-								
-		
 
-	public void setReceiveAddreId(Integer receiveAddreId) { 
+	private String other;
+
+	private String receiver;
+
+	private String status;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH-mm-ss")
+	private Date createdAt;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH-mm-ss")
+	private Date createdAtEnd;
+
+	private String buyer;
+
+	private Set orderItems;
+
+	private String seller;
+
+	public void setReceiveAddreId(Integer receiveAddreId) {
 		this.receiveAddreId = receiveAddreId;
 	}
 
 	public Integer getReceiveAddreId() {
 		return this.receiveAddreId;
 	}
-	
-			
-		
 
-	public void setOther(String other) { 
+	public void setOther(String other) {
 		this.other = other;
 	}
 
 	public String getOther() {
 		return this.other;
 	}
-	
-			
-		
 
-	public void setReceiver(String receiver) { 
+	public void setReceiver(String receiver) {
 		this.receiver = receiver;
 	}
 
 	public String getReceiver() {
 		return this.receiver;
 	}
-	
-			
-		
 
-	public void setStatus(String status) { 
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
 	public String getStatus() {
 		return this.status;
 	}
-	
-			
-		
 
-	public void setCreatedAt(Date createdAt) { 
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
@@ -96,8 +77,8 @@ public class OrderDTO implements Serializable {
 	public Date getCreatedAt() {
 		return this.createdAt;
 	}
-	
-	public void setCreatedAtEnd(Date createdAtEnd) { 
+
+	public void setCreatedAtEnd(Date createdAtEnd) {
 		this.createdAtEnd = createdAtEnd;
 	}
 
@@ -105,49 +86,40 @@ public class OrderDTO implements Serializable {
 	public Date getCreatedAtEnd() {
 		return this.createdAtEnd;
 	}
-			
-		
 
-	public void setBuyer(String buyer) { 
+	public void setBuyer(String buyer) {
 		this.buyer = buyer;
 	}
 
 	public String getBuyer() {
 		return this.buyer;
 	}
-	
-			
-		
 
-	public void setOrderItems(Set orderItems) { 
+	public void setOrderItems(Set orderItems) {
 		this.orderItems = orderItems;
 	}
 
 	public Set getOrderItems() {
 		return this.orderItems;
 	}
-	
-			
-		
 
-	public void setSeller(String seller) { 
+	public void setSeller(String seller) {
 		this.seller = seller;
 	}
 
 	public String getSeller() {
 		return this.seller;
 	}
-	
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
 
-    @Override
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

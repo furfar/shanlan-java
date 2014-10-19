@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.shanlan.trade.application.OrderItemApplication;
 import com.shanlan.trade.application.dto.OrderDTO;
 import com.shanlan.trade.application.dto.OrderItemDTO;
-import com.shanlan.trade.core.domin.Order;
-import com.shanlan.trade.core.domin.OrderItem;
+import com.shanlan.trade.core.domain.TradeOrder;
+import com.shanlan.trade.core.domain.TradeOrderItem;
 
 @Named
 @Transactional
@@ -35,35 +35,35 @@ public class OrderItemApplicationImpl implements OrderItemApplication {
 	
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public OrderItemDTO getOrderItem(Integer id) {
-		OrderItem orderItem = OrderItem.load(OrderItem.class, id);
+		TradeOrderItem tradeOrderItem = TradeOrderItem.load(TradeOrderItem.class, id);
 		OrderItemDTO orderItemDTO = new OrderItemDTO();
 		// 将domain转成VO
 		try {
-			BeanUtils.copyProperties(orderItemDTO, orderItem);
+			BeanUtils.copyProperties(orderItemDTO, tradeOrderItem);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		orderItemDTO.setId((Integer)orderItem.getId());
+		orderItemDTO.setId((Integer)tradeOrderItem.getId());
 		return orderItemDTO;
 	}
 	
 	public OrderItemDTO saveOrderItem(OrderItemDTO orderItemDTO) {
-		OrderItem orderItem = new OrderItem();
+		TradeOrderItem tradeOrderItem = new TradeOrderItem();
 		try {
-        	BeanUtils.copyProperties(orderItem, orderItemDTO);
+        	BeanUtils.copyProperties(tradeOrderItem, orderItemDTO);
         } catch (Exception e) {
         	e.printStackTrace();
         }
-		orderItem.save();
-		orderItemDTO.setId((Integer)orderItem.getId());
+		tradeOrderItem.save();
+		orderItemDTO.setId((Integer)tradeOrderItem.getId());
 		return orderItemDTO;
 	}
 	
 	public void updateOrderItem(OrderItemDTO orderItemDTO) {
-		OrderItem orderItem = OrderItem.get(OrderItem.class, orderItemDTO.getId());
+		TradeOrderItem tradeOrderItem = TradeOrderItem.get(TradeOrderItem.class, orderItemDTO.getId());
 		// 设置要更新的值
 		try {
-			BeanUtils.copyProperties(orderItem, orderItemDTO);
+			BeanUtils.copyProperties(tradeOrderItem, orderItemDTO);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -75,20 +75,20 @@ public class OrderItemApplicationImpl implements OrderItemApplication {
 	
 	public void removeOrderItems(Integer[] ids) {
 		for (int i = 0; i < ids.length; i++) {
-			OrderItem orderItem = OrderItem.load(OrderItem.class, ids[i]);
-			orderItem.remove();
+			TradeOrderItem tradeOrderItem = TradeOrderItem.load(TradeOrderItem.class, ids[i]);
+			tradeOrderItem.remove();
 		}
 	}
 	
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<OrderItemDTO> findAllOrderItem() {
 		List<OrderItemDTO> list = new ArrayList<OrderItemDTO>();
-		List<OrderItem> all = OrderItem.findAll(OrderItem.class);
-		for (OrderItem orderItem : all) {
+		List<TradeOrderItem> all = TradeOrderItem.findAll(TradeOrderItem.class);
+		for (TradeOrderItem tradeOrderItem : all) {
 			OrderItemDTO orderItemDTO = new OrderItemDTO();
 			// 将domain转成VO
 			try {
-				BeanUtils.copyProperties(orderItemDTO, orderItem);
+				BeanUtils.copyProperties(orderItemDTO, tradeOrderItem);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -101,7 +101,7 @@ public class OrderItemApplicationImpl implements OrderItemApplication {
 	public Page<OrderItemDTO> pageQueryOrderItem(OrderItemDTO queryVo, int currentPage, int pageSize) {
 		List<OrderItemDTO> result = new ArrayList<OrderItemDTO>();
 		List<Object> conditionVals = new ArrayList<Object>();
-	   	StringBuilder jpql = new StringBuilder("select _orderItem from OrderItem _orderItem   left join _orderItem.order  where 1=1 ");
+	   	StringBuilder jpql = new StringBuilder("select _orderItem from TradeOrderItem _orderItem   left join _orderItem.order  where 1=1 ");
 	
 	
 	   	if (queryVo.getGoodsId() != null) {
@@ -120,13 +120,13 @@ public class OrderItemApplicationImpl implements OrderItemApplication {
 	   	}	
 	
 	
-        Page<OrderItem> pages = getQueryChannelService().createJpqlQuery(jpql.toString()).setParameters(conditionVals).setPage(currentPage, pageSize).pagedList();
-        for (OrderItem orderItem : pages.getData()) {
+        Page<TradeOrderItem> pages = getQueryChannelService().createJpqlQuery(jpql.toString()).setParameters(conditionVals).setPage(currentPage, pageSize).pagedList();
+        for (TradeOrderItem tradeOrderItem : pages.getData()) {
             OrderItemDTO orderItemDTO = new OrderItemDTO();
             
              // 将domain转成VO
             try {
-            	BeanUtils.copyProperties(orderItemDTO, orderItem);
+            	BeanUtils.copyProperties(orderItemDTO, tradeOrderItem);
             } catch (Exception e) {
             	e.printStackTrace();
             } 
@@ -138,8 +138,8 @@ public class OrderItemApplicationImpl implements OrderItemApplication {
 	
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public OrderDTO findOrderByOrderItem(Integer id) {
-		String jpql = "select e from OrderItem o right join o.order e where o.id=?";
-		Order result = (Order) getQueryChannelService().createJpqlQuery(jpql).setParameters(new Object[] { id }).singleResult();
+		String jpql = "select e from TradeOrderItem o right join o.order e where o.id=?";
+		TradeOrder result = (TradeOrder) getQueryChannelService().createJpqlQuery(jpql).setParameters(new Object[] { id }).singleResult();
 		OrderDTO  dto = new OrderDTO();
 		if (result != null) {
 			try {

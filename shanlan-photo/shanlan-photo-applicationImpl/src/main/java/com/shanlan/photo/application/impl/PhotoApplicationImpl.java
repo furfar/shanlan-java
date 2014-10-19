@@ -114,10 +114,6 @@ public class PhotoApplicationImpl implements PhotoApplication {
 					queryVo.getFilePath()));
 		}
 
-		if (queryVo.getMd5() != null && !"".equals(queryVo.getMd5())) {
-			jpql.append(" and _photo.md5 like ?");
-			conditionVals.add(MessageFormat.format("%{0}%", queryVo.getMd5()));
-		}
 		if (queryVo.getSize() != null) {
 			jpql.append(" and _photo.size=?");
 			conditionVals.add(queryVo.getSize());

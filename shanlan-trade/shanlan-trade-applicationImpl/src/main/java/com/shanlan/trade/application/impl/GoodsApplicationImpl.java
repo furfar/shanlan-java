@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.shanlan.trade.application.GoodsApplication;
 import com.shanlan.trade.application.dto.GoodsDTO;
-import com.shanlan.trade.core.domin.Goods;
+import com.shanlan.trade.core.domain.Goods;
 
 @Named
 @Transactional
@@ -108,9 +108,9 @@ public class GoodsApplicationImpl implements GoodsApplication {
 	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getName()));
 	   	}		
 	
-	   	if (queryVo.getDescripton() != null && !"".equals(queryVo.getDescripton())) {
+	   	if (queryVo.getDescription() != null && !"".equals(queryVo.getDescription())) {
 	   		jpql.append(" and _goods.descripton like ?");
-	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getDescripton()));
+	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getDescription()));
 	   	}		
 	   	if (queryVo.getPrice() != null) {
 	   		jpql.append(" and _goods.price=?");

@@ -2,18 +2,14 @@ package com.shanlan.trade.application.dto;
 
 import java.io.Serializable;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.openkoala.koala.springmvc.JsonTimestampSerializer;
-import org.openkoala.koala.springmvc.JsonDateSerializer;
 
+public class PhotoPackagesDTO extends GoodsDTO implements Serializable {
 
-public class PhotoPackagesDTO implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3698276121085528019L;
 
-	private Integer id;
-
-						
-	private Integer goodsId;
 	
 		
 	private String other;
@@ -27,27 +23,13 @@ public class PhotoPackagesDTO implements Serializable {
 		
 	private String photographer;
 	
-		
-	private String note;
+						
+	private Short alterCount;
 	
 						
-	private Short alterCounts;
+	private Short photoCount;
 	
-						
-	private Short photoCounts;
-	
-								
-		
-
-	public void setGoodsId(Integer goodsId) { 
-		this.goodsId = goodsId;
-	}
-
-	public Integer getGoodsId() {
-		return this.goodsId;
-	}
-	
-			
+	private String photoType;
 		
 
 	public void setOther(String other) { 
@@ -90,71 +72,33 @@ public class PhotoPackagesDTO implements Serializable {
 	public String getPhotographer() {
 		return this.photographer;
 	}
-	
-			
+							
 		
 
-	public void setNote(String note) { 
-		this.note = note;
+	public void setAlterCount(Short alterCount) {
+		this.alterCount = alterCount;
 	}
 
-	public String getNote() {
-		return this.note;
-	}
-	
-								
-		
-
-	public void setAlterCounts(Short alterCounts) { 
-		this.alterCounts = alterCounts;
+	public Short getAlterCount() {
+		return this.alterCount;
 	}
 
-	public Short getAlterCounts() {
-		return this.alterCounts;
-	}
-	
-								
-		
+    public String getPhotoType() {
+        return photoType;
+    }
 
-	public void setPhotoCounts(Short photoCounts) { 
-		this.photoCounts = photoCounts;
-	}
+    public void setPhotoType(String photoType) {
+        this.photoType = photoType;
+    }
 
-	public Short getPhotoCounts() {
-		return this.photoCounts;
-	}
-	
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	
-	public Integer getId() {
-		return id;
+    public void setPhotoCount(Short photoCount) {
+		this.photoCount = photoCount;
 	}
 
-    @Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+	public Short getPhotoCount() {
+		return this.photoCount;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PhotoPackagesDTO other = (PhotoPackagesDTO) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
+
+
 }

@@ -1,6 +1,7 @@
 
 package com.shanlan.trade.application;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.dayatang.querychannel.Page;
@@ -22,6 +23,8 @@ public interface PhotoPackagesApplication {
 	public List<PhotoPackagesDTO> findAllPhotoPackages();
 	
 	public Page<PhotoPackagesDTO> pageQueryPhotoPackages(PhotoPackagesDTO photoPackages, int currentPage, int pageSize);
+
+	List<PhotoPackagesDTO> listPackages(String userName, String photoType) throws Exception;
 	
 
 }

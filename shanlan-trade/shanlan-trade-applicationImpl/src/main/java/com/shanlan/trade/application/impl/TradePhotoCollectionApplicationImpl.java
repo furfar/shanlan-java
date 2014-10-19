@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.shanlan.trade.application.TradePhotoCollectionApplication;
 import com.shanlan.trade.application.dto.TradePhotoCollectionDTO;
-import com.shanlan.trade.core.domin.TradePhotoCollection;
+import com.shanlan.trade.core.domain.TradePhotoCollection;
 
 @Named
 @Transactional

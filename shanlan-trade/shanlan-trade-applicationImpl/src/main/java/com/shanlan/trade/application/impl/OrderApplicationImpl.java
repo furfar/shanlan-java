@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.shanlan.trade.application.OrderApplication;
 import com.shanlan.trade.application.dto.OrderDTO;
-import com.shanlan.trade.core.domin.Order;
+import com.shanlan.trade.core.domain.TradeOrder;
 
 @Named
 @Transactional
@@ -34,35 +34,35 @@ public class OrderApplicationImpl implements OrderApplication {
 	
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public OrderDTO getOrder(Integer id) {
-		Order order = Order.load(Order.class, id);
+		TradeOrder tradeOrder = TradeOrder.load(TradeOrder.class, id);
 		OrderDTO orderDTO = new OrderDTO();
 		// 将domain转成VO
 		try {
-			BeanUtils.copyProperties(orderDTO, order);
+			BeanUtils.copyProperties(orderDTO, tradeOrder);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		orderDTO.setId((Integer)order.getId());
+		orderDTO.setId((Integer)tradeOrder.getId());
 		return orderDTO;
 	}
 	
 	public OrderDTO saveOrder(OrderDTO orderDTO) {
-		Order order = new Order();
+		TradeOrder tradeOrder = new TradeOrder();
 		try {
-        	BeanUtils.copyProperties(order, orderDTO);
+        	BeanUtils.copyProperties(tradeOrder, orderDTO);
         } catch (Exception e) {
         	e.printStackTrace();
         }
-		order.save();
-		orderDTO.setId((Integer)order.getId());
+		tradeOrder.save();
+		orderDTO.setId((Integer)tradeOrder.getId());
 		return orderDTO;
 	}
 	
 	public void updateOrder(OrderDTO orderDTO) {
-		Order order = Order.get(Order.class, orderDTO.getId());
+		TradeOrder tradeOrder = TradeOrder.get(TradeOrder.class, orderDTO.getId());
 		// 设置要更新的值
 		try {
-			BeanUtils.copyProperties(order, orderDTO);
+			BeanUtils.copyProperties(tradeOrder, orderDTO);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -74,20 +74,20 @@ public class OrderApplicationImpl implements OrderApplication {
 	
 	public void removeOrders(Integer[] ids) {
 		for (int i = 0; i < ids.length; i++) {
-			Order order = Order.load(Order.class, ids[i]);
-			order.remove();
+			TradeOrder tradeOrder = TradeOrder.load(TradeOrder.class, ids[i]);
+			tradeOrder.remove();
 		}
 	}
 	
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<OrderDTO> findAllOrder() {
 		List<OrderDTO> list = new ArrayList<OrderDTO>();
-		List<Order> all = Order.findAll(Order.class);
-		for (Order order : all) {
+		List<TradeOrder> all = TradeOrder.findAll(TradeOrder.class);
+		for (TradeOrder tradeOrder : all) {
 			OrderDTO orderDTO = new OrderDTO();
 			// 将domain转成VO
 			try {
-				BeanUtils.copyProperties(orderDTO, order);
+				BeanUtils.copyProperties(orderDTO, tradeOrder);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -100,7 +100,7 @@ public class OrderApplicationImpl implements OrderApplication {
 	public Page<OrderDTO> pageQueryOrder(OrderDTO queryVo, int currentPage, int pageSize) {
 		List<OrderDTO> result = new ArrayList<OrderDTO>();
 		List<Object> conditionVals = new ArrayList<Object>();
-	   	StringBuilder jpql = new StringBuilder("select _order from Order _order   where 1=1 ");
+	   	StringBuilder jpql = new StringBuilder("select _order from TradeOrder _order   where 1=1 ");
 	
 	
 	   	if (queryVo.getBuyer() != null && !"".equals(queryVo.getBuyer())) {
@@ -139,13 +139,13 @@ public class OrderApplicationImpl implements OrderApplication {
 	   		jpql.append(" and _order.other like ?");
 	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getOther()));
 	   	}		
-        Page<Order> pages = getQueryChannelService().createJpqlQuery(jpql.toString()).setParameters(conditionVals).setPage(currentPage, pageSize).pagedList();
-        for (Order order : pages.getData()) {
+        Page<TradeOrder> pages = getQueryChannelService().createJpqlQuery(jpql.toString()).setParameters(conditionVals).setPage(currentPage, pageSize).pagedList();
+        for (TradeOrder tradeOrder : pages.getData()) {
             OrderDTO orderDTO = new OrderDTO();
             
              // 将domain转成VO
             try {
-            	BeanUtils.copyProperties(orderDTO, order);
+            	BeanUtils.copyProperties(orderDTO, tradeOrder);
             } catch (Exception e) {
             	e.printStackTrace();
             } 

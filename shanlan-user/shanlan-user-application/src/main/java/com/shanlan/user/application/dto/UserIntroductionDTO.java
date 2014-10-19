@@ -15,6 +15,8 @@ public class UserIntroductionDTO implements Serializable {
 
 	private String content;
 
+	private String type;
+
 	private String title;
 
 	private Short sequence;
@@ -53,6 +55,14 @@ public class UserIntroductionDTO implements Serializable {
 
 	public Short getSequence() {
 		return this.sequence;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public void setCreatedAt(String createdAt) {
