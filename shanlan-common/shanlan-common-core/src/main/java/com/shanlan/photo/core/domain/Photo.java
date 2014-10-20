@@ -1,13 +1,12 @@
 package com.shanlan.photo.core.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import com.shanlan.common.util.JPQLUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Auto Generated Entity
@@ -115,5 +114,15 @@ public class Photo extends KoalaLegacyEntity {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+    public static List<Photo> list(List<Integer> ids){
+        List<Photo> photos = new ArrayList<Photo>();
+        String jpql = JPQLUtil.selectByIdIn(Photo.class, ids);
+        if (StringUtils.isNotBlank(jpql)) {
+            photos = getRepository().createJpqlQuery(jpql).list();
+        }
+        return photos;
+    }
 
 }

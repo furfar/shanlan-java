@@ -7,6 +7,9 @@ import java.util.Map;
 
 import javax.inject.Named;
 
+import com.shanlan.photo.application.PhotoCollectionApplication;
+import com.shanlan.photo.application.dto.PhotoDTO;
+import com.shanlan.photo.application.impl.PhotoCollectionApplicationImpl;
 import com.shanlan.trade.application.TradeCommentApplication;
 import com.shanlan.trade.application.dto.FrontTradeCommentDTO;
 import com.shanlan.trade.application.dto.PhotoPackagesDTO;
@@ -67,12 +70,16 @@ public class InvokeApplicationImpl implements InvokeApplication {
             .getLogger(InvokeApplicationImpl.class);
 
     private PhotoApplication photoApplication;
+    private PhotoCollectionApplication photoCollectionApplication;
     private PhotoPackagesApplication photoPackagesApplication;
     private TradeCommentApplication tradeCommentApplication;
 
     public InvokeApplicationImpl() {
         if (photoApplication == null) {
             photoApplication = new PhotoApplicationImpl();
+        }
+        if (photoCollectionApplication==null){
+            photoCollectionApplication=new PhotoCollectionApplicationImpl();
         }
         if (photoPackagesApplication == null) {
             photoPackagesApplication = new PhotoPackagesApplicationImpl();
@@ -138,8 +145,8 @@ public class InvokeApplicationImpl implements InvokeApplication {
             businessResult = JsonUtil.toJson(userBaseDTO);
         } else if (service.equals("Photo.getPhotoCollections")) {
             String userName = paramMap.get("userName");
-            List<PhotoCollectionDTO> photoCollectionDTOs = photoApplication
-                    .getPhotoCollections(userName);
+            List<PhotoCollectionDTO> photoCollectionDTOs = photoCollectionApplication
+                    .listPhotoCollections(userName);
             businessResult = JsonUtil.toJson(photoCollectionDTOs);
         } else if (service.equals("Photo.getPhotos")) {
             Integer photoCollectionId = Integer.parseInt(paramMap
@@ -162,6 +169,10 @@ public class InvokeApplicationImpl implements InvokeApplication {
             Integer pageSize = Integer.parseInt(paramMap.get("pageSize"));
             Page<FrontTradeCommentDTO> frontTradeCommentDTOPage = tradeCommentApplication.pageTradeComments(sellerUserName, currentPage, pageSize);
             businessResult = JsonUtil.toJson(frontTradeCommentDTOPage);
+        } else if(service.equals("Photo.listTradePhotos")){
+            Integer tradePhotoCollectionId=Integer.parseInt(paramMap.get("tradePhotoCollectionId"));
+            List<PhotoDTO> photoDTOs=photoApplication.listTradePhotos(tradePhotoCollectionId);
+            businessResult=JsonUtil.toJson(photoDTOs);
         }
         return new SuccessResponseDTO(businessResult);
 

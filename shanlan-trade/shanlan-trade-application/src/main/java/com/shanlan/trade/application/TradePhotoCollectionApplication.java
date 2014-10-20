@@ -3,9 +3,12 @@ package com.shanlan.trade.application;
 
 import java.util.List;
 
+import com.shanlan.photo.application.dto.PhotoCollectionDTO;
 import org.dayatang.querychannel.Page;
 
 import com.shanlan.trade.application.dto.TradePhotoCollectionDTO;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface TradePhotoCollectionApplication {
 
@@ -22,7 +25,6 @@ public interface TradePhotoCollectionApplication {
 	public List<TradePhotoCollectionDTO> findAllTradePhotoCollection();
 	
 	public Page<TradePhotoCollectionDTO> pageQueryTradePhotoCollection(TradePhotoCollectionDTO tradePhotoCollection, int currentPage, int pageSize);
-	
 
 }
 

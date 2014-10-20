@@ -48,8 +48,8 @@ public class PhotoCollection extends KoalaLegacyEntity {
 	@Column(name = "updated_at")
 	private String updatedAt;
 
-	@Column(name = "photo_quantity")
-	private int photoQuantity;
+	@Column(name = "photo_count")
+	private int photoCount;
 
 	@Column(name = "other")
 	private String other;
@@ -90,12 +90,12 @@ public class PhotoCollection extends KoalaLegacyEntity {
 		this.updatedAt = updatedAt;
 	}
 
-	public int getPhotoQuantity() {
-		return photoQuantity;
+	public int getPhotoCount() {
+		return photoCount;
 	}
 
-	public void setPhotoQuantity(int photoQuantity) {
-		this.photoQuantity = photoQuantity;
+	public void setPhotoCount(int photoCount) {
+		this.photoCount = photoCount;
 	}
 
 	public String getOther() {

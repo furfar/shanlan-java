@@ -24,7 +24,10 @@ public interface PhotoApplication {
 	public Page<PhotoDTO> pageQueryPhoto(PhotoDTO photo, int currentPage,
 			int pageSize);
 
-	List<PhotoCollectionDTO> getPhotoCollections(String userName)
-			throws Exception;
-
+    /**
+     * 根据交易集ID获取交易集的所有照片集
+     * @param tradePhotoCollectionId
+     * @return
+     */
+    public List<PhotoDTO> listTradePhotos(int tradePhotoCollectionId) throws Exception;
 }

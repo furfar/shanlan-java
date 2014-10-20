@@ -154,6 +154,11 @@ public class RePhotoUserOwn extends KoalaLegacyEntity {
         return null;
     }
 
+    /**
+     * 根据id列表，列出所有照片信息
+     * @param ids
+     * @return
+     */
     public static List<RePhotoUserOwn> list(List<Integer> ids) {
 
         List<RePhotoUserOwn> rePhotoUserOwns = new ArrayList<RePhotoUserOwn>();
@@ -162,6 +167,38 @@ public class RePhotoUserOwn extends KoalaLegacyEntity {
             rePhotoUserOwns = getRepository().createJpqlQuery(jpql).list();
         }
         return rePhotoUserOwns;
+    }
+
+
+    /**
+     * 根据id列表，列出可见性为‘公开’的照片所有信息
+     * @param ids
+     * @return
+     */
+    public static List<RePhotoUserOwn> listPublic(List<Integer> ids) {
+
+        List<RePhotoUserOwn> rePhotoUserOwns = new ArrayList<RePhotoUserOwn>();
+        String jpql = JPQLUtil.selectByIdInAndOther(RePhotoUserOwn.class,ids,"visibility",Visibility.PUBLIC.ordinal()+"");
+        if (StringUtils.isNotBlank(jpql)) {
+            rePhotoUserOwns = getRepository().createJpqlQuery(jpql).list();
+        }
+        return rePhotoUserOwns;
+    }
+
+
+    public static List<Integer> listPhotoIds(List<RePhotoUserOwn> rePhotoUserOwns){
+        List<Integer> photoIds=new ArrayList<Integer>();
+        if (rePhotoUserOwns!=null && rePhotoUserOwns.size()>0){
+            for(RePhotoUserOwn rePhotoUserOwn:rePhotoUserOwns){
+                photoIds.add(rePhotoUserOwn.getPhotoId());
+            }
+        }
+        return photoIds;
+    }
+
+
+    public enum Visibility{
+        PRIVATE,FRIEND,JOIN,PUBLIC_BUT,PUBLIC
     }
 
 }

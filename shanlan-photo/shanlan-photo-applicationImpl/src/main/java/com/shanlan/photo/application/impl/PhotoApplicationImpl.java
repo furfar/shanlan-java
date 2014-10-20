@@ -2,15 +2,19 @@ package com.shanlan.photo.application.impl;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Named;
 
+import com.shanlan.common.util.EntityUtil;
+import com.shanlan.trade.core.domain.ReTradePhoto;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
 import org.dayatang.querychannel.QueryChannelService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -148,48 +152,22 @@ public class PhotoApplicationImpl implements PhotoApplication {
 				pageSize, result);
 	}
 
-	@Override
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<PhotoCollectionDTO> getPhotoCollections(String userName)
-			throws Exception {
-
-		List<PhotoCollectionDTO> photoCollectionDTOs = new ArrayList<PhotoCollectionDTO>();
-
-		if (StringUtils.isNotBlank(userName)) {
-			List<PhotoCollection> photoCollections = PhotoCollection
-					.findByCreator(userName);
-			for (PhotoCollection photoCollection : photoCollections) {
-
-				PhotoCollectionDTO photoCollectionDTO = new PhotoCollectionDTO();
-				BeanUtils.copyProperties(photoCollectionDTO, photoCollection);
-
-				List<RePhotoCollectionPhoto> rePhotoCollectionPhotos = RePhotoCollectionPhoto
-						.findByPhotoCollectionId(photoCollection.getId());
-				List<PhotoDTO> photoDTOs = new ArrayList<PhotoDTO>();
-				int count = 0;
-				for (RePhotoCollectionPhoto rePhotoCollectionPhoto : rePhotoCollectionPhotos) {
-					if (count >= 4) {// 目前暂时只取前4张
-						break;
-					}
-					RePhotoUserOwn rePhotoUserOwn = RePhotoUserOwn.get(
-							RePhotoUserOwn.class,
-							rePhotoCollectionPhoto.getUpoId());
-
-					if (rePhotoUserOwn != null) {
-						PhotoDTO photoDTO = new PhotoDTO(
-								rePhotoUserOwn.getPhotoId(),
-								rePhotoUserOwn.getPhotoPath());
-						photoDTOs.add(photoDTO);
-						count++;
-					}
-
-				}
-				photoCollectionDTO.setPhotoDTOList(photoDTOs);
-				photoCollectionDTOs.add(photoCollectionDTO);
-			}
-		}
-
-		return photoCollectionDTOs;
-	}
+    @Override
+    public List<PhotoDTO> listTradePhotos(int tradePhotoCollectionId) throws Exception{
+        List<PhotoDTO> tradePhotoDTOs=new ArrayList<PhotoDTO>();
+        if (tradePhotoCollectionId>0){
+            List<ReTradePhoto> reTradePhotoList=ReTradePhoto.listByTpcIds(Collections.singletonList(tradePhotoCollectionId));
+            List<Integer> reTradePhotoIdList= EntityUtil.getIds(reTradePhotoList);
+            List<RePhotoUserOwn> rePhotoUserOwns=RePhotoUserOwn.listPublic(reTradePhotoIdList);
+            List<Integer> photoIds=RePhotoUserOwn.listPhotoIds(rePhotoUserOwns);
+            List<Photo> photos=Photo.list(photoIds);
+            for(Photo photo:photos){
+                PhotoDTO photoDTO=new PhotoDTO();
+                BeanUtils.copyProperties(photoDTO,photo);
+                tradePhotoDTOs.add(photoDTO);
+            }
+        }
+        return tradePhotoDTOs;
+    }
 
 }

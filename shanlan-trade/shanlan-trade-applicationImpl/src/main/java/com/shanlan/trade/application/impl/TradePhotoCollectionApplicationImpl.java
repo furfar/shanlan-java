@@ -7,7 +7,13 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import com.shanlan.photo.application.dto.PhotoCollectionDTO;
+import com.shanlan.photo.application.dto.PhotoDTO;
+import com.shanlan.photo.core.domain.PhotoCollection;
+import com.shanlan.photo.core.domain.RePhotoCollectionPhoto;
+import com.shanlan.photo.core.domain.RePhotoUserOwn;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
 import org.dayatang.querychannel.QueryChannelService;
@@ -154,6 +160,5 @@ public class TradePhotoCollectionApplicationImpl implements TradePhotoCollection
         }
         return new Page<TradePhotoCollectionDTO>(pages.getStart(), pages.getResultCount(), pageSize, result);
 	}
-	
-	
+
 }
