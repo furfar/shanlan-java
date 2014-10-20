@@ -179,6 +179,7 @@ public class TradeCommentApplicationImpl implements TradeCommentApplication {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Page<FrontTradeCommentDTO> pageTradeComments(String sellerUserName,
                                                         int currentPage, int pageSize) {
 
