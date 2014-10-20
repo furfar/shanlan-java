@@ -1,11 +1,6 @@
 package com.shanlan.trade.application.dto;
 
 import java.io.Serializable;
-import java.util.Date;
-
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.openkoala.koala.springmvc.JsonDateSerializer;
-import org.springframework.format.annotation.DateTimeFormat;
 
 public class TradePhotoCollectionDTO implements Serializable {
 
@@ -16,19 +11,19 @@ public class TradePhotoCollectionDTO implements Serializable {
 
 	private Integer id;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date updatedAt;
+	
+	private String updatedAt;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date updatedAtEnd;
+	
+	private String updatedAtEnd;
 
-	private Integer photoQuantity;
+	private Integer photoCount;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date createdAt;
+	
+	private String createdAt;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date createdAtEnd;
+	
+	private String createdAtEnd;
 
 	private String description;
 
@@ -36,49 +31,49 @@ public class TradePhotoCollectionDTO implements Serializable {
 
 	private String owner;
 
-	private Integer orderId;
+	private Integer goodsId;
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(String updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
-	@JsonSerialize(using = JsonDateSerializer.class)
-	public Date getUpdatedAt() {
+	
+	public String getUpdatedAt() {
 		return this.updatedAt;
 	}
 
-	public void setUpdatedAtEnd(Date updatedAtEnd) {
+	public void setUpdatedAtEnd(String updatedAtEnd) {
 		this.updatedAtEnd = updatedAtEnd;
 	}
 
-	@JsonSerialize(using = JsonDateSerializer.class)
-	public Date getUpdatedAtEnd() {
+	
+	public String getUpdatedAtEnd() {
 		return this.updatedAtEnd;
 	}
 
-	public void setPhotoQuantity(Integer photoQuantity) {
-		this.photoQuantity = photoQuantity;
+	public void setPhotoCount(Integer photoCount) {
+		this.photoCount = photoCount;
 	}
 
-	public Integer getPhotoQuantity() {
-		return this.photoQuantity;
+	public Integer getPhotoCount() {
+		return this.photoCount;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(String createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	@JsonSerialize(using = JsonDateSerializer.class)
-	public Date getCreatedAt() {
+	
+	public String getCreatedAt() {
 		return this.createdAt;
 	}
 
-	public void setCreatedAtEnd(Date createdAtEnd) {
+	public void setCreatedAtEnd(String createdAtEnd) {
 		this.createdAtEnd = createdAtEnd;
 	}
 
-	@JsonSerialize(using = JsonDateSerializer.class)
-	public Date getCreatedAtEnd() {
+	
+	public String getCreatedAtEnd() {
 		return this.createdAtEnd;
 	}
 
@@ -106,12 +101,12 @@ public class TradePhotoCollectionDTO implements Serializable {
 		return this.owner;
 	}
 
-	public void setOrderId(Integer orderId) {
-		this.orderId = orderId;
+	public void setGoodsId(Integer goodsId) {
+		this.goodsId = goodsId;
 	}
 
-	public Integer getOrderId() {
-		return this.orderId;
+	public Integer getGoodsId() {
+		return this.goodsId;
 	}
 
 	public void setId(Integer id) {

@@ -1,7 +1,9 @@
 package com.shanlan.user.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,234 +12,259 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.shanlan.common.util.JPQLUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 
 /**
  * Auto Generated Entity
- * 
+ *
  * @author Koala
- * 
  */
 @Entity
 @Table(name = "user")
 public class UserDetail extends KoalaLegacyEntity {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 *
-	 * 主键
-	 *
-	 **/
+    /**
+     * 主键
+     */
 
-	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-	@Column(name = "user_name")
-	private String userName;
+    @Column(name = "user_name")
+    private String userName;
 
-	@Column(name = "gender")
-	private Integer gender;
+    @Column(name = "nick_name")
+    private String nickName;
 
-	@Column(name = "real_name")
-	private String realName;
+    @Column(name = "gender")
+    private Integer gender;
 
-	@Column(name = "photo_id")
-	private int photoId;
+    @Column(name = "real_name")
+    private String realName;
 
-	@Column(name = "photo_path")
-	private String photoPath;
+    @Column(name = "photo_id")
+    private int photoId;
 
-	@Column(name = "city_id")
-	private int cityId;
+    @Column(name = "photo_path")
+    private String photoPath;
 
-	@Column(name = "birthday")
-	private Date birthday;
+    @Column(name = "city_id")
+    private int cityId;
 
-	@Column(name = "mobile")
-	private String mobile;
+    @Column(name = "birthday")
+    private Date birthday;
 
-	@Column(name = "qq")
-	private String qq;
+    @Column(name = "mobile")
+    private String mobile;
 
-	@Column(name = "webchart")
-	private String webchart;
+    @Column(name = "qq")
+    private String qq;
 
-	@Column(name = "alipay")
-	private String alipay;
+    @Column(name = "webchart")
+    private String webchart;
 
-	@Column(name = "trade_times")
-	private int tradeTimes;
+    @Column(name = "alipay")
+    private String alipay;
 
-	@Column(name = "activeness")
-	private int activeness;
+    @Column(name = "trade_times")
+    private int tradeTimes;
 
-	@Column(name = "photo_count")
-	private int photoCount;
+    @Column(name = "activeness")
+    private int activeness;
 
-	@Column(name = "type")
-	private String type;
+    @Column(name = "photo_count")
+    private int photoCount;
 
-	@Column(name = "other")
-	private String other;
+    @Column(name = "type")
+    private String type;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @Column(name = "other")
+    private String other;
 
-	public String getUserName() {
-		return userName;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public String getUserName() {
+        return userName;
+    }
 
-	public Integer getGender() {
-		return gender;
-	}
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	public void setGender(Integer gender) {
-		this.gender = gender;
-	}
+    public String getNickName() {
+        return nickName;
+    }
 
-	public String getRealName() {
-		return realName;
-	}
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
-	public void setRealName(String realName) {
-		this.realName = realName;
-	}
+    public Integer getGender() {
+        return gender;
+    }
 
-	public int getPhotoId() {
-		return photoId;
-	}
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
 
-	public void setPhotoId(int photoId) {
-		this.photoId = photoId;
-	}
+    public String getRealName() {
+        return realName;
+    }
 
-	public String getPhotoPath() {
-		return photoPath;
-	}
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
 
-	public void setPhotoPath(String photoPath) {
-		this.photoPath = photoPath;
-	}
+    public int getPhotoId() {
+        return photoId;
+    }
 
-	public int getCityId() {
-		return cityId;
-	}
+    public void setPhotoId(int photoId) {
+        this.photoId = photoId;
+    }
 
-	public void setCityId(int cityId) {
-		this.cityId = cityId;
-	}
+    public String getPhotoPath() {
+        return photoPath;
+    }
 
-	public Date getBirthday() {
-		return birthday;
-	}
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
+    }
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
-	}
+    public int getCityId() {
+        return cityId;
+    }
 
-	public String getMobile() {
-		return mobile;
-	}
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
+    }
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
+    public Date getBirthday() {
+        return birthday;
+    }
 
-	public String getQq() {
-		return qq;
-	}
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 
-	public void setQq(String qq) {
-		this.qq = qq;
-	}
+    public String getMobile() {
+        return mobile;
+    }
 
-	public String getWebchart() {
-		return webchart;
-	}
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-	public void setWebchart(String webchart) {
-		this.webchart = webchart;
-	}
+    public String getQq() {
+        return qq;
+    }
 
-	public String getAlipay() {
-		return alipay;
-	}
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
 
-	public void setAlipay(String alipay) {
-		this.alipay = alipay;
-	}
+    public String getWebchart() {
+        return webchart;
+    }
 
-	public int getTradeTimes() {
-		return tradeTimes;
-	}
+    public void setWebchart(String webchart) {
+        this.webchart = webchart;
+    }
 
-	public void setTradeTimes(int tradeTimes) {
-		this.tradeTimes = tradeTimes;
-	}
+    public String getAlipay() {
+        return alipay;
+    }
 
-	public int getActiveness() {
-		return activeness;
-	}
+    public void setAlipay(String alipay) {
+        this.alipay = alipay;
+    }
 
-	public void setActiveness(int activeness) {
-		this.activeness = activeness;
-	}
+    public int getTradeTimes() {
+        return tradeTimes;
+    }
 
-	public int getPhotoCount() {
-		return photoCount;
-	}
+    public void setTradeTimes(int tradeTimes) {
+        this.tradeTimes = tradeTimes;
+    }
 
-	public void setPhotoCount(int photoCount) {
-		this.photoCount = photoCount;
-	}
+    public int getActiveness() {
+        return activeness;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setActiveness(int activeness) {
+        this.activeness = activeness;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public int getPhotoCount() {
+        return photoCount;
+    }
 
-	public String getOther() {
-		return other;
-	}
+    public void setPhotoCount(int photoCount) {
+        this.photoCount = photoCount;
+    }
 
-	public void setOther(String other) {
-		this.other = other;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public Integer getId() {
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getOther() {
+        return other;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
+    }
+
+    public Integer getId() {
         return id;
-	}
+    }
 
-	public boolean existed() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    public boolean existed() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	public boolean notExisted() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    public boolean notExisted() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	public boolean existed(String propertyName, Object propertyValue) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    public boolean existed(String propertyName, Object propertyValue) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	@Override
-	public String[] businessKeys() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String[] businessKeys() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
+    public static Map<String, UserDetail> list(List<String> userNameList) {
+        Map<String, UserDetail> userNameUserDetailMap = new HashMap<String, UserDetail>();
+
+        if (userNameList != null && userNameList.size() > 0) {
+            String jpql = JPQLUtil.selectByColumnIn(UserDetail.class, "userName", userNameList);
+            if (StringUtils.isNotBlank(jpql)) {
+                List<UserDetail> userDetails = getRepository().createJpqlQuery(jpql).list();
+                for (UserDetail userDetail : userDetails) {
+                    userNameUserDetailMap.put(userDetail.getUserName(), userDetail);
+                }
+            }
+        }
+
+        return userNameUserDetailMap;
+    }
 }

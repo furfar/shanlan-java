@@ -42,6 +42,11 @@ public class FrontTradeCommentDTO {
 	 */
 	private Float price;
 
+    /**
+     * 商品的购买数量
+     */
+    private Integer quantity;
+
 	/**
 	 * 交易时间（来处trade_order表的cratedAt字段）
 	 */
@@ -51,7 +56,7 @@ public class FrontTradeCommentDTO {
 	/**
 	 * 交易评价分数（来自trade_comment表的score字段）
 	 */
-	private Float score;
+	private Integer score;
 
 	/**
 	 * 交易评价内容（来自trade_comment表的content字段）
@@ -111,7 +116,15 @@ public class FrontTradeCommentDTO {
 		this.price = price;
 	}
 
-	@JsonSerialize(using = JsonDateSerializer.class)
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    @JsonSerialize(using = JsonDateSerializer.class)
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -120,11 +133,11 @@ public class FrontTradeCommentDTO {
 		this.createdAt = createdAt;
 	}
 
-	public Float getScore() {
+	public Integer getScore() {
 		return score;
 	}
 
-	public void setScore(Float score) {
+	public void setScore(Integer score) {
 		this.score = score;
 	}
 
@@ -145,9 +158,6 @@ public class FrontTradeCommentDTO {
 	}
 
 	public int getPhotoCount() {
-		if (CollectionUtils.isNotEmpty(photos)) {
-			photoCount = photos.size();
-		}
 		return photoCount;
 	}
 

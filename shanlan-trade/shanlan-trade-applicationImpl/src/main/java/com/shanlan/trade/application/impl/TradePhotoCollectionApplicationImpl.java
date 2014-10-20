@@ -117,14 +117,14 @@ public class TradePhotoCollectionApplicationImpl implements TradePhotoCollection
 	   		jpql.append(" and _tradePhotoCollection.owner like ?");
 	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getOwner()));
 	   	}		
-	   	if (queryVo.getOrderId() != null) {
+	   	if (queryVo.getGoodsId() != null) {
 	   		jpql.append(" and _tradePhotoCollection.orderId=?");
-	   		conditionVals.add(queryVo.getOrderId());
+	   		conditionVals.add(queryVo.getGoodsId());
 	   	}	
 	
-	   	if (queryVo.getPhotoQuantity() != null) {
+	   	if (queryVo.getPhotoCount() != null) {
 	   		jpql.append(" and _tradePhotoCollection.photoQuantity=?");
-	   		conditionVals.add(queryVo.getPhotoQuantity());
+	   		conditionVals.add(queryVo.getPhotoCount());
 	   	}	
 	
 	

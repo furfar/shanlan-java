@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 
+import java.util.Map;
+
 /**
  * Auto Generated Entity
  * 
@@ -27,11 +29,14 @@ public class TradeOrderItem extends KoalaLegacyEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-//	@Column(name = "order_id")
-//	private Integer orderId;
+	@Column(name = "order_id")
+	private Integer orderId;
 
 	@Column(name = "goods_id")
 	private int goodsId;
+
+    @Column(name = "goods_name")
+    private String goodsName;
 
 	@Column(name = "quantity")
 	private int quantity;
@@ -40,21 +45,40 @@ public class TradeOrderItem extends KoalaLegacyEntity {
 	private float price;
 
 	// 这里设置JoinColum设置了外键的名字，并且orderItem是关系维护端
-	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, optional = true)
-	@JoinColumn(name = "order_id")
-	private TradeOrder tradeOrder;
+//	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, optional = true)
+//	@JoinColumn(name = "order_id")
+//	private TradeOrder tradeOrder;
+
+
+    public TradeOrderItem(){
+
+    }
+
+    
+	public TradeOrderItem(int id, Integer orderId, int goodsId,String goodsName, int quantity,
+			float price) {
+		super();
+		this.id = id;
+		this.orderId = orderId;
+		this.goodsId = goodsId;
+        this.goodsName=goodsName;
+		this.quantity = quantity;
+		this.price = price;
+	}
+
+
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-//	public int getOrderId() {
-//		return orderId;
-//	}
-//
-//	public void setOrderId(int orderId) {
-//		this.orderId = orderId;
-//	}
+	public int getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
 
 	public int getGoodsId() {
 		return goodsId;
@@ -64,7 +88,16 @@ public class TradeOrderItem extends KoalaLegacyEntity {
 		this.goodsId = goodsId;
 	}
 
-	public int getQuantity() {
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
+
+    public int getQuantity() {
 		return quantity;
 	}
 
@@ -106,12 +139,25 @@ public class TradeOrderItem extends KoalaLegacyEntity {
 	}
 
 
-	public TradeOrder getOrder() {
-		return tradeOrder;
-	}
+//	public TradeOrder getOrder() {
+//		return tradeOrder;
+//	}
+//
+//	public void setOrder(TradeOrder tradeOrder) {
+//		this.tradeOrder = tradeOrder;
+//	}
 
-	public void setOrder(TradeOrder tradeOrder) {
-		this.tradeOrder = tradeOrder;
-	}
+
+    @Override
+    public String toString() {
+        return "TradeOrderItem{" +
+                "id=" + id +
+                ", goodsId=" + goodsId +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", orderId=" + orderId +
+                '}';
+    }
+
 
 }

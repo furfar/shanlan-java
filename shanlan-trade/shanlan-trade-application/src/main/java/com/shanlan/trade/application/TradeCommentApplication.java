@@ -30,7 +30,7 @@ public interface TradeCommentApplication {
 	 * @param pageSize
 	 * @return
 	 */
-	public Page<FrontTradeCommentDTO> pageTradeComment(String sellerUserName , int currentPage, int pageSize);
+	public Page<FrontTradeCommentDTO> pageTradeComments(String sellerUserName, int currentPage, int pageSize);
 
 }
 

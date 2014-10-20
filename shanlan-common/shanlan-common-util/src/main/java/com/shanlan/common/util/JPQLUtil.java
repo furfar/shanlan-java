@@ -1,0 +1,44 @@
+package com.shanlan.common.util;
+
+import com.sun.deploy.util.ReflectionUtil;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
+
+/**
+ * Created by albertliu on 14-10-20.
+ */
+public class JPQLUtil{
+
+
+        /**
+         *
+         * @param clazz
+         * @param columnName
+         * @param columnValues
+         * @return
+         */
+        public static String selectByColumnIn(Class clazz, String columnName, java.lang.Iterable<?> columnValues) {
+            if (clazz != null && columnValues != null) {
+                String entityName=clazz.getSimpleName();
+                String jpql = "Select "
+                        + entityName
+                        + " From " + entityName +" "+entityName+ " Where " + columnName + " In ('"
+                        + StringUtils.join(columnValues, "','") + "')";
+                return jpql;
+            }
+            return null;
+        }
+
+
+    /**
+     * 得到开如select xx from xx where id in()的Sql语句
+     * @param clazz
+     * @param ids
+     * @return
+     */
+    public static String selectByIdIn(Class clazz, List<Integer> ids) {
+        return selectByColumnIn(clazz,"id",ids);
+    }
+
+}
