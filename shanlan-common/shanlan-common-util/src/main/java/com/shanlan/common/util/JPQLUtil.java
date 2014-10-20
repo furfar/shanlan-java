@@ -1,9 +1,8 @@
 package com.shanlan.common.util;
 
-import com.sun.deploy.util.ReflectionUtil;
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Created by albertliu on 14-10-20.
