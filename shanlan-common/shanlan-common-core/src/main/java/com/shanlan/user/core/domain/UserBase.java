@@ -213,7 +213,7 @@ public class UserBase extends KoalaLegacyEntity {
     }
 
 
-    public static boolean login(String userAccount, String password)
+    public static UserBase login(String userAccount, String password)
             throws OPFBaseException {
         if (StringUtils.isNotBlank(userAccount)
                 && StringUtils.isNotBlank(password)) {
@@ -241,10 +241,10 @@ public class UserBase extends KoalaLegacyEntity {
                 throw  requestAuthenticationException;
             }
 
-            return true;
+            return user;
 
         }
-        return false;
+        return null;
     }
 
 

@@ -2,6 +2,7 @@ package com.shanlan.user.core.service;
 
 import java.io.IOException;
 
+import com.shanlan.common.exception.sub.business.OPFBaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,4 +54,19 @@ public class UserService {
 		}
 		return false;
 	}
+
+
+    public static UserDetail login(String userAccount, String password)
+            throws OPFBaseException{
+
+        UserDetail userDetail=new UserDetail();
+
+        UserBase userBase=UserBase.login(userAccount,password);
+        if (userBase!=null){
+            userDetail=UserDetail.get(userBase.getUserName());
+            return userDetail;
+        }
+        return null;
+    }
+
 }

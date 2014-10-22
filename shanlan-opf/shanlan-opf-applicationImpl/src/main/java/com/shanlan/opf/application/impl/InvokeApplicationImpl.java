@@ -115,9 +115,11 @@ public class InvokeApplicationImpl implements InvokeApplication {
         String businessResult = "";
 
         if (service.equals("User.login")) {
-            boolean result = UserBase.login(paramMap.get("userAccount"),
+            UserDetail userDetail = UserService.login(paramMap.get("userAccount"),
                     paramMap.get("password"));
-            businessResult = JsonUtil.toJson(result);
+            UserDetailDTO userDetailDTO=new UserDetailDTO();
+            BeanUtils.copyProperties(userDetailDTO,userDetail);
+            businessResult = JsonUtil.toJson(userDetailDTO);
         } else if (service.equals("User.register")) {
             UserBase user = new UserBase(paramMap.get("userName"),
                     paramMap.get("password"), paramMap.get("email"));

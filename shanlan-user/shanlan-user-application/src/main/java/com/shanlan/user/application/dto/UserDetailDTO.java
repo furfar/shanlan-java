@@ -15,10 +15,10 @@ public class UserDetailDTO implements Serializable {
 
 		
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date birthday;
+	private String birthday;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date birthdayEnd;
+	private String birthdayEnd;
 						
 	private Integer activeness;
 
@@ -68,21 +68,21 @@ public class UserDetailDTO implements Serializable {
 			
 		
 
-	public void setBirthday(Date birthday) { 
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 
-	@JsonSerialize(using = JsonDateSerializer.class)
-	public Date getBirthday() {
+
+	public String getBirthday() {
 		return this.birthday;
 	}
 	
-	public void setBirthdayEnd(Date birthdayEnd) { 
+	public void setBirthdayEnd(String birthdayEnd) {
 		this.birthdayEnd = birthdayEnd;
 	}
 
-	@JsonSerialize(using = JsonDateSerializer.class)
-	public Date getBirthdayEnd() {
+
+	public String getBirthdayEnd() {
 		return this.birthdayEnd;
 	}
 								
