@@ -7,8 +7,11 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import com.shanlan.common.exception.sub.business.RequestParameterException;
 import com.shanlan.common.util.EntityUtil;
 import com.shanlan.trade.core.domain.ReTradePhoto;
+import com.shanlan.user.core.domain.UserBase;
+import com.shanlan.user.core.service.UserService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dayatang.domain.InstanceFactory;
@@ -68,7 +71,15 @@ public class PhotoApplicationImpl implements PhotoApplication {
 
 	public void updatePhoto(PhotoDTO photoDTO) {
 		Photo photo = Photo.get(Photo.class, photoDTO.getId());
-		// 设置要更新的值
+
+        UserBase userBase=new UserBase("anem","pass","emailsdf");
+        try {
+            UserService.register(userBase);
+        } catch (RequestParameterException e) {
+            e.printStackTrace();
+        }
+
+        // 设置要更新的值
 		try {
 			BeanUtils.copyProperties(photo, photoDTO);
 		} catch (Exception e) {

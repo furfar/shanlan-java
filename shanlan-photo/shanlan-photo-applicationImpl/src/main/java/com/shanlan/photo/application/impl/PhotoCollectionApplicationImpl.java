@@ -7,9 +7,12 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import com.shanlan.common.exception.sub.business.RequestParameterException;
 import com.shanlan.photo.application.dto.PhotoDTO;
 import com.shanlan.photo.core.domain.RePhotoCollectionPhoto;
 import com.shanlan.photo.core.domain.RePhotoUserOwn;
+import com.shanlan.user.core.domain.UserBase;
+import com.shanlan.user.core.service.UserService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dayatang.domain.InstanceFactory;
@@ -64,7 +67,7 @@ public class PhotoCollectionApplicationImpl implements PhotoCollectionApplicatio
 	
 	public void updatePhotoCollection(PhotoCollectionDTO photoCollectionDTO) {
 		PhotoCollection photoCollection = PhotoCollection.get(PhotoCollection.class, photoCollectionDTO.getId());
-		// 设置要更新的值
+        // 设置要更新的值
 		try {
 			BeanUtils.copyProperties(photoCollection, photoCollectionDTO);
 		} catch (Exception e) {

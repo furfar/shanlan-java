@@ -1,9 +1,6 @@
 package com.shanlan.user.core.domain;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.shanlan.common.exception.business.ParameterInvalidException;
 import com.shanlan.common.util.JPQLUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
@@ -42,6 +40,9 @@ public class UserDetail extends KoalaLegacyEntity {
     @Column(name = "nick_name")
     private String nickName;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "gender")
     private Integer gender;
 
@@ -49,13 +50,13 @@ public class UserDetail extends KoalaLegacyEntity {
     private String realName;
 
     @Column(name = "photo_id")
-    private int photoId;
+    private Integer photoId;
 
     @Column(name = "photo_path")
     private String photoPath;
 
     @Column(name = "city_id")
-    private int cityId;
+    private Integer cityId;
 
     @Column(name = "birthday")
     private Date birthday;
@@ -73,13 +74,13 @@ public class UserDetail extends KoalaLegacyEntity {
     private String alipay;
 
     @Column(name = "trade_times")
-    private int tradeTimes;
+    private Integer tradeTimes;
 
     @Column(name = "activeness")
-    private int activeness;
+    private Integer activeness;
 
     @Column(name = "photo_count")
-    private int photoCount;
+    private Integer photoCount;
 
     @Column(name = "type")
     private String type;
@@ -123,12 +124,21 @@ public class UserDetail extends KoalaLegacyEntity {
         this.realName = realName;
     }
 
-    public int getPhotoId() {
+    public Integer getPhotoId() {
         return photoId;
     }
 
-    public void setPhotoId(int photoId) {
+    public void setPhotoId(Integer photoId) {
         this.photoId = photoId;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPhotoPath() {
@@ -139,11 +149,11 @@ public class UserDetail extends KoalaLegacyEntity {
         this.photoPath = photoPath;
     }
 
-    public int getCityId() {
+    public Integer getCityId() {
         return cityId;
     }
 
-    public void setCityId(int cityId) {
+    public void setCityId(Integer cityId) {
         this.cityId = cityId;
     }
 
@@ -187,27 +197,27 @@ public class UserDetail extends KoalaLegacyEntity {
         this.alipay = alipay;
     }
 
-    public int getTradeTimes() {
+    public Integer getTradeTimes() {
         return tradeTimes;
     }
 
-    public void setTradeTimes(int tradeTimes) {
+    public void setTradeTimes(Integer tradeTimes) {
         this.tradeTimes = tradeTimes;
     }
 
-    public int getActiveness() {
+    public Integer getActiveness() {
         return activeness;
     }
 
-    public void setActiveness(int activeness) {
+    public void setActiveness(Integer activeness) {
         this.activeness = activeness;
     }
 
-    public int getPhotoCount() {
+    public Integer getPhotoCount() {
         return photoCount;
     }
 
-    public void setPhotoCount(int photoCount) {
+    public void setPhotoCount(Integer photoCount) {
         this.photoCount = photoCount;
     }
 
@@ -231,6 +241,20 @@ public class UserDetail extends KoalaLegacyEntity {
         return id;
     }
 
+    public UserDetail(){}
+
+    public UserDetail(String userName, String nickName, String email, String type) {
+        this.userName = userName;
+        this.nickName = nickName;
+        this.email = email;
+        this.type = type;
+    }
+
+    public enum Type{
+        COMMON,PHOTOGRAPHER,MODEL
+    }
+
+
     public boolean existed() {
         // TODO Auto-generated method stub
         return false;
@@ -252,7 +276,7 @@ public class UserDetail extends KoalaLegacyEntity {
         return null;
     }
 
-    public static Map<String, UserDetail> list(List<String> userNameList) {
+    public static Map<String, UserDetail> getUserNameAndSelfMap(List<String> userNameList) {
         Map<String, UserDetail> userNameUserDetailMap = new HashMap<String, UserDetail>();
 
         if (userNameList != null && userNameList.size() > 0) {
@@ -267,4 +291,27 @@ public class UserDetail extends KoalaLegacyEntity {
 
         return userNameUserDetailMap;
     }
+
+    public static List<UserDetail> listByUserNames(List<String> userNameList){
+        List<UserDetail> userDetails=new ArrayList<UserDetail>();
+
+        if (userNameList != null && userNameList.size() > 0) {
+            String jpql = JPQLUtil.selectByColumnIn(UserDetail.class, "userName", userNameList);
+            if (StringUtils.isNotBlank(jpql)) {
+               userDetails = getRepository().createJpqlQuery(jpql).list();
+            }
+        }
+        return userDetails;
+    }
+
+
+    public static UserDetail get(String userName){
+        List<UserDetail> userDetails=listByUserNames(Collections.singletonList(userName));
+        if(userDetails.size()==1){
+            return userDetails.get(0);
+        }else{
+            throw new ParameterInvalidException("用户" +userName+"不存在,请核对用户名");
+        }
+    }
+
 }

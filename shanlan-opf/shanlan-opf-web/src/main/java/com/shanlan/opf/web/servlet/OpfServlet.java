@@ -1,15 +1,19 @@
-package com.shanlan.opf.web.controller;
+package com.shanlan.opf.web.servlet;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.shanlan.opf.core.domain.BaseResponse;
+import com.shanlan.opf.web.controller.OpfController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 
 import com.shanlan.common.constant.ConstantNumber;
@@ -23,8 +27,8 @@ import com.shanlan.opf.application.dto.RequestDTO;
 import com.shanlan.opf.application.dto.SuccessResponseDTO;
 import com.shanlan.opf.application.impl.InvokeApplicationImpl;
 import com.shanlan.opf.infra.helper.InvokeHelper;
+import org.springframework.web.context.WebApplicationContext;
 
-@Controller
 public class OpfServlet extends HttpServlet {
 
 	/**
@@ -35,6 +39,8 @@ public class OpfServlet extends HttpServlet {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	private InvokeApplication invokeApplication;
+
+    private OpfController opfController;
 
 	protected void service(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -47,55 +53,12 @@ public class OpfServlet extends HttpServlet {
 			resp.getOutputStream().write(
 					JsonUtil.toJson(errorResponseDTO).getBytes());
 		}
-
-		BaseResponseDTO baseResponseDTO = invokeApplication
-				.invokeService(requestDTO,req.getMethod());
+        BaseResponseDTO baseResponseDTO=new BaseResponseDTO();
+//		BaseResponseDTO baseResponseDTO = invokeApplication
+//				.invokeService(requestDTO,req.getMethod());
 		handleResponse(resp, baseResponseDTO);
 	}
 
-	// protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-	// throws ServletException, IOException {
-	//
-	// String request = handleRequest(req);
-	// BaseResponseDTO baseResponseDTO = invokeApplication
-	// .invokeService(request);
-	// handleResponse(resp, baseResponseDTO);
-	// }
-	//
-	// protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-	// throws ServletException, IOException {
-	//
-	// String request = handleRequest(req);
-	//
-	//
-	//
-	//
-	// BaseResponseDTO baseResponseDTO = invokeApplication
-	// .invokeService(request);
-	//
-	// handleResponse(resp, baseResponseDTO);
-	//
-	// }
-	//
-	// protected void doPut(HttpServletRequest req, HttpServletResponse resp)
-	// throws ServletException, IOException {
-	//
-	// String request = handleRequest(req);
-	// BaseResponseDTO baseResponseDTO = invokeApplication
-	// .invokeService(request);
-	//
-	// handleResponse(resp, baseResponseDTO);
-	//
-	// }
-	//
-	// protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
-	// throws ServletException, IOException {
-	// String request = handleRequest(req);
-	// BaseResponseDTO baseResponseDTO = invokeApplication
-	// .invokeService(request);
-	//
-	// handleResponse(resp, baseResponseDTO);
-	// }
 
 	private RequestDTO handleRequest(HttpServletRequest req,
 			HttpServletResponse resp) throws RequestParameterException {
@@ -139,18 +102,17 @@ public class OpfServlet extends HttpServlet {
 
 	public void init(ServletConfig servletConfig) throws ServletException {
 		invokeApplication=new InvokeApplicationImpl();
-//		ApplicationContext ctx = getApplicationContext(servletConfig);
-//		this.invokeApplication = ctx.getBean(InvokeApplication.class);
-//		if (this.invokeApplication == null) {
-//			logger.error("未找到" + InvokeApplication.class.getName() + "的Bean");
-//		}
+		ApplicationContext ctx = getApplicationContext(servletConfig);
+		if (this.invokeApplication == null) {
+			logger.error("未找到" + InvokeApplication.class.getName() + "的Bean");
+		}
 	}
 
-//	private ApplicationContext getApplicationContext(ServletConfig servletConfig) {
-//		return (ApplicationContext) servletConfig
-//				.getServletContext()
-//				.getAttribute(
-//						WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-//	}
+	private ApplicationContext getApplicationContext(ServletConfig servletConfig) {
+		return (ApplicationContext) servletConfig
+				.getServletContext()
+				.getAttribute(
+						WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+	}
 
 }

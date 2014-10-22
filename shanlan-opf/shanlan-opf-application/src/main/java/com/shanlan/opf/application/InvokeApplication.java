@@ -31,5 +31,5 @@ public interface InvokeApplication {
 	SuccessResponseDTO invokeLocalService(String service,String param) throws Exception;
 
 
-    BaseResponseDTO invokeService(RequestDTO requestDTO, String method) ;
+    public BaseResponseDTO invokeService(String request, String method) ;
 }

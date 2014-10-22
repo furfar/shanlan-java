@@ -21,8 +21,8 @@ public class UserDetailDTO implements Serializable {
 	private Date birthdayEnd;
 						
 	private Integer activeness;
-	
-		
+
+
 	private String other;
 	
 						
@@ -34,7 +34,8 @@ public class UserDetailDTO implements Serializable {
 		
 	private String type;
 	
-		
+	private String email;
+
 	private String webchart;
 	
 		
@@ -94,11 +95,17 @@ public class UserDetailDTO implements Serializable {
 	public Integer getActiveness() {
 		return this.activeness;
 	}
-	
-			
-		
 
-	public void setOther(String other) { 
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setOther(String other) {
 		this.other = other;
 	}
 
@@ -282,4 +289,5 @@ public class UserDetailDTO implements Serializable {
 			return false;
 		return true;
 	}
+
 }

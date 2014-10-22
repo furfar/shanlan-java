@@ -20,7 +20,9 @@ public interface UserDetailApplication {
 	public List<UserDetailDTO> findAllUser();
 	
 	public Page<UserDetailDTO> pageQueryUser(UserDetailDTO user, int currentPage, int pageSize);
-	
+
+
+    public boolean register(UserBaseDTO userBaseDTO) throws Exception;
 
 }
 

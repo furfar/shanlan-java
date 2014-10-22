@@ -1,10 +1,10 @@
 package com.shanlan.opf.application.impl;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.shanlan.photo.application.PhotoCollectionApplication;
@@ -14,14 +14,17 @@ import com.shanlan.trade.application.TradeCommentApplication;
 import com.shanlan.trade.application.dto.FrontTradeCommentDTO;
 import com.shanlan.trade.application.dto.PhotoPackagesDTO;
 import com.shanlan.trade.application.impl.TradeCommentApplicationImpl;
-import com.shanlan.trade.core.domain.TradeComment;
-import com.shanlan.trade.core.domain.TradeOrder;
-import com.shanlan.trade.core.domain.service.TradeOrderItemService;
+import com.shanlan.user.application.UserDetailApplication;
+import com.shanlan.user.application.dto.UserDetailDTO;
+import com.shanlan.user.application.impl.UserDetailApplicationImpl;
+import com.shanlan.user.core.domain.UserDetail;
+import com.shanlan.user.core.service.UserService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.type.TypeReference;
 import org.dayatang.querychannel.Page;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +41,7 @@ import com.shanlan.opf.application.InvokeApplication;
 import com.shanlan.opf.application.dto.BaseResponseDTO;
 import com.shanlan.opf.application.dto.RequestDTO;
 import com.shanlan.opf.application.dto.SuccessResponseDTO;
-import com.shanlan.opf.application.dto.UserBaseDTO;
+import com.shanlan.user.application.dto.UserBaseDTO;
 import com.shanlan.opf.core.domain.Request;
 import com.shanlan.opf.core.domain.Service;
 import com.shanlan.opf.infra.helper.InvokeHelper;
@@ -49,7 +52,6 @@ import com.shanlan.photo.core.domain.Photo;
 import com.shanlan.photo.core.service.PhotoService;
 import com.shanlan.trade.application.PhotoPackagesApplication;
 import com.shanlan.trade.application.impl.PhotoPackagesApplicationImpl;
-import com.shanlan.trade.core.domain.PhotoPackages;
 import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.domain.UserIntroduction;
 
@@ -73,13 +75,15 @@ public class InvokeApplicationImpl implements InvokeApplication {
     private PhotoCollectionApplication photoCollectionApplication;
     private PhotoPackagesApplication photoPackagesApplication;
     private TradeCommentApplication tradeCommentApplication;
+    @Inject
+    private UserDetailApplication userDetailApplication;
 
     public InvokeApplicationImpl() {
         if (photoApplication == null) {
             photoApplication = new PhotoApplicationImpl();
         }
-        if (photoCollectionApplication==null){
-            photoCollectionApplication=new PhotoCollectionApplicationImpl();
+        if (photoCollectionApplication == null) {
+            photoCollectionApplication = new PhotoCollectionApplicationImpl();
         }
         if (photoPackagesApplication == null) {
             photoPackagesApplication = new PhotoPackagesApplicationImpl();
@@ -87,6 +91,9 @@ public class InvokeApplicationImpl implements InvokeApplication {
         if (tradeCommentApplication == null) {
             tradeCommentApplication = new TradeCommentApplicationImpl();
         }
+//        if (userDetailApplication == null) {
+//            userDetailApplication = new UserDetailApplicationImpl();
+//        }
 
     }
 
@@ -107,29 +114,14 @@ public class InvokeApplicationImpl implements InvokeApplication {
         );
         String businessResult = "";
 
-
-//		PhotoPackages packages= PhotoPackages.get(PhotoPackages.class, 1);
-//		System.out.println(packages.getDescription());
-//
-//        TradeOrder tradeOrder=TradeOrder.get(TradeOrder.class,1);
-//        int size=tradeOrder.getTradeOrderItems().size();
-//        System.out.println(size);
-//        List<Integer> ids=new ArrayList<Integer>();
-//        ids.add(1);
-//        ids.add(2);
-//        List<TradeComment> tradeComments=TradeComment.list(ids);
-
         if (service.equals("User.login")) {
-            UserBase existUser = UserBase.login(paramMap.get("userName"),
+            boolean result = UserBase.login(paramMap.get("userAccount"),
                     paramMap.get("password"));
-            businessResult = JsonUtil.toJson(existUser);
+            businessResult = JsonUtil.toJson(result);
         } else if (service.equals("User.register")) {
             UserBase user = new UserBase(paramMap.get("userName"),
-                    paramMap.get("password"), paramMap.get("nickName"),
-                    paramMap.get("email"), Integer.parseInt(paramMap
-                    .get("isValid"))
-            );
-            boolean result = UserBase.register(user);
+                    paramMap.get("password"), paramMap.get("email"));
+            boolean result= UserService.register(user);
             businessResult = JsonUtil.toJson(result);
         } else if (service.equals("User.getBaseInfoById")) {
             Integer id = Integer.parseInt(paramMap.get("id"));
@@ -138,11 +130,11 @@ public class InvokeApplicationImpl implements InvokeApplication {
             BeanUtils.copyProperties(userBaseDTO, userBase);
             businessResult = JsonUtil.toJson(userBaseDTO);
         } else if (service.equals("User.getBaseInfoByUserName")) {
-            UserBase userBase = UserBase.findByUserName(paramMap
-                    .get("userName"));
-            UserBaseDTO userBaseDTO = new UserBaseDTO();
-            BeanUtils.copyProperties(userBaseDTO, userBase);
-            businessResult = JsonUtil.toJson(userBaseDTO);
+            String userName = paramMap.get("userName");
+            UserDetail userDetail = UserDetail.get(userName);
+            UserDetailDTO userDetailDTO = new UserDetailDTO();
+            BeanUtils.copyProperties(userDetailDTO, userDetail);
+            businessResult = JsonUtil.toJson(userDetailDTO);
         } else if (service.equals("Photo.getPhotoCollections")) {
             String userName = paramMap.get("userName");
             List<PhotoCollectionDTO> photoCollectionDTOs = photoCollectionApplication
@@ -169,17 +161,25 @@ public class InvokeApplicationImpl implements InvokeApplication {
             Integer pageSize = Integer.parseInt(paramMap.get("pageSize"));
             Page<FrontTradeCommentDTO> frontTradeCommentDTOPage = tradeCommentApplication.pageTradeComments(sellerUserName, currentPage, pageSize);
             businessResult = JsonUtil.toJson(frontTradeCommentDTOPage);
-        } else if(service.equals("Photo.listTradePhotos")){
-            Integer tradePhotoCollectionId=Integer.parseInt(paramMap.get("tradePhotoCollectionId"));
-            List<PhotoDTO> photoDTOs=photoApplication.listTradePhotos(tradePhotoCollectionId);
-            businessResult=JsonUtil.toJson(photoDTOs);
+        } else if (service.equals("Photo.listTradePhotos")) {
+            Integer tradePhotoCollectionId = Integer.parseInt(paramMap.get("tradePhotoCollectionId"));
+            List<PhotoDTO> photoDTOs = photoApplication.listTradePhotos(tradePhotoCollectionId);
+            businessResult = JsonUtil.toJson(photoDTOs);
         }
         return new SuccessResponseDTO(businessResult);
 
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public BaseResponseDTO invokeService(RequestDTO requestDTO, String method) {
+    public BaseResponseDTO invokeService(String request, String method) {
+
+
+        RequestDTO requestDTO = new RequestDTO();
+        try {
+            requestDTO = InvokeHelper.parseRequestParameter(request);
+        } catch (Exception e) {
+            return InvokeHelper.handleException(e);
+        }
+
 
         SuccessResponseDTO successResponseDTO = new SuccessResponseDTO();
 

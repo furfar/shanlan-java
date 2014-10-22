@@ -26,4 +26,6 @@ public class ConstantString {
 
 
 	public static final String PARAM = "param";
+
+    public static final String ABOLISH_DATE="8888-01-01 00:00:00";
 }

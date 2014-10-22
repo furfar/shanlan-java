@@ -60,6 +60,16 @@ public class UserBase extends KoalaLegacyEntity {
     @Column(name = "ISVALID")
     private Integer isValid;
 
+    @Column(name = "IDENTITY_TYPE")
+    private String identityType;
+
+
+    @Column(name = "CREATE_DATE")
+    private String createDate;
+
+    @Column(name = "ABOLISH_DATE")
+    private String ABOLISH_DATE;
+
     /**
      *
      */
@@ -77,6 +87,25 @@ public class UserBase extends KoalaLegacyEntity {
     public String[] businessKeys() {
         return new String[0];
     }
+
+    public UserBase(String userAccount, String userPassword,
+                    String email) {
+        super();
+        this.userName = userAccount;
+        this.password = userPassword;
+        this.email = email;
+    }
+
+
+    public UserBase(String userAccount, String userPassword,
+                    String email, Integer isValid) {
+        super();
+        this.userName = userAccount;
+        this.password = userPassword;
+        this.email = email;
+        this.isValid = isValid;
+    }
+
 
     public UserBase(String userAccount, String userPassword, String nickName,
                     String email, Integer isValid) {
@@ -136,8 +165,32 @@ public class UserBase extends KoalaLegacyEntity {
         this.isValid = isValid;
     }
 
+    public String getIdentityType() {
+        return identityType;
+    }
 
-    public static UserBase findByUserName(String userName) {
+    public void setIdentityType(String identityType) {
+        this.identityType = identityType;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+
+    public String getABOLISH_DATE() {
+        return ABOLISH_DATE;
+    }
+
+    public void setABOLISH_DATE(String ABOLISH_DATE) {
+        this.ABOLISH_DATE = ABOLISH_DATE;
+    }
+
+    public static UserBase getByUserName(String userName) {
 
         if (StringUtils.isNotBlank(userName)) {
             List<UserBase> userBaseList = findByProperty(UserBase.class, "userName", userName);
@@ -160,7 +213,7 @@ public class UserBase extends KoalaLegacyEntity {
     }
 
 
-    public static UserBase login(String userAccount, String password)
+    public static boolean login(String userAccount, String password)
             throws OPFBaseException {
         if (StringUtils.isNotBlank(userAccount)
                 && StringUtils.isNotBlank(password)) {
@@ -169,7 +222,7 @@ public class UserBase extends KoalaLegacyEntity {
                     && userAccount.matches(ConstantRegex.REGEX_EMAIL)) {// 如果是Eamil
                 user = findByEmail(userAccount);
             } else {
-                user = findByUserName(userAccount);
+                user = getByUserName(userAccount);
             }
             RequestAuthenticationException requestAuthenticationException = new RequestAuthenticationException(
                     "username or password error, please check it.");
@@ -188,32 +241,32 @@ public class UserBase extends KoalaLegacyEntity {
                 throw  requestAuthenticationException;
             }
 
-            return user;
+            return true;
 
         }
-        return null;
+        return false;
     }
 
 
-    public static boolean register(UserBase user) throws RequestParameterException {
-        if (user != null) {
+    public static boolean register(UserBase userBase) throws RequestParameterException {
+        if (userBase != null) {
 
-            if (isUserNameExist(user.getUserName())) {
+            if (isUserNameExist(userBase.getUserName())) {
                 throw new RequestParameterException("user name already exists");
-            } else if (isEmailExist(user.getEmail())) {
+            } else if (isEmailExist(userBase.getEmail())) {
                 throw new RequestParameterException("email already exists");
             }
 
             String md5Password;
             try {
                 md5Password = SignUtils
-                        .getMD5DigestInString(user.getPassword());
+                        .getMD5DigestInString(userBase.getPassword());
             } catch (IOException e) {
                 logger.error(e.getMessage(), e);
                 return false;
             }
-            user.setPassword(md5Password);
-            user.save();
+            userBase.setPassword(md5Password);
+            userBase.save();
             return true;
         }
         return false;
@@ -229,7 +282,6 @@ public class UserBase extends KoalaLegacyEntity {
      */
 
     public static boolean isUserAccountExist(String userName, String email) {
-
         if (StringUtils.isNotBlank(userName)) {
             return isUserNameExist(userName);
         } else if (StringUtils.isNotBlank(email)) {
@@ -240,7 +292,7 @@ public class UserBase extends KoalaLegacyEntity {
 
     public static boolean isUserNameExist(String userName) {
         if (StringUtils.isNotBlank(userName)) {
-            UserBase users = findByUserName(userName);
+            UserBase users = getByUserName(userName);
             if (users != null ) {
                 return true;
             }
@@ -256,6 +308,10 @@ public class UserBase extends KoalaLegacyEntity {
             }
         }
         return false;
+    }
+
+    public enum Type{
+        User,Role
     }
 
 }

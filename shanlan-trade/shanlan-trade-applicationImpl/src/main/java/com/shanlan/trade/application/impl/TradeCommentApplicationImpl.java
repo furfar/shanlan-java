@@ -206,7 +206,7 @@ public class TradeCommentApplicationImpl implements TradeCommentApplication {
         for (TradeComment tradeComment:tradeComments){
             userNameList.add(tradeComment.getRater());
         }
-        Map<String,UserDetail> userNameUserDetailMap= UserDetail.list(userNameList);
+        Map<String,UserDetail> userNameUserDetailMap= UserDetail.getUserNameAndSelfMap(userNameList);
 
         List<TradePhotoCollection> tradePhotoCollections = TradePhotoCollection.listByToiIds(orderItemIds);
 
@@ -254,48 +254,5 @@ public class TradeCommentApplicationImpl implements TradeCommentApplication {
                 currentPage, 0, pageSize, frontTradeCommentDTOs);
         return frontTradeComments;
     }
-
-    public static void main(String[] args) {
-
-
-        Class clazz=Photo.class;
-
-        String clazzSimpleName=clazz.getSimpleName();
-
-        Field[] fields=clazz.getDeclaredFields();
-        for(Field field: fields){
-            String fieldName=field.getName();
-            System.out.println(fieldName);
-        }
-
-
-        List<PhotoDTO> photoDTOs = new ArrayList<PhotoDTO>();
-        PhotoDTO photoDTO1 = new PhotoDTO(1,
-                "http//static.jspass.com/static/css/profile/images/trade-1-0.png");
-        PhotoDTO photoDTO2 = new PhotoDTO(2,
-                "http//static.jspass.com/static/css/profile/images/trade-2-0.png");
-        photoDTOs.add(photoDTO1);
-        photoDTOs.add(photoDTO2);
-
-        FrontTradeCommentDTO frontTradeCommentDTO = new FrontTradeCommentDTO();
-        frontTradeCommentDTO.setContent("每次情感泛滥的时候都会语无伦次，这次也是，不知道从何说起了。");
-        frontTradeCommentDTO.setScore(4);
-        frontTradeCommentDTO.setNickName("晴天");
-        frontTradeCommentDTO.setCreatedAt(DateUtil.getNow());
-        frontTradeCommentDTO.setPrice(1000f);
-        frontTradeCommentDTO.setPackageName("胶片写真A");
-        frontTradeCommentDTO.setTradePhotoCollectionId(1);
-        frontTradeCommentDTO
-                .setPhotoPath("http//static.jspass.com/static/css/profile/images/trade-portrait1.png");
-        frontTradeCommentDTO.setPhotos(photoDTOs);
-
-        List<FrontTradeCommentDTO> frontTradeCommentDTOs = new ArrayList<FrontTradeCommentDTO>();
-        frontTradeCommentDTOs.add(frontTradeCommentDTO);
-
-        Page<FrontTradeCommentDTO> frontTradeComments = new Page<FrontTradeCommentDTO>(
-                0, 20, 10, frontTradeCommentDTOs);
-        System.out.println(JsonUtil.toJson(frontTradeComments));
-    }
-
 
 }
