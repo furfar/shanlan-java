@@ -150,11 +150,11 @@
 		} ];
 		contents.push({
 			title : 'PHOTOGRAPHER',
-			value : '摄影师'
+			value : 'PHOTOGRAPHER'
 		});
 		contents.push({
 			title : 'MODEL',
-			value : '模特'
+			value : 'MODEL'
 		});
 		selectItems['typeID'] = contents;
 	</script>
