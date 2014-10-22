@@ -133,12 +133,6 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
         }
 
 
-        if (queryVo.getBirthday() != null) {
-            jpql.append(" and _user.birthday between ? and ? ");
-            conditionVals.add(queryVo.getBirthday());
-            conditionVals.add(queryVo.getBirthdayEnd());
-        }
-
         if (queryVo.getMobile() != null && !"".equals(queryVo.getMobile())) {
             jpql.append(" and _user.mobile like ?");
             conditionVals.add(MessageFormat.format("%{0}%", queryVo.getMobile()));
