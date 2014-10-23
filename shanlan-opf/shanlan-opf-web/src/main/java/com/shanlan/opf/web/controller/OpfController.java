@@ -72,7 +72,7 @@ public class OpfController {
 				&& ConstantNumber.FLAG_SUCCESS != baseResponseDTO.getCode()) {
 			ErrorResponseDTO errorResponseDTO = (ErrorResponseDTO) baseResponseDTO;
 			resultMav.addObject("code", errorResponseDTO.getCode());
-			resultMav.addObject("data", errorResponseDTO.getMessage());
+			resultMav.addObject("message", errorResponseDTO.getMessage());
 		}
 		return resultMav;
 	}
