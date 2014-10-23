@@ -163,6 +163,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>user</finalName>
+		<finalName>server</finalName>
 	</build>
 </project>
