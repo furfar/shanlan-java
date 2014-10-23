@@ -17,7 +17,7 @@
         </layout>
         <!--限制输出级别只能为Debug -->
         <filter class="org.apache.log4j.varia.LevelRangeFilter">
-            <param name="LevelMax" value="DEBUG"/>
+            <param name="LevelMax" value="ERROR"/>
             <param name="LevelMin" value="DEBUG"/>
             <param name="AcceptOnMatch" value="true"/>
         </filter>
