@@ -37,16 +37,13 @@ public class UserService {
 				return false;
 			}
 			userBase.setPassword(md5Password);
-			userBase.setIsValid(1);
-			userBase.setCreateDate(DateUtil.getNow(DateUtil.format1));
-			userBase.setIdentityType(UserBase.Type.User.name());
-            userBase.setABOLISH_DATE(ConstantString.ABOLISH_DATE);
+            userBase.setDefaultUserValue();
 
 			userBase.save();
 
 			UserDetail userDetail = new UserDetail(userBase.getUserName(),
 					userBase.getUserName(), userBase.getEmail(),
-					UserDetail.Type.COMMON.name());
+					UserDetail.Type.COMMON.name(),UserDetail.Gender.SECRECY.ordinal());
 
 			userDetail.save();
 

@@ -10,8 +10,10 @@ public interface UserDetailApplication {
 	public UserDetailDTO getUser(Integer id);
 	
 	public UserDetailDTO saveUser(UserDetailDTO user);
-	
-	public void updateUser(UserDetailDTO user);
+
+    boolean saveDefaultUser(String userName, String email);
+
+    public void updateUser(UserDetailDTO user);
 	
 	public void removeUser(Integer id);
 	

@@ -59,7 +59,7 @@ public class UserDetail extends KoalaLegacyEntity {
     private Integer cityId;
 
     @Column(name = "birthday")
-    private Date birthday;
+    private String birthday;
 
     @Column(name = "mobile")
     private String mobile;
@@ -157,11 +157,11 @@ public class UserDetail extends KoalaLegacyEntity {
         this.cityId = cityId;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -250,10 +250,22 @@ public class UserDetail extends KoalaLegacyEntity {
         this.type = type;
     }
 
+    public UserDetail(String userName, String nickName, String email, String type,Integer gender) {
+        this.userName = userName;
+        this.nickName = nickName;
+        this.email = email;
+        this.type = type;
+        this.gender=gender;
+    }
+
     public enum Type{
         COMMON,PHOTOGRAPHER,MODEL
     }
 
+
+    public enum Gender{
+        SECRECY,MALE,FEMALE
+    }
 
     public boolean existed() {
         // TODO Auto-generated method stub

@@ -148,14 +148,9 @@
 			title : '请选择',
 			value : ''
 		} ];
-		contents.push({
-			title : 'PHOTOGRAPHER',
-			value : 'PHOTOGRAPHER'
-		});
-		contents.push({
-			title : 'MODEL',
-			value : 'MODEL'
-		});
+        contents.push({title: '摄影师', value: 'PHOTOGRAPHER'});
+        contents.push({title: '模特', value: 'MODEL'});
+        contents.push({title: '普通用户', value: 'COMMON'});
 		selectItems['typeID'] = contents;
 	</script>
 </body>

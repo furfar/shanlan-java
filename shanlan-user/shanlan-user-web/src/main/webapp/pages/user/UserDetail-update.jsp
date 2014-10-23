@@ -6,20 +6,27 @@
 </head>
 <body>
 	<form class="form-horizontal">
-		<div class="form-group">
+		<div class="form-group" style="display: none">
 			<label class="col-lg-3 control-label">userName:</label>
 			<div class="col-lg-9">
 				<input name="userName" style="display: inline; width: 94%;"
-					class="form-control" type="text" id="userNameID" />
+					class="form-control" type="text" id="userNameID"/>
 			</div>
 		</div>
-		<div class="form-group">
-			<label class="col-lg-3 control-label">gender:</label>
-			<div class="col-lg-9">
-				<input name="gender" style="display: inline; width: 94%;"
-					class="form-control" type="text" id="genderID" />
-			</div>
-		</div>
+        <div class="form-group">
+            <label class="col-lg-3 control-label">nickName:</label>
+            <div class="col-lg-9">
+                <input name="nickName" style="display: inline; width: 94%;"
+                       class="form-control" type="text" id="nickNameID" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-3 control-label">email:</label>
+            <div class="col-lg-9">
+                <input name="email" style="display: inline; width: 94%;"
+                       class="form-control" type="text" id="emailID" />
+            </div>
+        </div>
 		<div class="form-group">
 			<label class="col-lg-3 control-label">realName:</label>
 			<div class="col-lg-9">
@@ -41,6 +48,13 @@
 					class="form-control" type="text" id="photoPathID" />
 			</div>
 		</div>
+        <div class="form-group">
+            <label class="col-lg-3 control-label">gender:</label>
+            <div class="col-lg-9">
+                <input name="gender" style="display: inline; width: 94%;"
+                       class="form-control" type="text" id="genderID" />
+            </div>
+        </div>
 		<div class="form-group">
 			<label class="col-lg-3 control-label">cityId:</label>
 			<div class="col-lg-9">
@@ -132,14 +146,9 @@
 			title : '请选择',
 			value : ''
 		} ];
-		contents.push({
-			title : 'PHOTOGRAPHER',
-			value : '摄影师'
-		});
-		contents.push({
-			title : 'MODEL',
-			value : '模特'
-		});
+        contents.push({title: '摄影师', value: 'PHOTOGRAPHER'});
+        contents.push({title: '模特', value: 'MODEL'});
+        contents.push({title: '普通用户', value: 'COMMON'});
 		selectItems['typeID'] = contents;
 	</script>
 </body>

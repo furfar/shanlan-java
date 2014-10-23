@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
+
+import com.shanlan.user.application.UserDetailApplication;
 import org.dayatang.querychannel.Page;
 import org.openkoala.auth.application.RoleApplication;
 import org.openkoala.auth.application.UserApplication;
@@ -41,6 +43,9 @@ public class UserController extends BaseController{
 
     @Inject
     private AuthenticationManager authenticationManager;
+
+    @Inject
+    private UserDetailApplication userDetailApplication;
 	
 	@ResponseBody
 	@RequestMapping("/updatePassword")
@@ -173,6 +178,7 @@ public class UserController extends BaseController{
 		userVO.setUserPassword(passwordEncoder.encode(userVO.getUserPassword()));
 		userApplication.saveUser(userVO);
 		CacheUtil.refreshUserAttributes(userVO.getUserAccount());
+        userDetailApplication.saveDefaultUser(userVO.getUserAccount(),userVO.getEmail());
 		dataMap.put("result", "success");
 		return dataMap;
 	}

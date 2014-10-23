@@ -7,18 +7,24 @@
 			<p class="form-control-static" id="userNameID"></p>
 		</div>
 	</div>
-	<div class="form-group">
-		<label class="col-lg-3 control-label">gender:</label>
-		<div class="col-lg-9">
-			<p class="form-control-static" id="genderID"></p>
-		</div>
-	</div>
-	<div class="form-group">
-		<label class="col-lg-3 control-label">realName:</label>
-		<div class="col-lg-9">
-			<p class="form-control-static" id="realNameID"></p>
-		</div>
-	</div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label">nickName:</label>
+        <div class="col-lg-9">
+            <p class="form-control-static" id="nickNameID"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label">email:</label>
+        <div class="col-lg-9">
+            <p class="form-control-static" id="emailID"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label">realName:</label>
+        <div class="col-lg-9">
+            <p class="form-control-static" id="realNameID"></p>
+        </div>
+    </div>
 	<div class="form-group">
 		<label class="col-lg-3 control-label">photoId:</label>
 		<div class="col-lg-9">
@@ -31,6 +37,12 @@
 			<p class="form-control-static" id="photoPathID"></p>
 		</div>
 	</div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label">gender:</label>
+        <div class="col-lg-9">
+            <p class="form-control-static" id="genderID"></p>
+        </div>
+    </div>
 	<div class="form-group">
 		<label class="col-lg-3 control-label">cityId:</label>
 		<div class="col-lg-9">

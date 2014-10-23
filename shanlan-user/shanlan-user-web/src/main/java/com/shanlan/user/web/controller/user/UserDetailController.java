@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.dayatang.querychannel.Page;
 import org.springframework.stereotype.Controller;
@@ -43,7 +44,7 @@ public class UserDetailController {
 	@ResponseBody
 	@RequestMapping("/pageJson")
 	public Page pageJson(UserDetailDTO userDetailDTO, @RequestParam int page,
-			@RequestParam int pagesize) {
+			@RequestParam int pagesize,HttpServletRequest request) {
 		Page<UserDetailDTO> all = userDetailApplication.pageQueryUser(userDetailDTO, page,
 				pagesize);
 		return all;

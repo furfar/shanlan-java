@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.inject.Named;
 
-import com.shanlan.common.exception.sub.business.RequestParameterException;
 import com.shanlan.user.application.dto.UserBaseDTO;
 import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.service.UserService;
@@ -15,6 +14,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
 import org.dayatang.querychannel.QueryChannelService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ import com.shanlan.user.core.domain.UserDetail;
 @Transactional
 public class UserDetailApplicationImpl implements UserDetailApplication {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserDetailApplicationImpl.class);
 
     private QueryChannelService queryChannel;
 
@@ -55,20 +57,41 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
         try {
             BeanUtils.copyProperties(userDetail, userDetailDTO);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         userDetail.save();
         userDetailDTO.setId((Integer) userDetail.getId());
         return userDetailDTO;
     }
 
+
+    @Override
+    public boolean saveDefaultUser(String userName, String email) {
+
+        UserDetail userDetail = new UserDetail(userName,
+                userName, email,
+                UserDetail.Type.COMMON.name(), UserDetail.Gender.SECRECY.ordinal());
+        userDetail.save();
+        Integer newUserDetailId = userDetail.getId();
+        if (0 != newUserDetailId) {
+            return true;
+        }
+        return false;
+    }
+
     public void updateUser(UserDetailDTO userDetailDTO) {
         UserDetail userDetail = UserDetail.get(UserDetail.class, userDetailDTO.getId());
         // 设置要更新的值
         try {
+            String newEmail=userDetailDTO.getEmail();
+            if (newEmail!=null && !newEmail.equals(userDetail.getEmail())){//如果更新了Email,需要同步更新KS_IDENTITY表中的Email
+                UserBase userBase=UserBase.getByUserName(userDetail.getUserName());
+                userBase.setEmail(newEmail);
+                userBase.save();
+            }
             BeanUtils.copyProperties(userDetail, userDetailDTO);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
     }
 
@@ -194,9 +217,9 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
     }
 
 
-    public boolean  register(UserBaseDTO userBaseDTO) throws Exception {
-        UserBase userBase=new UserBase();
-        BeanUtils.copyProperties(userBase,userBaseDTO);
+    public boolean register(UserBaseDTO userBaseDTO) throws Exception {
+        UserBase userBase = new UserBase();
+        BeanUtils.copyProperties(userBase, userBaseDTO);
         return UserService.register(userBase);
     }
 }

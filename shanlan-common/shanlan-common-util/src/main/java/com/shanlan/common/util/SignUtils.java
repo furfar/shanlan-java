@@ -119,6 +119,27 @@ public class SignUtils {
 		return bytes;
 	}
 
+
+
+    /**
+     * 对二进制进行MD5加密
+     *
+     * @param data
+     * @return 加密后的字符数组
+     * @throws IOException
+     */
+    public static byte[] getMD5Digest(byte[] data) throws IOException {
+        byte[] bytes = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            bytes = md.digest(data);
+        } catch (GeneralSecurityException gse) {
+            throw new IOException(gse);
+        }
+        return bytes;
+    }
+
+
 	/**
 	 * 对字符串进行MD5加密，返回加密后的字符串
 	 * 
@@ -129,6 +150,20 @@ public class SignUtils {
 	public static String getMD5DigestInString(String data) throws IOException {
 		return byte2hexNoUpperCase(getMD5Digest(data));
 	}
+
+
+    /**
+     * 对二进制进行MD5加密，返回加密后的字符串
+     *
+     * @param data
+     * @return 加密后的字符串
+     * @throws IOException
+     */
+    public static String getMD5DigestInBytes(byte[] data) throws IOException {
+        return byte2hexNoUpperCase(getMD5Digest(data));
+    }
+
+
 
 	/**
 	 * 二进制转十六进制字符串

@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.shanlan.common.constant.ConstantString;
+import com.shanlan.common.util.DateUtil;
 import org.apache.commons.lang.StringUtils;
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 import org.slf4j.Logger;
@@ -57,8 +59,17 @@ public class UserBase extends KoalaLegacyEntity {
     @Column(name = "EMAIL")
     private String email;
 
+    /**
+     * 用户账号是否有效，0表示否，1表示有效
+     */
     @Column(name = "ISVALID")
     private Integer isValid;
+
+    /**
+     * 是否是超级管理员，0表示不是，1表示是
+     */
+    @Column(name = "IS_SUPER")
+    private Integer isSuper;
 
     @Column(name = "IDENTITY_TYPE")
     private String identityType;
@@ -68,7 +79,16 @@ public class UserBase extends KoalaLegacyEntity {
     private String createDate;
 
     @Column(name = "ABOLISH_DATE")
-    private String ABOLISH_DATE;
+    private String abolishDate;
+
+    @Column(name = "SERIAL_NUMBER")
+    private String serialNumber;
+
+    @Column(name = "SORT_ORDER")
+    private Integer sortOrder;
+
+    @Column(name = "VERSION")
+    private Integer version;
 
     /**
      *
@@ -88,6 +108,12 @@ public class UserBase extends KoalaLegacyEntity {
         return new String[0];
     }
 
+    /**
+     * 创建默认用户时使用的构造函数，该方法内部设置了一些属性的默认值
+     * @param userAccount
+     * @param userPassword
+     * @param email
+     */
     public UserBase(String userAccount, String userPassword,
                     String email) {
         super();
@@ -165,6 +191,30 @@ public class UserBase extends KoalaLegacyEntity {
         this.isValid = isValid;
     }
 
+    public Integer getIsSuper() {
+        return isSuper;
+    }
+
+    public void setIsSuper(Integer isSuper) {
+        this.isSuper = isSuper;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
     public String getIdentityType() {
         return identityType;
     }
@@ -182,13 +232,35 @@ public class UserBase extends KoalaLegacyEntity {
     }
 
 
-    public String getABOLISH_DATE() {
-        return ABOLISH_DATE;
+    public String getAbolishDate() {
+        return abolishDate;
     }
 
-    public void setABOLISH_DATE(String ABOLISH_DATE) {
-        this.ABOLISH_DATE = ABOLISH_DATE;
+    public void setAbolishDate(String abolishDate) {
+        this.abolishDate = abolishDate;
     }
+
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+
+    public void setDefaultUserValue(){
+        this.isSuper=0;
+        this.abolishDate=ConstantString.ABOLISH_DATE;
+        this.sortOrder=0;
+        this.identityType=Type.User.name();
+        this.createDate= DateUtil.getNow(DateUtil.format1);
+        this.serialNumber="0";
+        this.version=0;
+        this.isValid=1;
+    }
+
 
     public static UserBase getByUserName(String userName) {
 
@@ -201,7 +273,7 @@ public class UserBase extends KoalaLegacyEntity {
         return null;
     }
 
-    public static UserBase findByEmail(String email) {
+    public static UserBase getByEmail(String email) {
 
         if (StringUtils.isNotBlank(email)) {
             List<UserBase> userBaseList = findByProperty(UserBase.class, "email", email);
@@ -220,7 +292,7 @@ public class UserBase extends KoalaLegacyEntity {
             UserBase user = new UserBase();
             if (StringUtils.isNotBlank(userAccount)
                     && userAccount.matches(ConstantRegex.REGEX_EMAIL)) {// 如果是Eamil
-                user = findByEmail(userAccount);
+                user = getByEmail(userAccount);
             } else {
                 user = getByUserName(userAccount);
             }
@@ -302,7 +374,7 @@ public class UserBase extends KoalaLegacyEntity {
 
     public static boolean isEmailExist(String email) {
         if (StringUtils.isNotBlank(email)) {
-            UserBase users = findByEmail(email);
+            UserBase users = getByEmail(email);
             if (users != null ) {
                 return true;
             }

@@ -28,4 +28,14 @@ public class ConstantString {
 	public static final String PARAM = "param";
 
     public static final String ABOLISH_DATE="8888-01-01 00:00:00";
+
+    public static final String FILE_PATH_SEP_WIN="\\";
+
+    public static final String FILE_PATH_SEP_NO_WIN="/";
+
+
+
+
+
+
 }
