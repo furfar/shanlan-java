@@ -19,7 +19,7 @@
 </head>
 
 <body>
-<form action=<%=basePath%>user/uploadAvatar.koala method="POST" enctype="multipart/form-data" name="form1">
+<form action="http://localhost:8080/opf/upload/uploadAvatar" method="POST" enctype="multipart/form-data" name="form1">
     <input type="file" name="file1">
     <%--<input type="file" name="file2">--%>
     <%--<input type="file" name="file3">--%>

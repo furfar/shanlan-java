@@ -51,6 +51,10 @@
  		<servlet-name>spring</servlet-name>
  		<url-pattern>/services/*</url-pattern>
  	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>spring</servlet-name>
+        <url-pattern>/upload/*</url-pattern>
+    </servlet-mapping>
 
 
 	<!--<servlet>-->

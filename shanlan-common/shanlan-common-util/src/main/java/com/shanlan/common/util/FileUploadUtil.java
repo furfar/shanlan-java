@@ -20,6 +20,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -28,6 +30,9 @@ import com.shanlan.common.constant.ConstantString;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,41 +47,57 @@ public class FileUploadUtil {
 
     public static final String IMAGE_EXTENSION_NAME_JPG = ".jpg";
 
+
+//    /**
+//     * 开发环境图片存储根路径
+//     */
+//    public static final String IMAGE_ROOT_PATH_DEVELOP = "/Users/albertliu/";
+//
+//    /**
+//     * 生产环境图片存储根路径
+//     */
+//    public static final String IMAGE_ROOT_PATH_PRODUCT = "/opt/";
+
+
     /**
      * 开发环境图片存储基础路径
      */
-    public static final String IMAGE_BASE_PATH_DEVELOP = "/Users/albertliu/git/shanlan-node/static/images/";
+    public static final String IMAGE_BASE_PATH_DEVELOP = "/Users/albertliu/";
 
     /**
      * 生产环境图片存储基础路径
      */
-    public static final String IMAGE_BASE_PATH_PRODUCT = "/opt/images/";
+    public static final String IMAGE_BASE_PATH_PRODUCT = "/opt/";
 
+    /**
+     * 图片临时存储文件路径
+     */
+    public static final String IMAGE_PATH_TYPE_TMP = "images/tmp";
 
     /**
      * 图片类型——头像
      */
-    public static final String IMAGE_TYPE_AVATAR = "avatar";
+    public static final String IMAGE_PATH_TYPE_AVATAR = "images/avatar";
 
     /**
      * 图片类型——照片
      */
-    public static final String IMAGE_TYPE_TRADE_PHOTO = "trade_photo";
+    public static final String IMAGE_PATH_TYPE_TRADE_PHOTO = "images/trade_photo";
 
 
     /**
      * 图片类型——自己上传照片
      */
-    public static final String IMAGE_TYPE_SELF_UPLOAD = "self_upload";
+    public static final String IMAGE_PATH_TYPE_SELF_UPLOAD = "images/self_upload";
 
 
-//    public static final String IMAGE_PATH_DEVELOP_AVATAR = IMAGE_BASE_PATH_DEVELOP + IMAGE_TYPE_AVATAR + "/";
+//    public static final String IMAGE_PATH_DEVELOP_AVATAR = IMAGE_BASE_PATH_DEVELOP + IMAGE_PATH_TYPE_AVATAR + "/";
 //
-//    public static final String IMAGE_PATH_DEVELOP_PHOTO = IMAGE_BASE_PATH_DEVELOP + IMAGE_TYPE_PHOTO + "/";
+//    public static final String IMAGE_PATH_DEVELOP_PHOTO = IMAGE_BASE_PATH_DEVELOP + IMAGE_PATH_TYPE_PHOTO + "/";
 //
-//    public static final String IMAGE_PATH_PRODUCT_AVATAR = IMAGE_BASE_PATH_PRODUCT + IMAGE_TYPE_AVATAR + "/";
+//    public static final String IMAGE_PATH_PRODUCT_AVATAR = IMAGE_BASE_PATH_PRODUCT + IMAGE_PATH_TYPE_AVATAR + "/";
 //
-//    public static final String IMAGE_PATH_PRODUCT_PHOTO = IMAGE_BASE_PATH_PRODUCT + IMAGE_TYPE_PHOTO + "/";
+//    public static final String IMAGE_PATH_PRODUCT_PHOTO = IMAGE_BASE_PATH_PRODUCT + IMAGE_PATH_TYPE_PHOTO + "/";
 
 
     /**
@@ -285,21 +306,21 @@ public class FileUploadUtil {
 
     public static String saveTradePhotoImage(String userName, byte[] imageBytes) {
         String baseFilePath = RunningMode.isDevelop() ? IMAGE_BASE_PATH_DEVELOP : IMAGE_BASE_PATH_PRODUCT;
-        String filePath = baseFilePath + userName + "/" + IMAGE_TYPE_TRADE_PHOTO + "/";
+        String filePath = baseFilePath + userName + "/" + IMAGE_PATH_TYPE_TRADE_PHOTO + "/";
         return saveImage(filePath, imageBytes);
     }
 
 
     public static String saveSelfUploadImage(String userName, byte[] imageBytes) {
         String baseFilePath = RunningMode.isDevelop() ? IMAGE_BASE_PATH_DEVELOP : IMAGE_BASE_PATH_PRODUCT;
-        String filePath = baseFilePath + userName + "/" + IMAGE_TYPE_SELF_UPLOAD + "/";
+        String filePath = baseFilePath + userName + "/" + IMAGE_PATH_TYPE_SELF_UPLOAD + "/";
         return saveImage(filePath, imageBytes);
     }
 
 
     public static String saveAvatarImage(String userName, byte[] imageBytes) {
         String baseFilePath = RunningMode.isDevelop() ? IMAGE_BASE_PATH_DEVELOP : IMAGE_BASE_PATH_PRODUCT;
-        String filePath = baseFilePath + userName + "/" + IMAGE_TYPE_AVATAR + "/";
+        String filePath = baseFilePath + userName + "/" + IMAGE_PATH_TYPE_AVATAR + "/";
         return saveImage(filePath, imageBytes);
     }
 
@@ -308,6 +329,30 @@ public class FileUploadUtil {
         String imageName = UUID.randomUUID().toString() + IMAGE_EXTENSION_NAME_JPG;
         return saveFile(filePath, imageName, imageBytes);
     }
+
+
+    public static String saveAvatarImage(FileItem fileItem) {
+        String originalFileName = fileItem.getName();//获取上传文件自己的原始文件名
+        if (originalFileName == null || "".equals(originalFileName.trim())) {//如果是tmp文件夹中的文件
+            return "";
+        }
+
+        File avatarImageFilePath = new File(getImageBasePath() + IMAGE_PATH_TYPE_AVATAR);
+        if (!avatarImageFilePath.exists()) {
+            avatarImageFilePath.mkdirs();
+        }
+        String newFileName = UUID.randomUUID().toString() + IMAGE_EXTENSION_NAME_JPG;
+        String storePath = IMAGE_PATH_TYPE_AVATAR +"/"+ newFileName;
+        File f2 = new File(avatarImageFilePath, newFileName);
+        try {
+            fileItem.write(f2);
+            return storePath;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return "";
+        }
+    }
+
 
     private static String saveFile(String filePath, String fileName, byte[] bytes) {
 
@@ -326,5 +371,39 @@ public class FileUploadUtil {
 
     }
 
+
+    /**
+     * @param tempFileThreshold 设定阀值1M，如果超过这个值，则文件就直接写到临时文件，不会一直占用内存
+     *                          利用这个特性可在上传大文件的时候不会占用大量内存，可以提高并发使用量。
+     * @param uploadThreshold   最大支持多少M文件上传
+     * @return
+     */
+    public static ServletFileUpload getServletFileUpload(int tempFileThreshold, int uploadThreshold) {
+
+        List<FileItem> fileItemList = new ArrayList<FileItem>();
+
+        DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
+        //设定阀值1M，如果超过这个值，则文件就直接写到临时文件，不会一直占用内存
+        //利用这个特性可在上传大文件的时候不会占用大量内存，可以提高并发使用量。
+        diskFileItemFactory.setSizeThreshold(tempFileThreshold * 1024 * 1024);
+
+
+        File tempFile = new File(FileUploadUtil.IMAGE_BASE_PATH_DEVELOP + FileUploadUtil.IMAGE_PATH_TYPE_TMP);
+        if (!tempFile.exists()) {
+            tempFile.mkdirs();
+        }
+
+        diskFileItemFactory.setRepository(tempFile);
+        ServletFileUpload servletFileUpload = new ServletFileUpload(diskFileItemFactory);
+
+        servletFileUpload.setFileSizeMax(1024 * 1024 * uploadThreshold);//限制最大上传文件的大小
+
+        return servletFileUpload;
+    }
+
+
+    public static String getImageBasePath() {
+        return RunningMode.isDevelop() ? IMAGE_BASE_PATH_DEVELOP : IMAGE_BASE_PATH_PRODUCT;
+    }
 
 }
