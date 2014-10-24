@@ -3,7 +3,7 @@
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://"
             + request.getServerName() + ":" + request.getServerPort()
-            + path + "/";
+            + "/opf" + "/";
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -19,7 +19,7 @@
 </head>
 
 <body>
-<form action="http://localhost:8080/opf/upload/uploadAvatar" method="POST" enctype="multipart/form-data" name="form1">
+<form action=<%=basePath%>upload/uploadAvatar method="POST" enctype="multipart/form-data" name="form1">
     <input type="file" name="file1">
     <%--<input type="file" name="file2">--%>
     <%--<input type="file" name="file3">--%>

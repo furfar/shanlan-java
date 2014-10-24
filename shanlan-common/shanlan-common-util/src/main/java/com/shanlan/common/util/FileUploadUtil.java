@@ -62,42 +62,42 @@ public class FileUploadUtil {
     /**
      * 开发环境图片存储基础路径
      */
-    public static final String IMAGE_BASE_PATH_DEVELOP = "/Users/albertliu/";
+    public static final String IMAGE_BASE_PATH_DEVELOP = "/Users/albertliu/images/";
 
     /**
      * 生产环境图片存储基础路径
      */
-    public static final String IMAGE_BASE_PATH_PRODUCT = "/opt/";
+    public static final String IMAGE_BASE_PATH_PRODUCT = "/opt/images/";
 
     /**
      * 图片临时存储文件路径
      */
-    public static final String IMAGE_PATH_TYPE_TMP = "images/tmp";
+    public static final String IMAGE_TYPE_TMP = "tmp";
 
     /**
      * 图片类型——头像
-     */
-    public static final String IMAGE_PATH_TYPE_AVATAR = "images/avatar";
+    */
+    public static final String IMAGE_TYPE_AVATAR = "avatar";
 
     /**
      * 图片类型——照片
      */
-    public static final String IMAGE_PATH_TYPE_TRADE_PHOTO = "images/trade_photo";
+    public static final String IMAGE_TYPE_TRADE_PHOTO = "trade_photo";
 
 
     /**
      * 图片类型——自己上传照片
      */
-    public static final String IMAGE_PATH_TYPE_SELF_UPLOAD = "images/self_upload";
+    public static final String IMAGE_TYPE_SELF_UPLOAD = "self_upload";
 
 
-//    public static final String IMAGE_PATH_DEVELOP_AVATAR = IMAGE_BASE_PATH_DEVELOP + IMAGE_PATH_TYPE_AVATAR + "/";
+//    public static final String IMAGE_DEVELOP_AVATAR = IMAGE_BASE_PATH_DEVELOP + IMAGE_TYPE_AVATAR + "/";
 //
-//    public static final String IMAGE_PATH_DEVELOP_PHOTO = IMAGE_BASE_PATH_DEVELOP + IMAGE_PATH_TYPE_PHOTO + "/";
+//    public static final String IMAGE_DEVELOP_PHOTO = IMAGE_BASE_PATH_DEVELOP + IMAGE_TYPE_PHOTO + "/";
 //
-//    public static final String IMAGE_PATH_PRODUCT_AVATAR = IMAGE_BASE_PATH_PRODUCT + IMAGE_PATH_TYPE_AVATAR + "/";
+//    public static final String IMAGE_PRODUCT_AVATAR = IMAGE_BASE_PATH_PRODUCT + IMAGE_TYPE_AVATAR + "/";
 //
-//    public static final String IMAGE_PATH_PRODUCT_PHOTO = IMAGE_BASE_PATH_PRODUCT + IMAGE_PATH_TYPE_PHOTO + "/";
+//    public static final String IMAGE_PRODUCT_PHOTO = IMAGE_BASE_PATH_PRODUCT + IMAGE_TYPE_PHOTO + "/";
 
 
     /**
@@ -306,21 +306,21 @@ public class FileUploadUtil {
 
     public static String saveTradePhotoImage(String userName, byte[] imageBytes) {
         String baseFilePath = RunningMode.isDevelop() ? IMAGE_BASE_PATH_DEVELOP : IMAGE_BASE_PATH_PRODUCT;
-        String filePath = baseFilePath + userName + "/" + IMAGE_PATH_TYPE_TRADE_PHOTO + "/";
+        String filePath = baseFilePath + userName + "/" + IMAGE_TYPE_TRADE_PHOTO + "/";
         return saveImage(filePath, imageBytes);
     }
 
 
     public static String saveSelfUploadImage(String userName, byte[] imageBytes) {
         String baseFilePath = RunningMode.isDevelop() ? IMAGE_BASE_PATH_DEVELOP : IMAGE_BASE_PATH_PRODUCT;
-        String filePath = baseFilePath + userName + "/" + IMAGE_PATH_TYPE_SELF_UPLOAD + "/";
+        String filePath = baseFilePath + userName + "/" + IMAGE_TYPE_SELF_UPLOAD + "/";
         return saveImage(filePath, imageBytes);
     }
 
 
     public static String saveAvatarImage(String userName, byte[] imageBytes) {
         String baseFilePath = RunningMode.isDevelop() ? IMAGE_BASE_PATH_DEVELOP : IMAGE_BASE_PATH_PRODUCT;
-        String filePath = baseFilePath + userName + "/" + IMAGE_PATH_TYPE_AVATAR + "/";
+        String filePath = baseFilePath + userName + "/" + IMAGE_TYPE_AVATAR + "/";
         return saveImage(filePath, imageBytes);
     }
 
@@ -337,12 +337,12 @@ public class FileUploadUtil {
             return "";
         }
 
-        File avatarImageFilePath = new File(getImageBasePath() + IMAGE_PATH_TYPE_AVATAR);
+        File avatarImageFilePath = new File(getImageBasePath() + IMAGE_TYPE_AVATAR);
         if (!avatarImageFilePath.exists()) {
             avatarImageFilePath.mkdirs();
         }
         String newFileName = UUID.randomUUID().toString() + IMAGE_EXTENSION_NAME_JPG;
-        String storePath = IMAGE_PATH_TYPE_AVATAR +"/"+ newFileName;
+        String storePath = IMAGE_TYPE_AVATAR +"/"+ newFileName;
         File f2 = new File(avatarImageFilePath, newFileName);
         try {
             fileItem.write(f2);
@@ -388,7 +388,7 @@ public class FileUploadUtil {
         diskFileItemFactory.setSizeThreshold(tempFileThreshold * 1024 * 1024);
 
 
-        File tempFile = new File(FileUploadUtil.IMAGE_BASE_PATH_DEVELOP + FileUploadUtil.IMAGE_PATH_TYPE_TMP);
+        File tempFile = new File(FileUploadUtil.IMAGE_BASE_PATH_DEVELOP + FileUploadUtil.IMAGE_TYPE_TMP);
         if (!tempFile.exists()) {
             tempFile.mkdirs();
         }

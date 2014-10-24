@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import com.shanlan.common.util.JsonUtil;
+import com.shanlan.opf.application.dto.ErrorResponseDTO;
+import com.shanlan.opf.application.dto.SuccessResponseDTO;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -18,6 +21,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.shanlan.common.util.FileUploadUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class UploadController {
@@ -29,6 +33,12 @@ public class UploadController {
     @ResponseBody
     public String uploadAvatar(HttpServletRequest request) {
 
+//        String cookie=request.getHeader("Cookie");
+//        logger.info(cookie);
+//
+//        HttpSession httpSession=request.getSession();
+//        System.out.println(httpSession.getId());
+
         String storePath="";
         ServletFileUpload servletFileUpload = FileUploadUtil.getServletFileUpload(1,10);
         try {
@@ -38,8 +48,9 @@ public class UploadController {
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+            return JsonUtil.toJson(new ErrorResponseDTO(102,"图片上传失败"));
         }
-        return storePath;
+        return JsonUtil.toJson(new SuccessResponseDTO(storePath));
     }
 
 
