@@ -34,8 +34,8 @@ public class ConstantString {
     public static final String FILE_PATH_SEP_NO_WIN="/";
 
 
+    public static final String NODE_JS_COOKIE_KEY="connect.sid";
 
-
-
+    public static final String REDIS_KEY_PREFIX_COOKIE="user-";
 
 }

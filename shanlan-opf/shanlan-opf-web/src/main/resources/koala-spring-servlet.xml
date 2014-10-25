@@ -98,13 +98,8 @@
         <property name="contentType" value="application/json;charset=UTF-8" />
     </bean>
 
-
-
-    <!--<bean id="opfController" class="com.shanlan.opf.web.controller.OpfController">-->
-        <!--<property name="userDetailApplication" ref="userDetailApplication"/>-->
-    <!--</bean>-->
-
-    <!--<bean id="userDetailApplication" class="com.shanlan.user.application.impl.UserDetailApplicationImpl"></bean>-->
+<!--配置Spring支持文件上传 -->
+    <!--<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:maxInMemorySize="1000000"/>-->
 
 
 </beans>

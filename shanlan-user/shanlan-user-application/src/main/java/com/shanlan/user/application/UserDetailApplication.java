@@ -2,6 +2,8 @@
 package com.shanlan.user.application;
 
 import java.util.List;
+
+import com.shanlan.common.exception.sub.business.RequestAuthenticationException;
 import org.dayatang.querychannel.Page;
 import com.shanlan.user.application.dto.*;
 
@@ -26,5 +28,6 @@ public interface UserDetailApplication {
 
     public boolean register(UserBaseDTO userBaseDTO) throws Exception;
 
+    public UserDetailDTO isLogin(String redisKey) throws RequestAuthenticationException;
 }
 

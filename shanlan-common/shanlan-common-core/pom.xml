@@ -17,6 +17,7 @@
 		<!-- version config -->
 		<dddlib.version>4.1.2</dddlib.version>
 		<koala.version>3.0.1</koala.version>
+		<spring.data.redis.version>1.4.0.RELEASE</spring.data.redis.version>
 	</properties>
 	<dependencies>
 
@@ -44,6 +45,13 @@
 			<version>${koala.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>${spring.data.redis.version}</version>
+		</dependency>
+
 	</dependencies>
 
 </project>

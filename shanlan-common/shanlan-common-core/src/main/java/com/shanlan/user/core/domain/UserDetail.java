@@ -1,7 +1,9 @@
 package com.shanlan.user.core.domain;
 
+
 import java.util.*;
 
+import javax.inject.Inject;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +13,11 @@ import javax.persistence.Table;
 
 import com.shanlan.common.exception.business.ParameterInvalidException;
 import com.shanlan.common.util.JPQLUtil;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * Auto Generated Entity
@@ -241,7 +246,8 @@ public class UserDetail extends KoalaLegacyEntity {
         return id;
     }
 
-    public UserDetail(){}
+    public UserDetail() {
+    }
 
     public UserDetail(String userName, String nickName, String email, String type) {
         this.userName = userName;
@@ -250,21 +256,21 @@ public class UserDetail extends KoalaLegacyEntity {
         this.type = type;
     }
 
-    public UserDetail(String userName, String nickName, String email, String type,Integer gender) {
+    public UserDetail(String userName, String nickName, String email, String type, Integer gender) {
         this.userName = userName;
         this.nickName = nickName;
         this.email = email;
         this.type = type;
-        this.gender=gender;
+        this.gender = gender;
     }
 
-    public enum Type{
-        COMMON,PHOTOGRAPHER,MODEL
+    public enum Type {
+        COMMON, PHOTOGRAPHER, MODEL
     }
 
 
-    public enum Gender{
-        SECRECY,MALE,FEMALE
+    public enum Gender {
+        SECRECY, MALE, FEMALE
     }
 
     public boolean existed() {
@@ -304,26 +310,27 @@ public class UserDetail extends KoalaLegacyEntity {
         return userNameUserDetailMap;
     }
 
-    public static List<UserDetail> listByUserNames(List<String> userNameList){
-        List<UserDetail> userDetails=new ArrayList<UserDetail>();
+    public static List<UserDetail> listByUserNames(List<String> userNameList) {
+        List<UserDetail> userDetails = new ArrayList<UserDetail>();
 
         if (userNameList != null && userNameList.size() > 0) {
             String jpql = JPQLUtil.selectByColumnIn(UserDetail.class, "userName", userNameList);
             if (StringUtils.isNotBlank(jpql)) {
-               userDetails = getRepository().createJpqlQuery(jpql).list();
+                userDetails = getRepository().createJpqlQuery(jpql).list();
             }
         }
         return userDetails;
     }
 
 
-    public static UserDetail get(String userName){
-        List<UserDetail> userDetails=listByUserNames(Collections.singletonList(userName));
-        if(userDetails.size()==1){
+    public static UserDetail get(String userName) {
+        List<UserDetail> userDetails = listByUserNames(Collections.singletonList(userName));
+        if (userDetails.size() == 1) {
             return userDetails.get(0);
-        }else{
-            throw new ParameterInvalidException("用户" +userName+"不存在,请核对用户名");
+        } else {
+            throw new ParameterInvalidException("用户" + userName + "不存在,请核对用户名");
         }
     }
+
 
 }

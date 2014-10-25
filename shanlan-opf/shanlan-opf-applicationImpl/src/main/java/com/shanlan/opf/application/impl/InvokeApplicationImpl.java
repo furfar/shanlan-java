@@ -71,31 +71,17 @@ public class InvokeApplicationImpl implements InvokeApplication {
     private static final Logger logger = Logger
             .getLogger(InvokeApplicationImpl.class);
 
+    @Inject
     private PhotoApplication photoApplication;
+    @Inject
     private PhotoCollectionApplication photoCollectionApplication;
+    @Inject
     private PhotoPackagesApplication photoPackagesApplication;
+    @Inject
     private TradeCommentApplication tradeCommentApplication;
     @Inject
     private UserDetailApplication userDetailApplication;
 
-    public InvokeApplicationImpl() {
-        if (photoApplication == null) {
-            photoApplication = new PhotoApplicationImpl();
-        }
-        if (photoCollectionApplication == null) {
-            photoCollectionApplication = new PhotoCollectionApplicationImpl();
-        }
-        if (photoPackagesApplication == null) {
-            photoPackagesApplication = new PhotoPackagesApplicationImpl();
-        }
-        if (tradeCommentApplication == null) {
-            tradeCommentApplication = new TradeCommentApplicationImpl();
-        }
-//        if (userDetailApplication == null) {
-//            userDetailApplication = new UserDetailApplicationImpl();
-//        }
-
-    }
 
     @Override
     public SuccessResponseDTO invokeRemoteService(String serviceURI,
@@ -113,6 +99,9 @@ public class InvokeApplicationImpl implements InvokeApplication {
                 }
         );
         String businessResult = "";
+
+        UserDetailDTO userDetail2= userDetailApplication.isLogin("user-iTV0UR7KxtQJG9r7viVhKNyqd_npyovV");
+
 
         if (service.equals("User.login")) {
             UserDetail userDetail = UserService.login(paramMap.get("userAccount"),

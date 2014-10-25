@@ -26,7 +26,9 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
+import com.shanlan.common.constant.ConstantPunctuation;
 import com.shanlan.common.constant.ConstantString;
+import com.shanlan.common.exception.business.ParameterInvalidException;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
@@ -43,6 +45,12 @@ public class FileUploadUtil {
 
 
     public static final String CONTENT_TYPE_IMAGE_JPEG = "image/jpeg";
+
+    public static final String CONTENT_TYPE_IMAGE_GIF = "image/gif";
+
+    public static final String CONTENT_TYPE_IMAGE_PNG = "image/png";
+
+    public static final String CONTENT_TYPE_IMAGE_BMP = "image/bmp";
 
 
     public static final String IMAGE_EXTENSION_NAME_JPG = ".jpg";
@@ -76,7 +84,7 @@ public class FileUploadUtil {
 
     /**
      * 图片类型——头像
-    */
+     */
     public static final String IMAGE_TYPE_AVATAR = "avatar";
 
     /**
@@ -147,6 +155,25 @@ public class FileUploadUtil {
         ImageIO.write(tag, type, f);
 
     }
+
+    /**
+     * 获取以年、月作为路径名的存储路径，比如:2014/10/
+     *
+     * @return
+     */
+    public static String getYearMonthPath() {
+        return DateUtil.getYear() +"/"+ DateUtil.getMonthInt() + "/";
+    }
+
+    /**
+     * 获取以年、月作为路径名的存储路径，比如:2014/10/25
+     *
+     * @return
+     */
+    public static String getYearMonthDayPath() {
+        return getYearMonthPath() + DateUtil.getDayInt() + "/";
+    }
+
 
     /**
      * 上传头像文件
@@ -296,37 +323,40 @@ public class FileUploadUtil {
     }
 
 
-    public static boolean validateImageType(String contentType) {
-        if (!contentType.equals(CONTENT_TYPE_IMAGE_JPEG)) {
-            return false;
+    public static boolean validateImageType(String contentType) throws ParameterInvalidException {
+        if (contentType.equals(CONTENT_TYPE_IMAGE_JPEG) || contentType.equals(CONTENT_TYPE_IMAGE_GIF)
+                || contentType.equals(CONTENT_TYPE_IMAGE_BMP) || contentType.equals(CONTENT_TYPE_IMAGE_PNG)) {
+            return true;
         }
-        return true;
+        throw new ParameterInvalidException("目前暂不支持'" + contentType + "'这种文件的上传");
     }
 
 
-    public static String saveTradePhotoImage(String userName, byte[] imageBytes) {
-        String baseFilePath = RunningMode.isDevelop() ? IMAGE_BASE_PATH_DEVELOP : IMAGE_BASE_PATH_PRODUCT;
-        String filePath = baseFilePath + userName + "/" + IMAGE_TYPE_TRADE_PHOTO + "/";
-        return saveImage(filePath, imageBytes);
+//    public static String saveTradePhotoImage(String userName, byte[] imageBytes) {
+//        String baseFilePath = RunningMode.isDevelop() ? IMAGE_BASE_PATH_DEVELOP : IMAGE_BASE_PATH_PRODUCT;
+//        String filePath = baseFilePath + userName + "/" + IMAGE_TYPE_TRADE_PHOTO + "/";
+//        return saveImage(filePath, imageBytes);
+//    }
+//
+//
+//    public static String saveSelfUploadImage(String userName, byte[] imageBytes) {
+//        String baseFilePath = RunningMode.isDevelop() ? IMAGE_BASE_PATH_DEVELOP : IMAGE_BASE_PATH_PRODUCT;
+//        String filePath = baseFilePath + userName + "/" + IMAGE_TYPE_SELF_UPLOAD + "/";
+//        return saveImage(filePath, imageBytes);
+//    }
+
+
+    public static String saveAvatarImage(String originalFileName, byte[] imageBytes) {
+        String filePath = getImageBasePath() + IMAGE_TYPE_AVATAR +"/"+ getYearMonthDayPath();
+        return saveImage(filePath, originalFileName, imageBytes);
     }
 
 
-    public static String saveSelfUploadImage(String userName, byte[] imageBytes) {
-        String baseFilePath = RunningMode.isDevelop() ? IMAGE_BASE_PATH_DEVELOP : IMAGE_BASE_PATH_PRODUCT;
-        String filePath = baseFilePath + userName + "/" + IMAGE_TYPE_SELF_UPLOAD + "/";
-        return saveImage(filePath, imageBytes);
-    }
-
-
-    public static String saveAvatarImage(String userName, byte[] imageBytes) {
-        String baseFilePath = RunningMode.isDevelop() ? IMAGE_BASE_PATH_DEVELOP : IMAGE_BASE_PATH_PRODUCT;
-        String filePath = baseFilePath + userName + "/" + IMAGE_TYPE_AVATAR + "/";
-        return saveImage(filePath, imageBytes);
-    }
-
-
-    private static String saveImage(String filePath, byte[] imageBytes) {
-        String imageName = UUID.randomUUID().toString() + IMAGE_EXTENSION_NAME_JPG;
+    private static String saveImage(String filePath, String originalFileName, byte[] imageBytes) {
+        if (originalFileName == null || "".equals(originalFileName.trim())) {//如果是tmp文件夹中的文件
+            return "";
+        }
+        String imageName = UUID.randomUUID().toString() + ConstantPunctuation.PERIOD + getPostfix(originalFileName);
         return saveFile(filePath, imageName, imageBytes);
     }
 
@@ -342,7 +372,7 @@ public class FileUploadUtil {
             avatarImageFilePath.mkdirs();
         }
         String newFileName = UUID.randomUUID().toString() + IMAGE_EXTENSION_NAME_JPG;
-        String storePath = IMAGE_TYPE_AVATAR +"/"+ newFileName;
+        String storePath = IMAGE_TYPE_AVATAR + "/" + newFileName;
         File f2 = new File(avatarImageFilePath, newFileName);
         try {
             fileItem.write(f2);
@@ -367,7 +397,8 @@ public class FileUploadUtil {
             logger.error(e.getMessage(), e);
             return "";
         }
-        return path + fileName;
+        String relativePath = (filePath + fileName).replace(getImageBasePath(), "");
+        return relativePath;
 
     }
 

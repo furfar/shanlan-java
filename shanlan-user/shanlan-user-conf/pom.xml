@@ -5,41 +5,53 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.shanlan</groupId>
-	    <artifactId>shanlan-user</artifactId>
-	    <version>1.0.0-SNAPSHOT</version>
+		<artifactId>shanlan-user</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	
+
 	<artifactId>shanlan-user-conf</artifactId>
 	<packaging>jar</packaging>
-	
+
 	<name>shanlan-user-conf</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.type>conf</project.type>
+		<spring.data.redis.version>1.4.0.RELEASE</spring.data.redis.version>
+		<jedis.version>2.5.1</jedis.version>
 	</properties>
 	<dependencies>
-	
-	    <dependency>
+
+		<dependency>
 			<groupId>${db.groupId}</groupId>
 			<artifactId>${db.artifactId}</artifactId>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.openkoala.koalacommons</groupId>
-	        <artifactId>koala-commons-support</artifactId>
-	    </dependency>
-	    
-	    <dependency> 
-            <groupId>proxool</groupId>  
-            <artifactId>proxool</artifactId> 
-        </dependency> 
-        
-        <dependency>
+			<groupId>org.openkoala.koalacommons</groupId>
+			<artifactId>koala-commons-support</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>proxool</groupId>
+			<artifactId>proxool</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>proxool</groupId>
 			<artifactId>proxool-cglib</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>${jedis.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>${spring.data.redis.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -12,10 +12,17 @@ import com.shanlan.common.util.DateUtil;
 import com.shanlan.common.util.SignUtils;
 import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.domain.UserDetail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
+import javax.inject.Named;
+
+@Named
 public class UserService {
 	private static final Logger logger = LoggerFactory
 			.getLogger(UserBase.class);
+//    @Autowired
+//    private RedisTemplate redisTemplate;
 
 	public static boolean register(UserBase userBase)
 			throws RequestParameterException {
@@ -66,4 +73,12 @@ public class UserService {
         return null;
     }
 
+
+//    public UserDetail isLogin(String redisKey) {
+//        UserDetail userDetail = (UserDetail) redisTemplate.boundValueOps(redisKey).get();
+//        if (userDetail != null) {
+//            return userDetail;
+//        }
+//        return null;
+//    }
 }

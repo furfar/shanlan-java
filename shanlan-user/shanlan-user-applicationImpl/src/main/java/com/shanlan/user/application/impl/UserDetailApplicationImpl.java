@@ -4,18 +4,28 @@ package com.shanlan.user.application.impl;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Named;
 
+import com.shanlan.common.exception.sub.business.RequestAuthenticationException;
+import com.shanlan.common.util.JsonUtil;
 import com.shanlan.user.application.dto.UserBaseDTO;
 import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.service.UserService;
 import org.apache.commons.beanutils.BeanUtils;
+import org.codehaus.jackson.type.TypeReference;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
 import org.dayatang.querychannel.QueryChannelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.BoundValueOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.types.RedisClientInfo;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +40,9 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
     private static final Logger logger = LoggerFactory.getLogger(UserDetailApplicationImpl.class);
 
     private QueryChannelService queryChannel;
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     private QueryChannelService getQueryChannelService() {
         if (queryChannel == null) {
@@ -83,15 +96,15 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
         UserDetail userDetail = UserDetail.get(UserDetail.class, userDetailDTO.getId());
         // 设置要更新的值
         try {
-            String newEmail=userDetailDTO.getEmail();
-            if (newEmail!=null && !newEmail.equals(userDetail.getEmail())){//如果更新了Email,需要同步更新KS_IDENTITY表中的Email
-                UserBase userBase=UserBase.getByUserName(userDetail.getUserName());
+            String newEmail = userDetailDTO.getEmail();
+            if (newEmail != null && !newEmail.equals(userDetail.getEmail())) {//如果更新了Email,需要同步更新KS_IDENTITY表中的Email
+                UserBase userBase = UserBase.getByUserName(userDetail.getUserName());
                 userBase.setEmail(newEmail);
                 userBase.save();
             }
             BeanUtils.copyProperties(userDetail, userDetailDTO);
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -221,5 +234,21 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
         UserBase userBase = new UserBase();
         BeanUtils.copyProperties(userBase, userBaseDTO);
         return UserService.register(userBase);
+    }
+
+    @Override
+    public UserDetailDTO isLogin(String redisKey) throws RequestAuthenticationException {
+        BoundValueOperations boundValueOperations = redisTemplate.boundValueOps(redisKey);
+        String value = (String) boundValueOperations.get();
+        if (value != null) {
+            Map<String, Map<String,String>> valueMap = JsonUtil.foJson(value, new TypeReference<Map<String, Map<String,String>>>() {
+            });
+            Map<String,String> userDetailMap = valueMap.get("user");
+            UserDetailDTO userDetailDTO = JsonUtil.foJson(JsonUtil.toJson(userDetailMap), new TypeReference<UserDetailDTO>() {
+            });
+            return userDetailDTO;
+        }else{
+            throw new RequestAuthenticationException("用户还没有登录，请先登录");
+        }
     }
 }
