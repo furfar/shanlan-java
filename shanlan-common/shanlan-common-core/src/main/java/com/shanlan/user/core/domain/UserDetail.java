@@ -332,7 +332,6 @@ public class UserDetail extends KoalaLegacyEntity {
 
 
     public static UserDetail get(String userName) {
-        redisTemplate.getClientList();
         List<UserDetail> userDetails = listByUserNames(Collections.singletonList(userName));
         if (userDetails.size() == 1) {
             return userDetails.get(0);
