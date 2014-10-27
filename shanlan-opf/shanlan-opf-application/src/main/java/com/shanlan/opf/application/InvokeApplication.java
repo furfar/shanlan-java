@@ -28,7 +28,7 @@ public interface InvokeApplication {
 	 * @return
 	 * @throws Exception 
 	 */
-	SuccessResponseDTO invokeLocalService(String service,String param) throws Exception;
+	SuccessResponseDTO invokeLocalService(String service,String param,String userName) throws Exception;
 
 
     public BaseResponseDTO invokeService(String request, String method) ;

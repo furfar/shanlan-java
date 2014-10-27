@@ -3,6 +3,7 @@ package com.shanlan.opf.web.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.shanlan.common.util.EncryptUtil;
 import com.shanlan.common.util.ImageUploadUtil;
+import com.shanlan.common.util.StringUtil;
 import com.shanlan.opf.application.dto.SuccessResponseDTO;
 import com.shanlan.opf.infra.helper.InvokeHelper;
 import com.shanlan.photo.application.PhotoApplication;
@@ -41,8 +42,9 @@ public class UploadController {
         try {
 
             String cookie = request.getHeader("Cookie");
-
-            UserDetailDTO userDetailDTO = userDetailApplication.isLogin(cookie);
+            logger.info(cookie);
+            String sessionId = StringUtil.getNodeJsSession(cookie);
+            UserDetailDTO userDetailDTO = userDetailApplication.isLogin(sessionId);
 
             String storePath = "";
             ServletFileUpload servletFileUpload = ImageUploadUtil
@@ -66,7 +68,7 @@ public class UploadController {
                     if (validateResult) {
                         storePath += ImageUploadUtil.saveAvatarImage(
                                 originalFileName, bytes);
-                        PhotoDTO newPhotoDTO = new PhotoDTO(storePath,imageMd5);
+                        PhotoDTO newPhotoDTO = new PhotoDTO(storePath, imageMd5);
                         newPhotoDTO = photoApplication.savePhoto(newPhotoDTO);
                         userDetailDTO.setPhotoId(newPhotoDTO.getId());
                         userDetailDTO.setPhotoPath(newPhotoDTO.getFilePath());

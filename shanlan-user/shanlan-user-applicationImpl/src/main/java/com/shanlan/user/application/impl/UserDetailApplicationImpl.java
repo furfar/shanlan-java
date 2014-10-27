@@ -1,34 +1,31 @@
 
 package com.shanlan.user.application.impl;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Named;
 
 import com.shanlan.common.exception.business.ParameterInvalidException;
-import com.shanlan.common.exception.sub.business.RequestAuthenticationException;
-import com.shanlan.common.util.JsonUtil;
+import com.shanlan.common.util.ImageUploadUtil;
 import com.shanlan.common.util.StringUtil;
+import com.shanlan.photo.core.domain.Photo;
+import com.shanlan.photo.core.service.PhotoService;
 import com.shanlan.user.application.dto.UserBaseDTO;
 import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.service.UserService;
 import org.apache.commons.beanutils.BeanUtils;
-import org.codehaus.jackson.type.TypeReference;
+import org.apache.commons.io.FilenameUtils;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
 import org.dayatang.querychannel.QueryChannelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.data.redis.core.types.RedisClientInfo;
-import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -241,15 +238,36 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public UserDetailDTO isLogin(String cookie) throws Exception {
+    public UserDetailDTO isLogin(String sessionId) throws Exception {
         UserDetailDTO userDetailDTO = new UserDetailDTO();
-        logger.info(cookie);
-        String redisKey = StringUtil.getNodeJsCookie(cookie);
-        UserDetail userDetail = UserDetail.getFromRedis(redisKey);
-        if (userDetail==null){
+        UserDetail userDetail = UserDetail.getFromRedis(sessionId);
+        if (userDetail == null) {
             throw new ParameterInvalidException("该用户尚未登录，请先登录");
         }
         BeanUtils.copyProperties(userDetailDTO, userDetail);
         return userDetailDTO;
     }
+
+
+    public boolean handleAvatar(String userName, int x, int y, int srcShowWidth, int srcShowHeight) throws Exception {
+
+        UserDetail userDetail = UserDetail.get(userName);
+
+        String srcImageFilePath = userDetail.getPhotoPath();
+
+        String completeSrcImageFilePath = ImageUploadUtil.getImageBasePath() + srcImageFilePath;
+
+        boolean handleResult = PhotoService.handleAvatar(completeSrcImageFilePath, x, y, srcShowWidth, srcShowHeight);
+
+        if (handleResult) {
+            String photoPath = ImageUploadUtil.appendImageSizePlaceHolder(srcImageFilePath, FilenameUtils.getExtension(srcImageFilePath));
+            userDetail.setPhotoPath(photoPath);
+            userDetail.save();
+            Photo.updateFilePath(userDetail.getPhotoId(), photoPath);
+            return true;
+        }
+        return false;
+    }
+
+
 }

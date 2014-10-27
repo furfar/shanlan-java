@@ -49,11 +49,11 @@
 		</div>
 		</div>
 		<div class="form-group">
-			<label class="col-lg-3 control-label">isLocal:</label>
+			<label class="col-lg-3 control-label">needLogin:</label>
 
 			<div class="col-lg-9">
-				<div class="btn-group select" id="isLocalID"></div>
-				<input type="hidden" id="isLocalID_" name="isLocal" />
+				<div class="btn-group select" id="needLoginID"></div>
+				<input type="hidden" id="needLoginID_" name="needLogin" />
 			</div>
 		</div>
 		<div class="form-group">
@@ -166,7 +166,7 @@
 			title : '否',
 			value : '0'
 		});
-		selectItems['isLocalID'] = contents;
+		selectItems['needLoginID'] = contents;
 		var contents = [ {
 			title : '请选择',
 			value : ''

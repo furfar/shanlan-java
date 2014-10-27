@@ -7,6 +7,8 @@ public class ConstantPunctuation {
      */
     public final static String MINUS = "-";
 
+    public final static String UNDERLINE = "_";
+
     public final static String SLASH = "/";
     /**
      * ,

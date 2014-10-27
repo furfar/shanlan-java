@@ -46,6 +46,12 @@ public class ImageUploadUtil {
 
     public static final String IMAGE_EXTENSION_NAME_JPG = ".jpg";
 
+    public static Integer IMAGE_CUT_STANDARD_200 = 200;
+
+    public static Integer IMAGE_COMPRESS_STANDARD_120 = 120;
+
+    public static Integer IMAGE_COMPRESS_STANDARD_32 = 32;
+
     /**
      * 开发环境图片存储基础路径
      */
@@ -139,16 +145,13 @@ public class ImageUploadUtil {
                 String extensionName = FilenameUtils.getExtension(srcImageFile);
 
                 // 新的文件名会在原文件名的后面加上一个图像大小占位符，比如原文件名为fff.jpg则新文件名为fffX_X.jpg
-                String newImageFile = appendImageSizePlaceHolder(srcImageFile,
-                        extensionName);
+                String newImageFile = appendImageSizePostfix(srcImageFile,
+                        extensionName, destWidth, destHeight);
 
                 File destImageFile = new File(newImageFile);
 
                 // 输出为文件
                 ImageIO.write(cutBufferedImage, extensionName, destImageFile);
-
-                // 删除原临时文件
-                srcFile.delete();
 
                 return newImageFile;
             }
@@ -158,6 +161,77 @@ public class ImageUploadUtil {
         return null;
     }
 
+
+    /**
+     * @param srcImageFile
+     * @param x
+     * @param y
+     * @param destWidth
+     * @param destHeight
+     * @param srcShowWidth
+     * @param srcShowHeight
+     * @return
+     */
+    public static String compressImage(String srcImageFile,
+                                       int destWidth, int destHeight) {
+        try {
+            Image cutImage;
+            ImageFilter cropFilter;
+            // 读取源图像
+            File srcFile = new File(srcImageFile);
+
+            BufferedImage sourceBufferedImage = ImageIO.read(srcFile);
+            int srcWidth = sourceBufferedImage.getWidth(); // 源图宽度
+            int srcHeight = sourceBufferedImage.getHeight(); // 源图高度
+
+            Image compressedImage = sourceBufferedImage.getScaledInstance(srcWidth,
+                    srcHeight, Image.SCALE_DEFAULT);// 获取原图片
+            cropFilter = new CropImageFilter(0, 0, destWidth, destHeight);
+            cutImage = Toolkit.getDefaultToolkit().createImage(
+                    new FilteredImageSource(compressedImage.getSource(), cropFilter));
+            BufferedImage cutBufferedImage = new BufferedImage(destWidth, destHeight,
+                    BufferedImage.TYPE_INT_RGB);
+            Graphics graphics = cutBufferedImage.getGraphics();
+            graphics.drawImage(cutImage, 0, 0, null); // 绘制截取后的图
+            graphics.dispose();
+
+            String extensionName = FilenameUtils.getExtension(srcImageFile);
+
+            // 新的文件名会在原文件名的后面加上一个图像大小占位符，比如原文件名为fff.jpg则新文件名为fffX_X.jpg
+            String newImageFile = appendImageSizePostfix(srcImageFile,
+                    extensionName, destWidth, destHeight);
+
+            File destImageFile = new File(newImageFile);
+
+            // 输出为文件
+            ImageIO.write(cutBufferedImage, extensionName, destImageFile);
+
+            return newImageFile;
+
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+
+    /**
+     * 在输入文件名后面加上一个图像大小后缀，比如原文件名为fff.jpg规格为200，则新文件名为fff200_200.jpg
+     *
+     * @param srcImageFile
+     * @param extensionName
+     * @return
+     */
+    public static String appendImageSizePostfix(String srcImageFile,
+                                                String extensionName, Integer destWidth, Integer destHeight) {
+        String periodAndExtensionName = ConstantPunctuation.PERIOD
+                + extensionName;
+        String newImageFile = srcImageFile.replace(periodAndExtensionName, "")
+                + (destWidth + ConstantPunctuation.UNDERLINE + destHeight) + periodAndExtensionName;
+        return newImageFile;
+    }
+
+
     /**
      * 在输入文件名后面加上一个图像大小占位符，比如原文件名为fff.jpg则新文件名为fffX_X.jpg
      *
@@ -165,14 +239,15 @@ public class ImageUploadUtil {
      * @param extensionName
      * @return
      */
-    private static String appendImageSizePlaceHolder(String srcImageFile,
-                                                     String extensionName) {
+    public static String appendImageSizePlaceHolder(String srcImageFile,
+                                                    String extensionName) {
         String periodAndExtensionName = ConstantPunctuation.PERIOD
                 + extensionName;
         String newImageFile = srcImageFile.replace(periodAndExtensionName, "")
                 + IMAGE_SIZE_PLACEHOLDER + periodAndExtensionName;
         return newImageFile;
     }
+
 
     public static boolean validateImageType(String contentType) throws ParameterInvalidException {
         if (contentType.equals(CONTENT_TYPE_IMAGE_JPEG) || contentType.equals(CONTENT_TYPE_IMAGE_GIF)
@@ -227,8 +302,6 @@ public class ImageUploadUtil {
      * @return
      */
     public static ServletFileUpload getServletImageUpload(int tempFileThreshold, int uploadThreshold) {
-
-        List<FileItem> fileItemList = new ArrayList<FileItem>();
 
         DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
         //设定阀值1M，如果超过这个值，则文件就直接写到临时文件，不会一直占用内存

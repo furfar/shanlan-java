@@ -1,36 +1,37 @@
 package com.shanlan.photo.application.impl;
 
-import java.lang.reflect.InvocationTargetException;
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.List;
 
 import javax.inject.Named;
 
 import com.shanlan.common.exception.sub.business.RequestParameterException;
 import com.shanlan.common.util.EntityUtil;
+import com.shanlan.common.util.ImageUploadUtil;
 import com.shanlan.trade.core.domain.ReTradePhoto;
 import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.service.UserService;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
 import org.dayatang.querychannel.QueryChannelService;
-import org.springframework.context.annotation.Bean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shanlan.photo.application.PhotoApplication;
-import com.shanlan.photo.application.dto.PhotoCollectionDTO;
 import com.shanlan.photo.application.dto.PhotoDTO;
 import com.shanlan.photo.core.domain.Photo;
-import com.shanlan.photo.core.domain.PhotoCollection;
-import com.shanlan.photo.core.domain.RePhotoCollectionPhoto;
 import com.shanlan.photo.core.domain.RePhotoUserOwn;
 
 @Named
 @Transactional
 public class PhotoApplicationImpl implements PhotoApplication {
+
+    private static final Logger logger = LoggerFactory.getLogger(PhotoApplicationImpl.class);
 
     private QueryChannelService queryChannel;
 
@@ -208,7 +209,6 @@ public class PhotoApplicationImpl implements PhotoApplication {
         }
         return md5AndPhotoDTOMap;
     }
-
 
 
 

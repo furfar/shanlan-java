@@ -23,7 +23,7 @@ public class ServiceDTO implements Serializable {
 
 	private String serviceGroup;
 
-	private Integer isLocal;
+	private Integer needLogin;
 
 	private String url;
 
@@ -75,13 +75,13 @@ public class ServiceDTO implements Serializable {
 		return this.serviceGroup;
 	}
 
-	public void setIsLocal(Integer isLocal) {
-		this.isLocal = isLocal;
-		// this.isLocalAsString = isLocal ? "1" : "0";
+	public void setNeedLogin(Integer needLogin) {
+		this.needLogin = needLogin;
+		// this.isLocalAsString = needLogin ? "1" : "0";
 	}
 
-	public Integer getIsLocal() {
-		return this.isLocal;
+	public Integer getNeedLogin() {
+		return this.needLogin;
 	}
 
 	public void setUrl(String url) {
@@ -130,7 +130,7 @@ public class ServiceDTO implements Serializable {
 		return "ServiceDTO{" + "id=" + id + ", serviceName='" + serviceName
 				+ '\'' + ", enable=" + enable + ", serviceVersion='"
 				+ serviceVersion + '\'' + ", type='" + type + '\''
-				+ ", group='" + serviceGroup + '\'' + ", isLocal=" + isLocal
+				+ ", group='" + serviceGroup + '\'' + ", needLogin=" + needLogin
 				+ ", url='" + url + '\'' + '}';
 	}
 }

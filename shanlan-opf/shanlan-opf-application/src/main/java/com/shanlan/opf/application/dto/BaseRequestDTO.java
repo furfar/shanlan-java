@@ -21,6 +21,9 @@ public class BaseRequestDTO {
 	 */
 	protected String accessToken="";
 
+
+    protected String sessionId="";
+
 	/**
 	 * 请求的服务名
 	 */
@@ -105,5 +108,12 @@ public class BaseRequestDTO {
 		this.v = v;
 	}
 
-		
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
 }

@@ -30,6 +30,26 @@ public class JPQLUtil {
 
 
     /**
+     * @param clazz
+     * @param columnName
+     * @param columnValue
+     * @param id
+     * @return
+     */
+    public static String updateColumnById(Class clazz, String columnName, String columnValue, Integer id) {
+        if (clazz != null && StringUtils.isNotBlank(columnName)) {
+            String entityName = clazz.getSimpleName();
+            StringBuffer jpql = new StringBuffer();
+            jpql.append("Update " + entityName + " " + entityName);
+            jpql.append(" Set " + columnName + "='" + columnValue + "'");
+            jpql.append(" Where id='" + id + "'");
+            return jpql.toString();
+        }
+        return null;
+    }
+
+
+    /**
      * 得到形如select xx from xx where id in()的Sql语句
      *
      * @param clazz

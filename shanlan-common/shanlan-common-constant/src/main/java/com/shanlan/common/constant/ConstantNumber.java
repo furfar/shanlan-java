@@ -7,11 +7,11 @@ public class ConstantNumber {
     /**
      * 常量，是本地服务
      */
-    public static final Integer IS_LOCAL_SERVICE_TRUE=1;
+    public static final Integer NEED_LOGIN_SERVICE_TRUE=1;
     /**
      * 常量，非本地服务
      */
-    public static final Integer IS_LOCAL_SERVICE_FALSE=0;
+    public static final Integer NEED_LOGIN_SERVICE_FALSE =0;
 
     
 	public static final int FLAG_SUCCESS = 200;

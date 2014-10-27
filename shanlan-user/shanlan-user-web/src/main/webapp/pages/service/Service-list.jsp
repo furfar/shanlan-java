@@ -36,11 +36,11 @@ $(function () {
             ];
             contents.push({title: '是', value: '1'});
             contents.push({title: '否', value: '0'});
-            form.find('#isLocal_SELECT').select({
+            form.find('#needLogin_SELECT').select({
                 title: '请选择',
                 contents: contents
             }).on('change', function () {
-                form.find('#isLocalID_').val($(this).getValue());
+                form.find('#needLoginID_').val($(this).getValue());
             });
             var contents = [
                 {title: '请选择', value: ''}
@@ -104,7 +104,7 @@ $(function () {
                     { title: 'enable', name: 'enable', width: width},
                     { title: 'type', name: 'type', width: width},
                     { title: 'serviceGroup', name: 'serviceGroup', width: width},
-                    { title: 'isLocal', name: 'isLocal', width: width}
+                    { title: 'needLogin', name: 'needLogin', width: width}
 
                 ]
             }).on({
@@ -343,11 +343,11 @@ var openDetailsPage = function (id) {
                             <input type="hidden" id="serviceVersionID_" name="serviceVersion"/>
                         </div>
                     </div>
-                    <label class="control-label" style="width:100px;float:left;">isLocal:&nbsp;</label>
+                    <label class="control-label" style="width:100px;float:left;">needLogin:&nbsp;</label>
 
                     <div style="margin-left:15px;float:left;">
-                        <div class="btn-group select" id="isLocal_SELECT"></div>
-                        <input type="hidden" id="isLocalID_" name="isLocal"/>
+                        <div class="btn-group select" id="needLogin_SELECT"></div>
+                        <input type="hidden" id="needLoginID_" name="needLogin"/>
                     </div>
 </div>
 </div>

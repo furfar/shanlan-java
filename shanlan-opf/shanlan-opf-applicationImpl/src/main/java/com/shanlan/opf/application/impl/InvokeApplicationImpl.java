@@ -7,18 +7,13 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.shanlan.common.util.FileUploadUtil;
-import com.shanlan.common.util.ImageUploadUtil;
 import com.shanlan.photo.application.PhotoCollectionApplication;
 import com.shanlan.photo.application.dto.PhotoDTO;
-import com.shanlan.photo.application.impl.PhotoCollectionApplicationImpl;
 import com.shanlan.trade.application.TradeCommentApplication;
 import com.shanlan.trade.application.dto.FrontTradeCommentDTO;
 import com.shanlan.trade.application.dto.PhotoPackagesDTO;
-import com.shanlan.trade.application.impl.TradeCommentApplicationImpl;
 import com.shanlan.user.application.UserDetailApplication;
 import com.shanlan.user.application.dto.UserDetailDTO;
-import com.shanlan.user.application.impl.UserDetailApplicationImpl;
 import com.shanlan.user.core.domain.UserDetail;
 import com.shanlan.user.core.service.UserService;
 import org.apache.commons.beanutils.BeanUtils;
@@ -26,8 +21,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.type.TypeReference;
 import org.dayatang.querychannel.Page;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONException;
@@ -49,11 +42,9 @@ import com.shanlan.opf.core.domain.Service;
 import com.shanlan.opf.infra.helper.InvokeHelper;
 import com.shanlan.photo.application.PhotoApplication;
 import com.shanlan.photo.application.dto.PhotoCollectionDTO;
-import com.shanlan.photo.application.impl.PhotoApplicationImpl;
 import com.shanlan.photo.core.domain.Photo;
 import com.shanlan.photo.core.service.PhotoService;
 import com.shanlan.trade.application.PhotoPackagesApplication;
-import com.shanlan.trade.application.impl.PhotoPackagesApplicationImpl;
 import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.domain.UserIntroduction;
 
@@ -67,7 +58,6 @@ import com.shanlan.user.core.domain.UserIntroduction;
  */
 
 @Named
-@Transactional
 public class InvokeApplicationImpl implements InvokeApplication {
 
     private static final Logger logger = Logger
@@ -93,7 +83,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
     }
 
     @Override
-    public SuccessResponseDTO invokeLocalService(String service, String param)
+    public SuccessResponseDTO invokeLocalService(String service, String param, String userNameLogin)
             throws Exception {
 
         Map<String, String> paramMap = JsonUtil.foJson(param,
@@ -101,68 +91,69 @@ public class InvokeApplicationImpl implements InvokeApplication {
                 }
         );
 
-
-//        String image=ImageUploadUtil.cutImage("/Users/albertliu/images/avatar/2014/10/25/652efe41-ea19-4a7c-be4f-c33291d4cf7e.jpg",10,10,200,200,1200,800);
-
-//        FileUploadUtil.imgCut();
-
         String businessResult = "";
         if (service.equals("User.login")) {
             UserDetail userDetail = UserService.login(paramMap.get("userAccount"),
                     paramMap.get("password"));
-            UserDetailDTO userDetailDTO=new UserDetailDTO();
-            BeanUtils.copyProperties(userDetailDTO,userDetail);
-            businessResult = JsonUtil.toJson(userDetailDTO);
+            UserDetailDTO userDetailDTO = new UserDetailDTO();
+            BeanUtils.copyProperties(userDetailDTO, userDetail);
+            businessResult = JSONObject.toJSONString(userDetailDTO);
         } else if (service.equals("User.register")) {
-            UserBase user = new UserBase(paramMap.get("userName"),
+            UserBaseDTO userBaseDTO = new UserBaseDTO(paramMap.get("userName"),
                     paramMap.get("password"), paramMap.get("email"));
-            boolean result= UserService.register(user);
-            businessResult = JsonUtil.toJson(result);
+            boolean result = userDetailApplication.register(userBaseDTO);
+            businessResult = JSONObject.toJSONString(result);
         } else if (service.equals("User.getBaseInfoById")) {
             Integer id = Integer.parseInt(paramMap.get("id"));
             UserBase userBase = UserBase.get(UserBase.class, id);
             UserBaseDTO userBaseDTO = new UserBaseDTO();
             BeanUtils.copyProperties(userBaseDTO, userBase);
-            businessResult = JsonUtil.toJson(userBaseDTO);
+            businessResult = JSONObject.toJSONString(userBaseDTO);
         } else if (service.equals("User.getBaseInfoByUserName")) {
             String userName = paramMap.get("userName");
             UserDetail userDetail = UserDetail.get(userName);
             UserDetailDTO userDetailDTO = new UserDetailDTO();
             BeanUtils.copyProperties(userDetailDTO, userDetail);
-            businessResult = JsonUtil.toJson(userDetailDTO);
+            businessResult = JSONObject.toJSONString(userDetailDTO);
         } else if (service.equals("Photo.getPhotoCollections")) {
             String userName = paramMap.get("userName");
             List<PhotoCollectionDTO> photoCollectionDTOs = photoCollectionApplication
                     .listPhotoCollections(userName);
-            businessResult = JsonUtil.toJson(photoCollectionDTOs);
+            businessResult = JSONObject.toJSONString(photoCollectionDTOs);
         } else if (service.equals("Photo.getPhotos")) {
             Integer photoCollectionId = Integer.parseInt(paramMap
                     .get("photoCollectionId"));
             List<Photo> photos = PhotoService.getPhotos(photoCollectionId);
-            businessResult = JsonUtil.toJson(photos);
+            businessResult = JSONObject.toJSONString(photos);
         } else if (service.equals("User.getIntroductions")) {
             String userName = paramMap.get("userName");
             List<UserIntroduction> userIntroductions = UserIntroduction
                     .findByUserName(userName);
-            businessResult = JsonUtil.toJson(userIntroductions);
+            businessResult = JSONObject.toJSONString(userIntroductions);
         } else if (service.equals("Trade.listPackages")) {
             String userName = paramMap.get("userName");
             String photoType = paramMap.get("type");
             List<PhotoPackagesDTO> photoPackagesDTOs = photoPackagesApplication.listPackages(userName, photoType);
-            businessResult = JsonUtil.toJson(photoPackagesDTOs);
+            businessResult = JSONObject.toJSONString(photoPackagesDTOs);
         } else if (service.equals("Trade.pageTradeComments")) {
             String sellerUserName = paramMap.get("userName");
             Integer currentPage = Integer.parseInt(paramMap.get("currentPage"));
             Integer pageSize = Integer.parseInt(paramMap.get("pageSize"));
             Page<FrontTradeCommentDTO> frontTradeCommentDTOPage = tradeCommentApplication.pageTradeComments(sellerUserName, currentPage, pageSize);
-            businessResult = JsonUtil.toJson(frontTradeCommentDTOPage);
+            businessResult = JSONObject.toJSONString(frontTradeCommentDTOPage);
         } else if (service.equals("Photo.listTradePhotos")) {
             Integer tradePhotoCollectionId = Integer.parseInt(paramMap.get("tradePhotoCollectionId"));
             List<PhotoDTO> photoDTOs = photoApplication.listTradePhotos(tradePhotoCollectionId);
-            businessResult = JsonUtil.toJson(photoDTOs);
+            businessResult = JSONObject.toJSONString(photoDTOs);
+        } else if (service.equals("User.cutAvatar")) {
+            Integer x = Integer.parseInt(paramMap.get("x"));
+            Integer y = Integer.parseInt(paramMap.get("y"));
+            Integer w = Integer.parseInt(paramMap.get("w"));
+            Integer h = Integer.parseInt(paramMap.get("h"));
+            boolean result = userDetailApplication.handleAvatar(userNameLogin, x, y, w, h);
+            businessResult = JSONObject.toJSONString(result);
         }
         return new SuccessResponseDTO(businessResult);
-
     }
 
     public BaseResponseDTO invokeService(String request, String method) {
@@ -204,6 +195,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
 
         // 第4步：服务映射
         Service service = null;
+        UserDetailDTO userDetailDTO = new UserDetailDTO();
         try {
 
             service = Service.getServiceByServiceNameAndVersion(
@@ -215,27 +207,27 @@ public class InvokeApplicationImpl implements InvokeApplication {
                         + service.getMethod() + "' of '"
                         + service.getServiceName() + "' ");
             }
+            if (ConstantNumber.NEED_LOGIN_SERVICE_TRUE.equals(service.getNeedLogin())) {//如果是需要用户登录的服务
+                String sessionId = requestDTO.getSessionId();
+                userDetailDTO = userDetailApplication.isLogin(sessionId);
+            }
 
-        } catch (OPFBaseException e) {
+        } catch (Exception e) {
             return InvokeHelper.handleException(e);
         }
 
         // 第5步：服务转发
 
-        if (ConstantNumber.IS_LOCAL_SERVICE_FALSE == service.getIsLocal()) {// 如果不是本地服务
-            successResponseDTO = invokeRemoteService(service.getUrl(),
-                    requestDTO.getParam());
 
-        } else {
-            try {
-                successResponseDTO = invokeLocalService(
-                        requestDTO.getService(), requestDTO.getParam());
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-                return InvokeHelper.handleException(e);
-            }
-
+        try {
+            successResponseDTO = invokeLocalService(
+                    requestDTO.getService(), requestDTO.getParam(), userDetailDTO.getUserName());
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return InvokeHelper.handleException(e);
         }
+
+
         return successResponseDTO;
     }
 

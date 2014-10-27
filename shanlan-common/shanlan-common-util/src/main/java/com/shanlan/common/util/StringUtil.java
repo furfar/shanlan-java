@@ -34,7 +34,7 @@ public class StringUtil extends StringUtils {
         return parsedCookie;
     }
 
-    public static String getNodeJsCookie(String cookieString) {
+    public static String getNodeJsSession(String cookieString) {
         Map<String, String> cookieMap = parseCookie(cookieString);
         String cookie = cookieMap.get(ConstantString.NODE_JS_COOKIE_KEY);
         String parsedNodeJsCookie = parseNodeJsCookie(cookie);

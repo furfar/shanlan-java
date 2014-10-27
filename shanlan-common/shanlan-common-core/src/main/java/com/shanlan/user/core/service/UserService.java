@@ -22,8 +22,6 @@ import javax.inject.Named;
 public class UserService {
     private static final Logger logger = LoggerFactory
             .getLogger(UserBase.class);
-//    @Autowired
-//    private RedisTemplate redisTemplate;
 
     public static boolean register(UserBase userBase)
             throws RequestParameterException {

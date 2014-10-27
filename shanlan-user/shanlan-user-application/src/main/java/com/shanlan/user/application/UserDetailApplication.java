@@ -29,6 +29,8 @@ public interface UserDetailApplication {
 
     public boolean register(UserBaseDTO userBaseDTO) throws Exception;
 
-    public UserDetailDTO isLogin(String cookie) throws Exception;
+    public UserDetailDTO isLogin(String session) throws Exception;
+
+    public boolean handleAvatar(String userName, int x, int y, int srcShowWidth, int srcShowHeight) throws Exception;
 }
 

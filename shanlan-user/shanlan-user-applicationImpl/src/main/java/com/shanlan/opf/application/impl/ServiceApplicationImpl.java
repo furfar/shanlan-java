@@ -137,9 +137,9 @@ public class ServiceApplicationImpl implements ServiceApplication {
             jpql.append(" and _service.serviceGroup like ?");
             conditionVals.add(MessageFormat.format("%{0}%", queryVo.getServiceGroup()));
         }
-        if (queryVo.getIsLocal() != null) {
+        if (queryVo.getNeedLogin() != null) {
             jpql.append(" and _service.isLocal=?");
-            conditionVals.add(queryVo.getIsLocal());
+            conditionVals.add(queryVo.getNeedLogin());
         }
 
         Page<Service> pages = getQueryChannelService().createJpqlQuery(jpql.toString()).setParameters(conditionVals).setPage(currentPage, pageSize).pagedList();

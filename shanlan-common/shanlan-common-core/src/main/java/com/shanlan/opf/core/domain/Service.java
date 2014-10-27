@@ -59,8 +59,8 @@ public class Service extends KoalaLegacyEntity {
 	@Column(name = "service_group")
 	private String serviceGroup;
 
-	@Column(name = "is_local")
-	private Integer isLocal;
+	@Column(name = "need_login")
+	private Integer needLogin;
 
 	public void setId(int id) {
 		this.id = id;
@@ -122,12 +122,12 @@ public class Service extends KoalaLegacyEntity {
 		this.serviceGroup = serviceGroup;
 	}
 
-	public Integer getIsLocal() {
-		return isLocal;
+	public Integer getNeedLogin() {
+		return needLogin;
 	}
 
-	public void setIsLocal(Integer isLocal) {
-		this.isLocal = isLocal;
+	public void setNeedLogin(Integer needLogin) {
+		this.needLogin = needLogin;
 	}
 
 	public Integer getId() {
@@ -165,7 +165,7 @@ public class Service extends KoalaLegacyEntity {
 			Service service = services.get(0);
 			if (service != null) {
 
-				if (ConstantNumber.IS_LOCAL_SERVICE_TRUE != service.getEnable()) {// 如果服务不可用
+				if (ConstantNumber.NEED_LOGIN_SERVICE_TRUE != service.getEnable()) {// 如果服务不可用
 					throw new ServiceDisableException("the service name '"
 							+ serviceName + "' version '" + serviceVersion
 							+ "' was disable");
@@ -195,7 +195,7 @@ public class Service extends KoalaLegacyEntity {
 		return "Service{" + "id=" + id + ", serviceName='" + serviceName + '\''
 				+ ", serviceVersion='" + serviceVersion + '\'' + ", url='"
 				+ url + '\'' + ", enable=" + enable + ", type='" + type + '\''
-				+ ", serviceGroup='" + serviceGroup + '\'' + ", isLocal="
-				+ isLocal + '}';
+				+ ", serviceGroup='" + serviceGroup + '\'' + ", needLogin="
+				+ needLogin + '}';
 	}
 }
