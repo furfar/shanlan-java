@@ -2,6 +2,7 @@ package com.shanlan.user.web.controller.user;
 
 import java.util.Map;
 
+import com.shanlan.common.util.ImageUploadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -29,9 +30,9 @@ public class UploadController {
             }
             Map<String, MultipartFile> fileNameAndFileMap = multipartHttpServletRequest.getFileMap();
             for (MultipartFile multipartFile : fileNameAndFileMap.values()) {
-                boolean validateResult = FileUploadUtil.validateImageType(multipartFile.getContentType());
+                boolean validateResult = ImageUploadUtil.validateImageType(multipartFile.getContentType());
                 if (validateResult) {
-                    uploadedFilePath += FileUploadUtil.saveAvatarImage(userName, multipartFile.getBytes());
+                    uploadedFilePath += ImageUploadUtil.saveAvatarImage(userName, multipartFile.getBytes());
                 }
             }
         } catch (Exception e) {

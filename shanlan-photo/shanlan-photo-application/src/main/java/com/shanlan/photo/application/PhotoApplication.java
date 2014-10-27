@@ -1,6 +1,8 @@
 package com.shanlan.photo.application;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 
 import org.dayatang.querychannel.Page;
 
@@ -30,4 +32,8 @@ public interface PhotoApplication {
      * @return
      */
     public List<PhotoDTO> listTradePhotos(int tradePhotoCollectionId) throws Exception;
+
+    public List<PhotoDTO> listByMd5(List<String> imageMd5s) throws Exception;
+
+    public Map<String, PhotoDTO> getMd5AndSelfMap(List<String> imageMd5s) throws Exception;
 }

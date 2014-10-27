@@ -13,19 +13,28 @@ public class PhotoDTO implements Serializable {
 
 	private String other;
 
+    private String md5;
+
 	private Integer likeCount;
 
 	private String filePath;
 
 	private Integer size;
 
+    public PhotoDTO() {
+    }
+
 	public PhotoDTO(int photoId, String photoPath) {
 		this.id = photoId;
 		this.filePath = photoPath;
+        this.likeCount=0;
 	}
 
-	public PhotoDTO() {
-	}
+    public PhotoDTO(String filePath,String md5){
+        this.filePath = filePath;
+        this.md5=md5;
+        this.likeCount=0;
+    }
 
 	public void setOther(String other) {
 		this.other = other;
@@ -67,7 +76,15 @@ public class PhotoDTO implements Serializable {
 		return id;
 	}
 
-	@Override
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
+    }
+
+    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

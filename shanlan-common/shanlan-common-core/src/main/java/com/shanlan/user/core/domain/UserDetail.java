@@ -12,12 +12,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.shanlan.common.exception.business.ParameterInvalidException;
+import com.shanlan.common.exception.sub.business.RequestAuthenticationException;
 import com.shanlan.common.util.JPQLUtil;
 
+import com.shanlan.common.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.type.TypeReference;
+import org.dayatang.domain.InstanceFactory;
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * Auto Generated Entity
@@ -29,6 +35,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class UserDetail extends KoalaLegacyEntity {
 
     private static final long serialVersionUID = 1L;
+
+    private static RedisTemplate redisTemplate;
 
     /**
      * 主键
@@ -324,12 +332,37 @@ public class UserDetail extends KoalaLegacyEntity {
 
 
     public static UserDetail get(String userName) {
+        redisTemplate.getClientList();
         List<UserDetail> userDetails = listByUserNames(Collections.singletonList(userName));
         if (userDetails.size() == 1) {
             return userDetails.get(0);
         } else {
             throw new ParameterInvalidException("用户" + userName + "不存在,请核对用户名");
         }
+    }
+
+
+    public static UserDetail getFromRedis(String key) {
+        BoundValueOperations boundValueOperations = getRedisTemplate().boundValueOps(key);
+        String value = (String) boundValueOperations.get();
+        if (value != null) {
+            Map<String, Map<String, String>> valueMap = JsonUtil.foJson(value, new TypeReference<Map<String, Map<String, String>>>() {
+            });
+            Map<String, String> userDetailMap = valueMap.get("user");
+            UserDetail userDetail = JsonUtil.foJson(JsonUtil.toJson(userDetailMap), new TypeReference<UserDetail>() {
+            });
+            return userDetail;
+        } else {
+            return null;
+        }
+    }
+
+
+    public static RedisTemplate getRedisTemplate(){
+        if (redisTemplate==null){
+            redisTemplate=InstanceFactory.getInstance(RedisTemplate.class);
+        }
+        return redisTemplate;
     }
 
 

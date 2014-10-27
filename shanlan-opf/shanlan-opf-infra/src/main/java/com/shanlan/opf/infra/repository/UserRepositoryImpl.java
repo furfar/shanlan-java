@@ -25,7 +25,7 @@ import com.shanlan.opf.core.repository.UserRepository;
  */
 
 @Named
-public class UserRespositoryImpl implements UserRepository {
+public class UserRepositoryImpl implements UserRepository {
 
 	public static final String DEF_USER_BY_USERNAME_QUERY = "Select USER_ACCOUNT,USER_PASSWORD,NAME,EMAIL,ISVALID "
 			+ "from KS_IDENTITY " + "where USER_ACCOUNT = ?";

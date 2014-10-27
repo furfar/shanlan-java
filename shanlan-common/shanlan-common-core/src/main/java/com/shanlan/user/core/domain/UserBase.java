@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import com.shanlan.common.constant.ConstantString;
 import com.shanlan.common.util.DateUtil;
+import com.shanlan.common.util.EncryptUtil;
 import org.apache.commons.lang.StringUtils;
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 import org.slf4j.Logger;
@@ -300,7 +301,7 @@ public class UserBase extends KoalaLegacyEntity {
                     "username or password error, please check it.");
             if (user!=null){
                 try {
-                    String md5Password = SignUtils
+                    String md5Password = EncryptUtil
                             .getMD5DigestInString(password);
                     String userPassword = user.getPassword();
                     if (!userPassword.equals(md5Password)) {// 如果密码不匹配
@@ -331,7 +332,7 @@ public class UserBase extends KoalaLegacyEntity {
 
             String md5Password;
             try {
-                md5Password = SignUtils
+                md5Password = EncryptUtil
                         .getMD5DigestInString(userBase.getPassword());
             } catch (IOException e) {
                 logger.error(e.getMessage(), e);

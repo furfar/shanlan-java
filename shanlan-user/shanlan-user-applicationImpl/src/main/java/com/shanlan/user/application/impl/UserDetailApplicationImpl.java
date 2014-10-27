@@ -1,6 +1,7 @@
 
 package com.shanlan.user.application.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +9,10 @@ import java.util.Map;
 
 import javax.inject.Named;
 
+import com.shanlan.common.exception.business.ParameterInvalidException;
 import com.shanlan.common.exception.sub.business.RequestAuthenticationException;
 import com.shanlan.common.util.JsonUtil;
+import com.shanlan.common.util.StringUtil;
 import com.shanlan.user.application.dto.UserBaseDTO;
 import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.service.UserService;
@@ -237,18 +240,16 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
     }
 
     @Override
-    public UserDetailDTO isLogin(String redisKey) throws RequestAuthenticationException {
-        BoundValueOperations boundValueOperations = redisTemplate.boundValueOps(redisKey);
-        String value = (String) boundValueOperations.get();
-        if (value != null) {
-            Map<String, Map<String,String>> valueMap = JsonUtil.foJson(value, new TypeReference<Map<String, Map<String,String>>>() {
-            });
-            Map<String,String> userDetailMap = valueMap.get("user");
-            UserDetailDTO userDetailDTO = JsonUtil.foJson(JsonUtil.toJson(userDetailMap), new TypeReference<UserDetailDTO>() {
-            });
-            return userDetailDTO;
-        }else{
-            throw new RequestAuthenticationException("用户还没有登录，请先登录");
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public UserDetailDTO isLogin(String cookie) throws Exception {
+        UserDetailDTO userDetailDTO = new UserDetailDTO();
+        logger.info(cookie);
+        String redisKey = StringUtil.getNodeJsCookie(cookie);
+        UserDetail userDetail = UserDetail.getFromRedis(redisKey);
+        if (userDetail==null){
+            throw new ParameterInvalidException("该用户尚未登录，请先登录");
         }
+        BeanUtils.copyProperties(userDetailDTO, userDetail);
+        return userDetailDTO;
     }
 }

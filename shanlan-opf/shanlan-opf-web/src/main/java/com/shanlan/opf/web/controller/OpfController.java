@@ -65,7 +65,7 @@ public class OpfController {
 		if (baseResponseDTO != null
 				&& ConstantNumber.FLAG_SUCCESS == baseResponseDTO.getCode()) {
 			SuccessResponseDTO successResponseDTO = (SuccessResponseDTO) baseResponseDTO;
-			resultMav.addObject("code", "200");
+			resultMav.addObject("code", 200);
 			resultMav.addObject("data", successResponseDTO.getData());
 
 		} else if (baseResponseDTO != null

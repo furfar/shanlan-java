@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.shanlan.common.util.FileUploadUtil;
+import com.shanlan.common.util.ImageUploadUtil;
 import com.shanlan.photo.application.PhotoCollectionApplication;
 import com.shanlan.photo.application.dto.PhotoDTO;
 import com.shanlan.photo.application.impl.PhotoCollectionApplicationImpl;
@@ -98,11 +100,13 @@ public class InvokeApplicationImpl implements InvokeApplication {
                 new TypeReference<Map<String, String>>() {
                 }
         );
+
+
+//        String image=ImageUploadUtil.cutImage("/Users/albertliu/images/avatar/2014/10/25/652efe41-ea19-4a7c-be4f-c33291d4cf7e.jpg",10,10,200,200,1200,800);
+
+//        FileUploadUtil.imgCut();
+
         String businessResult = "";
-
-        UserDetailDTO userDetail2= userDetailApplication.isLogin("user-iTV0UR7KxtQJG9r7viVhKNyqd_npyovV");
-
-
         if (service.equals("User.login")) {
             UserDetail userDetail = UserService.login(paramMap.get("userAccount"),
                     paramMap.get("password"));

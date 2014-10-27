@@ -6,7 +6,9 @@ import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Auto Generated Entity
@@ -123,6 +125,25 @@ public class Photo extends KoalaLegacyEntity {
             photos = getRepository().createJpqlQuery(jpql).list();
         }
         return photos;
+    }
+
+    public static List<Photo> listByMd5(List<String> imageMd5) {
+        List<Photo> photos = new ArrayList<Photo>();
+        String jpql = JPQLUtil.selectByColumnIn(Photo.class,"md5",imageMd5);
+        if (StringUtils.isNotBlank(jpql)) {
+            photos = getRepository().createJpqlQuery(jpql).list();
+        }
+        return photos;
+    }
+
+
+    public static Map<String,Photo> getMd5AndSelfMap(List<String> imageMd5s){
+        Map<String,Photo> md5AndSelfMap=new HashMap<String, Photo>();
+        List<Photo> photos=listByMd5(imageMd5s);
+        for(Photo photo:photos){
+            md5AndSelfMap.put(photo.getMd5(),photo);
+        }
+        return md5AndSelfMap;
     }
 
 }

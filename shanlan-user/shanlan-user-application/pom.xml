@@ -48,6 +48,11 @@
 			<artifactId>koala-commons-exception</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.shanlan</groupId>
+			<artifactId>shanlan-common-util</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.openkoala.koalacommons</groupId>
 			<artifactId>koala-commons-support</artifactId>
 		</dependency>

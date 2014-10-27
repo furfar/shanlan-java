@@ -1,6 +1,7 @@
 
 package com.shanlan.user.application;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import com.shanlan.common.exception.sub.business.RequestAuthenticationException;
@@ -28,6 +29,6 @@ public interface UserDetailApplication {
 
     public boolean register(UserBaseDTO userBaseDTO) throws Exception;
 
-    public UserDetailDTO isLogin(String redisKey) throws RequestAuthenticationException;
+    public UserDetailDTO isLogin(String cookie) throws Exception;
 }
 
