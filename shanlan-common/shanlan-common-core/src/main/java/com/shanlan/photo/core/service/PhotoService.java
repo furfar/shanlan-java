@@ -9,6 +9,7 @@ import com.shanlan.photo.core.domain.Photo;
 import com.shanlan.photo.core.domain.PhotoCollection;
 import com.shanlan.photo.core.domain.RePhotoCollectionPhoto;
 import com.shanlan.photo.core.domain.RePhotoUserOwn;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,29 +58,36 @@ public class PhotoService {
      * @param srcImageFilePath
      * @param x
      * @param y
-     * @param srcShowWidth
-     * @param srcShowHeight
+     * @param destWidth
+     * @param destHeight
      * @return
      * @throws Exception
      */
-    public static boolean handleAvatar(String srcImageFilePath, int x, int y, int srcShowWidth, int srcShowHeight) throws Exception {
+    public static boolean handleAvatar(String srcImageFilePath, int x, int y, int destWidth, int destHeight) throws Exception {
+
+        //先根据裁剪规格（destWidth，destHeight）对原图进行裁剪
+        String cutImageFilePath = ImageUploadUtil.cutImage(srcImageFilePath, x, y, destWidth, destHeight);
+
+        String extensionName = FilenameUtils.getExtension(srcImageFilePath);
+        //再在裁剪图的基础等比例压缩三张图，分别为200*200,120*120,30*30
+
+        String newFilePath200 = ImageUploadUtil.appendImageSizePostfix(srcImageFilePath,
+                extensionName, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_200, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_200);
+        ImageUploadUtil.compressImageConstrain(cutImageFilePath, newFilePath200, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_200, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_200, 1f);
 
 
-        Integer destWidth = ImageUploadUtil.IMAGE_CUT_STANDARD_200;
-        Integer destHeight = ImageUploadUtil.IMAGE_CUT_STANDARD_200;
+        String newFilePath120 = ImageUploadUtil.appendImageSizePostfix(srcImageFilePath,
+                extensionName, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_120, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_120);
+        ImageUploadUtil.compressImageConstrain(cutImageFilePath, newFilePath120, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_120, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_120, 1f);
 
-        //先根据原图裁剪一个200*200的图
-        String cutImageFilePath = ImageUploadUtil.cutImage(srcImageFilePath, x, y, destWidth, destHeight, srcShowWidth, srcShowHeight);
 
-        //再在200*200的图的基础等比例压缩两张图，分别为120*120,32*32
-        ImageUploadUtil.compressImage(cutImageFilePath, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_120, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_120);
+        String newFilePath32 = ImageUploadUtil.appendImageSizePostfix(srcImageFilePath,
+                extensionName, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_30, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_30);
+        ImageUploadUtil.compressImageConstrain(cutImageFilePath, newFilePath32, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_30, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_30, 1f);
 
-        ImageUploadUtil.compressImage(cutImageFilePath, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_32, ImageUploadUtil.IMAGE_COMPRESS_STANDARD_32);
-
-        //删除输入的临时文件
-        File srcImageFile = new File(srcImageFilePath);
-
-        srcImageFile.delete();
+        //删除裁剪的临时文件
+        File cutImageFile = new File(cutImageFilePath);
+        cutImageFile.delete();
 
         return true;
     }

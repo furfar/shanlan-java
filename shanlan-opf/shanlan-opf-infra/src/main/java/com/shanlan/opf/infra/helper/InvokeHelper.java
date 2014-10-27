@@ -14,6 +14,7 @@ import javax.inject.Named;
 import com.shanlan.common.exception.sub.business.*;
 import com.shanlan.opf.application.dto.ErrorResponseDTO;
 import com.shanlan.opf.application.dto.RequestDTO;
+import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -125,7 +126,7 @@ public class InvokeHelper {
             throws RequestParameterException {
 
         RequestDTO requestDTO = new RequestDTO();
-
+        logger.info(request);
         try {
 
             requestDTO = JSONObject.parseObject(request, RequestDTO.class);
@@ -169,36 +170,27 @@ public class InvokeHelper {
         if (e instanceof RequestFormatException) {
             errorResponse.setCode(101);
             errorResponse.setMessage(e.getMessage());
-        }
-
-        else if (e instanceof RequestMappingException) {
+        } else if (e instanceof RequestMappingException) {
             errorResponse.setCode(102);
             errorResponse.setMessage(e.getMessage());
-        }
-
-        else if (e instanceof RequestAuthenticationException) {
+        } else if (e instanceof RequestAuthenticationException) {
             errorResponse.setCode(103);
             errorResponse.setMessage(e.getMessage());
-        }
-
-        else if (e instanceof RequestAuthorizationException) {
+        } else if (e instanceof RequestAuthorizationException) {
             errorResponse.setCode(104);
             errorResponse.setMessage(e.getMessage());
-        }
-
-        else if (e instanceof RequestParameterException) {
+        } else if (e instanceof RequestParameterException) {
             errorResponse.setCode(105);
             errorResponse.setMessage(e.getMessage());
-        }
-
-        else if (e instanceof ServiceDisableException) {
+        } else if (e instanceof ServiceDisableException) {
             errorResponse.setCode(601);
             errorResponse.setMessage(e.getMessage());
-        }
-
-        else if (e instanceof RequestCheckingException) {
+        } else if (e instanceof RequestCheckingException) {
             errorResponse.setCode(701);
             errorResponse.setMessage(e.getMessage());
+        } else if (e instanceof FileUploadBase.FileSizeLimitExceededException) {
+            errorResponse.setCode(801);
+            errorResponse.setMessage("Image size exceeds the maximum limit 1M, please re-upload");
         } else {
             errorResponse.setCode(999);
             errorResponse.setMessage(e.getMessage());

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.shanlan.common.util.EncryptUtil;
 import com.shanlan.common.util.ImageUploadUtil;
 import com.shanlan.common.util.StringUtil;
+import com.shanlan.opf.application.dto.ErrorResponseDTO;
 import com.shanlan.opf.application.dto.SuccessResponseDTO;
 import com.shanlan.opf.infra.helper.InvokeHelper;
 import com.shanlan.photo.application.PhotoApplication;
@@ -12,6 +13,7 @@ import com.shanlan.photo.core.domain.Photo;
 import com.shanlan.user.application.UserDetailApplication;
 import com.shanlan.user.application.dto.UserDetailDTO;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +50,7 @@ public class UploadController {
 
             String storePath = "";
             ServletFileUpload servletFileUpload = ImageUploadUtil
-                    .getServletImageUpload(1, 2);
+                    .getServletImageUpload(1, 1);
 
             List<FileItem> fileItemList = servletFileUpload
                     .parseRequest(request);// 在这一步的处理过程中，如果图片大小大于前面设置的值1M，会先存储到临时文件夹中，但处理完后会删除
@@ -60,7 +62,9 @@ public class UploadController {
                 Map<String, PhotoDTO> md5AndSelfMap = photoApplication.getMd5AndSelfMap(Collections.singletonList(imageMd5));
                 PhotoDTO photoDTO = md5AndSelfMap.get(imageMd5);
                 if (photoDTO != null) {
-                    storePath += photoDTO.getFilePath();
+                    //如果文件名中含有占位符，则先替换它，否则将拿不到原图
+                    String originalFilePath = photoDTO.getFilePath().replace(ImageUploadUtil.IMAGE_SIZE_PLACEHOLDER, "");
+                    storePath += originalFilePath;
                 } else {
                     String originalFileName = fileItem.getName();
                     boolean validateResult = ImageUploadUtil

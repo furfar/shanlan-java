@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import com.shanlan.common.constant.ConstantString;
 import com.shanlan.common.exception.business.ParameterInvalidException;
 import com.shanlan.common.util.ImageUploadUtil;
 import com.shanlan.common.util.StringUtil;
@@ -255,15 +256,20 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
 
         String srcImageFilePath = userDetail.getPhotoPath();
 
+        srcImageFilePath = srcImageFilePath != null ? srcImageFilePath.replace(ImageUploadUtil.IMAGE_SIZE_PLACEHOLDER, "") : "";
+
         String completeSrcImageFilePath = ImageUploadUtil.getImageBasePath() + srcImageFilePath;
 
         boolean handleResult = PhotoService.handleAvatar(completeSrcImageFilePath, x, y, srcShowWidth, srcShowHeight);
 
         if (handleResult) {
-            String photoPath = ImageUploadUtil.appendImageSizePlaceHolder(srcImageFilePath, FilenameUtils.getExtension(srcImageFilePath));
-            userDetail.setPhotoPath(photoPath);
-            userDetail.save();
-            Photo.updateFilePath(userDetail.getPhotoId(), photoPath);
+            String newPhotoPath = ImageUploadUtil.appendImageSizePlaceHolder(srcImageFilePath, FilenameUtils.getExtension(srcImageFilePath));
+            String oldPhotoPath = userDetail.getPhotoPath();
+            if (oldPhotoPath != null && !oldPhotoPath.contains(ImageUploadUtil.IMAGE_SIZE_PLACEHOLDER)) {
+                userDetail.setPhotoPath(newPhotoPath);
+                userDetail.save();
+                Photo.updateFilePath(userDetail.getPhotoId(), newPhotoPath);
+            }
             return true;
         }
         return false;

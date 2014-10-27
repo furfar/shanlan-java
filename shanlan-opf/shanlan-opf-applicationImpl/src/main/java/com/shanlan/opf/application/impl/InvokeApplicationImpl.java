@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.shanlan.common.constant.ConstantString;
 import com.shanlan.photo.application.PhotoCollectionApplication;
 import com.shanlan.photo.application.dto.PhotoDTO;
 import com.shanlan.trade.application.TradeCommentApplication;
@@ -209,7 +210,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
             }
             if (ConstantNumber.NEED_LOGIN_SERVICE_TRUE.equals(service.getNeedLogin())) {//如果是需要用户登录的服务
                 String sessionId = requestDTO.getSessionId();
-                userDetailDTO = userDetailApplication.isLogin(sessionId);
+                userDetailDTO = userDetailApplication.isLogin(ConstantString.REDIS_KEY_PREFIX_COOKIE + sessionId);
             }
 
         } catch (Exception e) {
