@@ -155,7 +155,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
 
     public BaseResponseDTO invokeService(String request, String method) {
 
-
+        logger.info(request);
         RequestDTO requestDTO = new RequestDTO();
         try {
             requestDTO = InvokeHelper.parseRequestParameter(request);
@@ -227,7 +227,6 @@ public class InvokeApplicationImpl implements InvokeApplication {
 
         return successResponseDTO;
     }
-
 
 
     /**

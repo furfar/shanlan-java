@@ -77,6 +77,7 @@ public class UploadController {
                     }
                 }
             }
+            logger.info(storePath);
             return JSONObject.toJSONString(new SuccessResponseDTO(storePath));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

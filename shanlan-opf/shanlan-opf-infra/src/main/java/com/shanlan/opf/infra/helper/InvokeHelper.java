@@ -126,7 +126,6 @@ public class InvokeHelper {
             throws RequestParameterException {
 
         RequestDTO requestDTO = new RequestDTO();
-        logger.info(request);
         try {
 
             requestDTO = JSONObject.parseObject(request, RequestDTO.class);
