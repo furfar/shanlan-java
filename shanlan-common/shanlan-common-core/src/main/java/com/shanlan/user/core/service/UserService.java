@@ -81,13 +81,11 @@ public class UserService {
     }
 
     public static NodeJsSession getNodeSessionFromCache(String key) {
-
         String value = getUserDetailRepository().getFromCache(key);
         if (StringUtils.isNotBlank(value)) {
             NodeJsSession nodeJsSession = JSONObject.parseObject(value, NodeJsSession.class);
             return nodeJsSession;
         }
-
         return null;
     }
 
@@ -100,12 +98,14 @@ public class UserService {
     }
 
     public static void updateDateBaseAndCache(String key, UserDetail userDetail) {
+        logger.info(key);
         userDetail.save();
         NodeJsSession nodeJsSession = getNodeSessionFromCache(key);
         if (nodeJsSession != null) {
             nodeJsSession.setUser(userDetail);
             String value = JSONObject.toJSONString(nodeJsSession);
             Integer expireInMinutes = 24 * 60;
+            logger.info(value);
             getUserDetailRepository().saveInCache(key, value, expireInMinutes);
         }
     }

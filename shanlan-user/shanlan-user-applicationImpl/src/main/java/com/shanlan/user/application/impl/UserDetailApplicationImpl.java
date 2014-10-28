@@ -261,12 +261,11 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
         String storeFilePath = PhotoService.handleAvatar(completeSrcImageFilePath, x, y, srcShowWidth, srcShowHeight);
 
         if (StringUtils.isNotBlank(storeFilePath)) {
-            String oldPhotoPath = userDetail.getPhotoPath();
-            if (oldPhotoPath != null && !oldPhotoPath.contains(ImageUploadUtil.IMAGE_SIZE_PLACEHOLDER)) {
-                userDetail.setPhotoPath(storeFilePath);
-                UserService.updateDateBaseAndCache(ConstantString.REDIS_KEY_PREFIX_SESSION+sessionId, userDetail);
-                Photo.updateFilePath(userDetail.getPhotoId(), storeFilePath);
-            }
+            logger.info(storeFilePath);
+            Photo.updateFilePath(userDetail.getPhotoId(), storeFilePath);
+            //前面一步成功后再更新用户数据库和缓存
+            userDetail.setPhotoPath(storeFilePath);
+            UserService.updateDateBaseAndCache(ConstantString.REDIS_KEY_PREFIX_SESSION + sessionId, userDetail);
             return storeFilePath;
         }
         return null;
