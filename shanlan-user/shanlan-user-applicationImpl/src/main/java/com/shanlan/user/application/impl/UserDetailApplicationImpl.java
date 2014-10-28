@@ -1,18 +1,14 @@
 
 package com.shanlan.user.application.impl;
 
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
 
-import com.shanlan.common.constant.ConstantString;
 import com.shanlan.common.exception.business.ParameterInvalidException;
 import com.shanlan.common.util.ImageUploadUtil;
-import com.shanlan.common.util.StringUtil;
 import com.shanlan.photo.core.domain.Photo;
 import com.shanlan.photo.core.service.PhotoService;
 import com.shanlan.user.application.dto.UserBaseDTO;
@@ -20,6 +16,7 @@ import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.service.UserService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
 import org.dayatang.querychannel.QueryChannelService;
@@ -250,7 +247,7 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
     }
 
 
-    public boolean handleAvatar(String userName, int x, int y, int srcShowWidth, int srcShowHeight) throws Exception {
+    public String handleAvatar(String userName, int x, int y, int srcShowWidth, int srcShowHeight) throws Exception {
 
         UserDetail userDetail = UserDetail.get(userName);
 
@@ -260,19 +257,18 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
 
         String completeSrcImageFilePath = ImageUploadUtil.getImageBasePath() + srcImageFilePath;
 
-        boolean handleResult = PhotoService.handleAvatar(completeSrcImageFilePath, x, y, srcShowWidth, srcShowHeight);
+        String storeFilePath = PhotoService.handleAvatar(completeSrcImageFilePath, x, y, srcShowWidth, srcShowHeight);
 
-        if (handleResult) {
-            String newPhotoPath = ImageUploadUtil.appendImageSizePlaceHolder(srcImageFilePath, FilenameUtils.getExtension(srcImageFilePath));
+        if (StringUtils.isNotBlank(storeFilePath)) {
             String oldPhotoPath = userDetail.getPhotoPath();
             if (oldPhotoPath != null && !oldPhotoPath.contains(ImageUploadUtil.IMAGE_SIZE_PLACEHOLDER)) {
-                userDetail.setPhotoPath(newPhotoPath);
+                userDetail.setPhotoPath(storeFilePath);
                 userDetail.save();
-                Photo.updateFilePath(userDetail.getPhotoId(), newPhotoPath);
+                Photo.updateFilePath(userDetail.getPhotoId(), storeFilePath);
             }
-            return true;
+            return storeFilePath;
         }
-        return false;
+        return null;
     }
 
 

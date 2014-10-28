@@ -31,6 +31,6 @@ public interface UserDetailApplication {
 
     public UserDetailDTO isLogin(String session) throws Exception;
 
-    public boolean handleAvatar(String userName, int x, int y, int srcShowWidth, int srcShowHeight) throws Exception;
+    public String handleAvatar(String userName, int x, int y, int srcShowWidth, int srcShowHeight) throws Exception;
 }
 

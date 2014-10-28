@@ -84,7 +84,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
     }
 
     @Override
-    public SuccessResponseDTO invokeLocalService(String service, String param, String userNameLogin)
+    public SuccessResponseDTO invokeLocalService(String service, String param, String userNameLogin, String sessionId)
             throws Exception {
 
         Map<String, String> paramMap = JsonUtil.foJson(param,
@@ -151,8 +151,8 @@ public class InvokeApplicationImpl implements InvokeApplication {
             Integer y = Integer.parseInt(paramMap.get("y"));
             Integer w = Integer.parseInt(paramMap.get("w"));
             Integer h = Integer.parseInt(paramMap.get("h"));
-            boolean result = userDetailApplication.handleAvatar(userNameLogin, x, y, w, h);
-            businessResult = JSONObject.toJSONString(result);
+            String storeFilePath = userDetailApplication.handleAvatar(userNameLogin, x, y, w, h);
+            businessResult = JSONObject.toJSONString(storeFilePath);
         }
         return new SuccessResponseDTO(businessResult);
     }
@@ -197,6 +197,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
         // 第4步：服务映射
         Service service = null;
         UserDetailDTO userDetailDTO = new UserDetailDTO();
+        String sessionId = null;
         try {
 
             service = Service.getServiceByServiceNameAndVersion(
@@ -209,7 +210,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
                         + service.getServiceName() + "' ");
             }
             if (ConstantNumber.NEED_LOGIN_SERVICE_TRUE.equals(service.getNeedLogin())) {//如果是需要用户登录的服务
-                String sessionId = requestDTO.getSessionId();
+                sessionId = requestDTO.getSessionId();
                 userDetailDTO = userDetailApplication.isLogin(ConstantString.REDIS_KEY_PREFIX_COOKIE + sessionId);
             }
 
@@ -222,7 +223,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
 
         try {
             successResponseDTO = invokeLocalService(
-                    requestDTO.getService(), requestDTO.getParam(), userDetailDTO.getUserName());
+                    requestDTO.getService(), requestDTO.getParam(), userDetailDTO.getUserName(), sessionId);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return InvokeHelper.handleException(e);
