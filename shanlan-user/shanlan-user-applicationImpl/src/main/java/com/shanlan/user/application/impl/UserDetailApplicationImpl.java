@@ -5,8 +5,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.shanlan.common.constant.ConstantString;
 import com.shanlan.common.exception.business.ParameterInvalidException;
 import com.shanlan.common.util.ImageUploadUtil;
 import com.shanlan.photo.core.domain.Photo;
@@ -15,15 +17,13 @@ import com.shanlan.user.application.dto.UserBaseDTO;
 import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.service.UserService;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
 import org.dayatang.querychannel.QueryChannelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,10 +37,11 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(UserDetailApplicationImpl.class);
 
+    @Inject
+    private StringRedisTemplate stringRedisTemplate;
+
     private QueryChannelService queryChannel;
 
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
 
     private QueryChannelService getQueryChannelService() {
         if (queryChannel == null) {
@@ -238,7 +239,7 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public UserDetailDTO isLogin(String sessionId) throws Exception {
         UserDetailDTO userDetailDTO = new UserDetailDTO();
-        UserDetail userDetail = UserDetail.getFromRedis(sessionId);
+        UserDetail userDetail = UserDetail.getFromCache(sessionId);
         if (userDetail == null) {
             throw new ParameterInvalidException("该用户尚未登录，请先登录");
         }
@@ -247,7 +248,7 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
     }
 
 
-    public String handleAvatar(String userName, int x, int y, int srcShowWidth, int srcShowHeight) throws Exception {
+    public String handleAvatar(int x, int y, int srcShowWidth, int srcShowHeight, String userName, String sessionId) throws Exception {
 
         UserDetail userDetail = UserDetail.get(userName);
 
@@ -263,10 +264,23 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
             String oldPhotoPath = userDetail.getPhotoPath();
             if (oldPhotoPath != null && !oldPhotoPath.contains(ImageUploadUtil.IMAGE_SIZE_PLACEHOLDER)) {
                 userDetail.setPhotoPath(storeFilePath);
-                userDetail.save();
+                UserService.updateDateBaseAndCache(ConstantString.REDIS_KEY_PREFIX_SESSION+sessionId, userDetail);
                 Photo.updateFilePath(userDetail.getPhotoId(), storeFilePath);
             }
             return storeFilePath;
+        }
+        return null;
+    }
+
+
+    @Override
+    public UserDetailDTO login(String userAccount, String password, String sessionId) throws Exception {
+        UserDetail userDetail = UserService.login(userAccount, password);
+        if (userDetail != null) {
+//            UserDetail.saveInCache(ConstantString.REDIS_KEY_PREFIX_SESSION + sessionId, userDetail);
+            UserDetailDTO userDetailDTO = new UserDetailDTO();
+            BeanUtils.copyProperties(userDetailDTO, userDetail);
+            return userDetailDTO;
         }
         return null;
     }

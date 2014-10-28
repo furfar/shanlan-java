@@ -1,6 +1,7 @@
 package com.shanlan.user.core.service;
 
 import org.openkoala.koala.util.KoalaBaseSpringTestCase;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.shanlan.common.exception.sub.business.RequestParameterException;
@@ -11,6 +12,7 @@ import com.shanlan.user.core.domain.UserBase;
  * @author lingen
  *
  */
+@Ignore
 public class UserServiceTest extends KoalaBaseSpringTestCase {
 
 	@Test

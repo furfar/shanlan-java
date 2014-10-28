@@ -2,8 +2,14 @@ package com.shanlan.user.core.service;
 
 import java.io.IOException;
 
+import com.alibaba.fastjson.JSONObject;
 import com.shanlan.common.exception.sub.business.OPFBaseException;
 import com.shanlan.common.util.EncryptUtil;
+import com.shanlan.common.util.StringUtil;
+import com.shanlan.opf.core.viewobjects.NodeJsSession;
+import com.shanlan.user.core.repository.UserDetailRepository;
+import org.apache.commons.lang3.StringUtils;
+import org.dayatang.domain.InstanceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +28,8 @@ import javax.inject.Named;
 public class UserService {
     private static final Logger logger = LoggerFactory
             .getLogger(UserBase.class);
+
+    private static UserDetailRepository userDetailRepository;
 
     public static boolean register(UserBase userBase)
             throws RequestParameterException {
@@ -70,5 +78,35 @@ public class UserService {
             return userDetail;
         }
         return null;
+    }
+
+    public static NodeJsSession getNodeSessionFromCache(String key) {
+
+        String value = getUserDetailRepository().getFromCache(key);
+        if (StringUtils.isNotBlank(value)) {
+            NodeJsSession nodeJsSession = JSONObject.parseObject(value, NodeJsSession.class);
+            return nodeJsSession;
+        }
+
+        return null;
+    }
+
+
+    public static UserDetailRepository getUserDetailRepository() {
+        if (userDetailRepository == null) {
+            userDetailRepository = InstanceFactory.getInstance(UserDetailRepository.class);
+        }
+        return userDetailRepository;
+    }
+
+    public static void updateDateBaseAndCache(String key, UserDetail userDetail) {
+        userDetail.save();
+        NodeJsSession nodeJsSession = getNodeSessionFromCache(key);
+        if (nodeJsSession != null) {
+            nodeJsSession.setUser(userDetail);
+            String value = JSONObject.toJSONString(nodeJsSession);
+            Integer expireInMinutes = 24 * 60;
+            getUserDetailRepository().saveInCache(key, value, expireInMinutes);
+        }
     }
 }

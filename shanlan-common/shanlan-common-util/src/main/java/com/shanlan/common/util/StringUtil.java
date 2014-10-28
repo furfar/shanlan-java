@@ -38,7 +38,7 @@ public class StringUtil extends StringUtils {
         Map<String, String> cookieMap = parseCookie(cookieString);
         String cookie = cookieMap.get(ConstantString.NODE_JS_COOKIE_KEY);
         String parsedNodeJsCookie = parseNodeJsCookie(cookie);
-        return ConstantString.REDIS_KEY_PREFIX_COOKIE + parsedNodeJsCookie;
+        return ConstantString.REDIS_KEY_PREFIX_SESSION + parsedNodeJsCookie;
     }
 
 }

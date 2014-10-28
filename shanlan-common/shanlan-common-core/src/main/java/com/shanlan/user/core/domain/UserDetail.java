@@ -1,9 +1,12 @@
 package com.shanlan.user.core.domain;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import javax.inject.Inject;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,19 +14,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.shanlan.common.exception.business.ParameterInvalidException;
-import com.shanlan.common.exception.sub.business.RequestAuthenticationException;
-import com.shanlan.common.util.JPQLUtil;
-
 import com.shanlan.common.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.type.TypeReference;
 import org.dayatang.domain.InstanceFactory;
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.BoundValueOperations;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.alibaba.fastjson.JSONObject;
+import com.shanlan.common.exception.business.ParameterInvalidException;
+import com.shanlan.common.util.JPQLUtil;
+import com.shanlan.opf.core.viewobjects.NodeJsSession;
+import com.shanlan.user.core.repository.UserDetailRepository;
 
 /**
  * Auto Generated Entity
@@ -36,7 +39,9 @@ public class UserDetail extends KoalaLegacyEntity {
 
     private static final long serialVersionUID = 1L;
 
-    private static RedisTemplate redisTemplate;
+    private static final Logger logger = LoggerFactory.getLogger(UserDetail.class);
+
+    private static UserDetailRepository userDetailRepository;
 
     /**
      * 主键
@@ -100,6 +105,7 @@ public class UserDetail extends KoalaLegacyEntity {
 
     @Column(name = "other")
     private String other;
+
 
     public void setId(Integer id) {
         this.id = id;
@@ -254,6 +260,7 @@ public class UserDetail extends KoalaLegacyEntity {
         return id;
     }
 
+
     public UserDetail() {
     }
 
@@ -271,6 +278,7 @@ public class UserDetail extends KoalaLegacyEntity {
         this.type = type;
         this.gender = gender;
     }
+
 
     public enum Type {
         COMMON, PHOTOGRAPHER, MODEL
@@ -341,27 +349,44 @@ public class UserDetail extends KoalaLegacyEntity {
     }
 
 
-    public static UserDetail getFromRedis(String key) {
-        BoundValueOperations boundValueOperations = getRedisTemplate().boundValueOps(key);
-        String value = (String) boundValueOperations.get();
-        if (value != null) {
-            Map<String, Map<String, String>> valueMap = JsonUtil.foJson(value, new TypeReference<Map<String, Map<String, String>>>() {
-            });
-            Map<String, String> userDetailMap = valueMap.get("user");
-            UserDetail userDetail = JsonUtil.foJson(JsonUtil.toJson(userDetailMap), new TypeReference<UserDetail>() {
-            });
-            return userDetail;
-        } else {
-            return null;
+    public static UserDetail getFromCache(String key) {
+
+        String value = getUserDetailRepository().getFromCache(key);
+
+//        NodeJsSession nodeJsSession= JsonUtil.foJson(value,new TypeReference<NodeJsSession>() {});
+
+        NodeJsSession nodeJsSession = JSONObject.parseObject(value, NodeJsSession.class);
+
+        if (nodeJsSession != null) {
+            return nodeJsSession.getUser();
         }
+        return null;
+
+//        logger.info(key);
+//        BoundValueOperations boundValueOperations = getRedisTemplate().boundValueOps(key);
+//        String value = (String) boundValueOperations.get();
+//        if (StringUtils.isNotBlank(value)) {
+//            logger.info(value);
+//            NodeSession nodeSession = JSONObject.parseObject(value, NodeSession.class);
+////            Map<String, Map<String, Map<String,String>>> valueMap = JsonUtil.foJson(value, new TypeReference<Map<String, Map<String, Map<String,String>>>>() {
+////            });
+////            Map<String, Map<String,String>> userDetailMap = valueMap.get("user");
+////            UserDetail userDetail = JsonUtil.foJson(JsonUtil.toJson(userDetailMap), new TypeReference<UserDetail>() {
+////            });
+//            UserDetail userDetail = nodeSession.getUserDetail();
+//            return userDetail;
+//        } else {
+//            return null;
+//        }
     }
 
 
-    public static RedisTemplate getRedisTemplate(){
-        if (redisTemplate==null){
-            redisTemplate=InstanceFactory.getInstance(RedisTemplate.class);
+
+    public static UserDetailRepository getUserDetailRepository() {
+        if (userDetailRepository == null) {
+            userDetailRepository = InstanceFactory.getInstance(UserDetailRepository.class);
         }
-        return redisTemplate;
+        return userDetailRepository;
     }
 
 

@@ -22,12 +22,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.type.TypeReference;
 import org.dayatang.querychannel.Page;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.shanlan.common.constant.ConstantNumber;
-import com.shanlan.common.exception.sub.business.OPFBaseException;
 import com.shanlan.common.exception.sub.business.RequestFormatException;
 import com.shanlan.common.exception.sub.business.RequestMappingException;
 import com.shanlan.common.exception.sub.business.RequestParameterException;
@@ -94,10 +92,8 @@ public class InvokeApplicationImpl implements InvokeApplication {
 
         String businessResult = "";
         if (service.equals("User.login")) {
-            UserDetail userDetail = UserService.login(paramMap.get("userAccount"),
-                    paramMap.get("password"));
-            UserDetailDTO userDetailDTO = new UserDetailDTO();
-            BeanUtils.copyProperties(userDetailDTO, userDetail);
+            UserDetailDTO userDetailDTO = userDetailApplication.login(paramMap.get("userAccount"),
+                    paramMap.get("password"), sessionId);
             businessResult = JSONObject.toJSONString(userDetailDTO);
         } else if (service.equals("User.register")) {
             UserBaseDTO userBaseDTO = new UserBaseDTO(paramMap.get("userName"),
@@ -151,7 +147,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
             Integer y = Integer.parseInt(paramMap.get("y"));
             Integer w = Integer.parseInt(paramMap.get("w"));
             Integer h = Integer.parseInt(paramMap.get("h"));
-            String storeFilePath = userDetailApplication.handleAvatar(userNameLogin, x, y, w, h);
+            String storeFilePath = userDetailApplication.handleAvatar(x, y, w, h, userNameLogin, sessionId);
             businessResult = JSONObject.toJSONString(storeFilePath);
         }
         return new SuccessResponseDTO(businessResult);
@@ -197,7 +193,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
         // 第4步：服务映射
         Service service = null;
         UserDetailDTO userDetailDTO = new UserDetailDTO();
-        String sessionId = null;
+        String sessionId = requestDTO.getSessionId();
         try {
 
             service = Service.getServiceByServiceNameAndVersion(
@@ -210,8 +206,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
                         + service.getServiceName() + "' ");
             }
             if (ConstantNumber.NEED_LOGIN_SERVICE_TRUE.equals(service.getNeedLogin())) {//如果是需要用户登录的服务
-                sessionId = requestDTO.getSessionId();
-                userDetailDTO = userDetailApplication.isLogin(ConstantString.REDIS_KEY_PREFIX_COOKIE + sessionId);
+                userDetailDTO = userDetailApplication.isLogin(ConstantString.REDIS_KEY_PREFIX_SESSION + sessionId);
             }
 
         } catch (Exception e) {
@@ -233,52 +228,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
         return successResponseDTO;
     }
 
-    /**
-     * 解析并检查传入的请求参数
-     *
-     * @param request
-     * @return
-     * @throws RequestParameterException
-     */
-    protected Request parseRequestParameter(String request)
-            throws RequestParameterException {
 
-        Request requestObj = new Request();
-
-        try {
-
-            requestObj = JSONObject.parseObject(request, Request.class);
-
-        } catch (JSONException e) {
-            throw new RequestFormatException(e.getMessage());
-        }
-
-        List<Field> fields = ReflectionUtils
-                .getSelfAndDirectParentDeclaredFields(requestObj);
-
-        for (Field field : fields) {// 通过“反射”检查所有的字段是否成功完成映射
-
-            field.setAccessible(true); // 要想访问private字段，需要先将其Accessible属性设置为true
-            Object fieldValue = null;
-            try {
-                fieldValue = field.get(requestObj);
-            } catch (IllegalArgumentException e) {
-                logger.error(e.getMessage());
-            } catch (IllegalAccessException e) {
-                logger.error(e.getMessage());
-            }
-            if (fieldValue == null) { // 如果字段的值为null，说明JSON到Java对象的映射过程出现异常
-                String fieldName = field.getName();
-
-                throw new RequestMappingException("json key '" + fieldName
-                        + "' does not exist, plesse check it.");
-            }
-
-        }
-
-        return requestObj;
-
-    }
 
     /**
      * 判断是否是HTTPS访问

@@ -2,6 +2,8 @@ package com.shanlan.user.application.dto;
 
 import java.util.Date;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -61,6 +63,7 @@ public class UserDetailDTO implements Serializable {
 
 
     private String mobile;
+
 
 
     public void setBirthday(String birthday) {
@@ -231,6 +234,7 @@ public class UserDetailDTO implements Serializable {
     public Integer getId() {
         return id;
     }
+
 
     @Override
     public int hashCode() {

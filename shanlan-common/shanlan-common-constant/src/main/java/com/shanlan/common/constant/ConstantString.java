@@ -36,6 +36,6 @@ public class ConstantString {
 
     public static final String NODE_JS_COOKIE_KEY="connect.sid";
 
-    public static final String REDIS_KEY_PREFIX_COOKIE="user-";
+    public static final String REDIS_KEY_PREFIX_SESSION ="user-";
 
 }

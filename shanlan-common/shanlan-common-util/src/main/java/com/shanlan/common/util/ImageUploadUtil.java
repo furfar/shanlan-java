@@ -60,32 +60,32 @@ public class ImageUploadUtil {
     /**
      * 开发环境图片存储基础路径
      */
-    public static final String IMAGE_BASE_PATH_DEVELOP = "/Users/albertliu/images/";
+    public static final String IMAGE_BASE_PATH_DEVELOP = "/Users/albertliu";
 
     /**
      * 生产环境图片存储基础路径
      */
-    public static final String IMAGE_BASE_PATH_PRODUCT = "/opt/images/";
+    public static final String IMAGE_BASE_PATH_PRODUCT = "/opt";
 
     /**
      * 图片临时存储文件路径
      */
-    public static final String IMAGE_TYPE_TMP = "tmp";
+    public static final String IMAGE_TYPE_PATH_TMP = "/img/tmp/";
 
     /**
      * 图片类型——头像
      */
-    public static final String IMAGE_TYPE_AVATAR = "avatar";
+    public static final String IMAGE_TYPE_PATH_AVATAR = "/img/avatar/";
 
     /**
      * 图片类型——照片
      */
-    public static final String IMAGE_TYPE_TRADE_PHOTO = "trade_photo";
+    public static final String IMAGE_TYPE_PATH_TRADE_PHOTO = "/img/trade_photo/";
 
     /**
      * 图片类型——自己上传照片
      */
-    public static final String IMAGE_TYPE_SELF_UPLOAD = "self_upload";
+    public static final String IMAGE_TYPE_PATH_SELF_UPLOAD = "/img/self_upload/";
 
     // /**
     // * 开发环境图片存储根路径
@@ -98,13 +98,13 @@ public class ImageUploadUtil {
     // public static final String IMAGE_ROOT_PATH_PRODUCT = "/opt/";
 
     // public static final String IMAGE_DEVELOP_AVATAR = IMAGE_BASE_PATH_DEVELOP
-    // + IMAGE_TYPE_AVATAR + "/";
+    // + IMAGE_TYPE_PATH_AVATAR + "/";
     //
     // public static final String IMAGE_DEVELOP_PHOTO = IMAGE_BASE_PATH_DEVELOP
     // + IMAGE_TYPE_PHOTO + "/";
     //
     // public static final String IMAGE_PRODUCT_AVATAR = IMAGE_BASE_PATH_PRODUCT
-    // + IMAGE_TYPE_AVATAR + "/";
+    // + IMAGE_TYPE_PATH_AVATAR + "/";
     //
     // public static final String IMAGE_PRODUCT_PHOTO = IMAGE_BASE_PATH_PRODUCT
     // + IMAGE_TYPE_PHOTO + "/";
@@ -213,13 +213,13 @@ public class ImageUploadUtil {
         }
 
         File avatarImageFilePath = new File(getImageBasePath()
-                + IMAGE_TYPE_AVATAR);
+                + IMAGE_TYPE_PATH_AVATAR);
         if (!avatarImageFilePath.exists()) {
             avatarImageFilePath.mkdirs();
         }
         String newFileName = UUID.randomUUID().toString()
                 + "." + extensionName;
-        String storePath = IMAGE_TYPE_AVATAR + "/" + newFileName;
+        String storePath = IMAGE_TYPE_PATH_AVATAR + newFileName;
         File f2 = new File(avatarImageFilePath, newFileName);
         try {
             fileItem.write(f2);
@@ -232,7 +232,7 @@ public class ImageUploadUtil {
 
     public static String saveAvatarImage(String originalFileName,
                                          byte[] imageBytes) {
-        String filePath = getImageBasePath() + IMAGE_TYPE_AVATAR + "/"
+        String filePath = getImageBasePath() + IMAGE_TYPE_PATH_AVATAR
                 + FileUploadUtil.getYearMonthDayPath();
         return saveImage(filePath, originalFileName, imageBytes);
     }
@@ -262,7 +262,7 @@ public class ImageUploadUtil {
         // 利用这个特性可在上传大文件的时候不会占用大量内存，可以提高并发使用量。
         diskFileItemFactory.setSizeThreshold(tempFileThreshold * 1024 * 1024);
 
-        File tempFile = new File(IMAGE_BASE_PATH_DEVELOP + IMAGE_TYPE_TMP);
+        File tempFile = new File(IMAGE_BASE_PATH_DEVELOP + IMAGE_TYPE_PATH_TMP);
         if (!tempFile.exists()) {
             tempFile.mkdirs();
         }
