@@ -27,7 +27,7 @@
         <param name="File" value="/opt/logs/opf/info/info.log"/>
         <param name="DatePattern" value="yyyy-MM-dd HH'.log'"/>
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH\:mm\:ss}%m %n"/>
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS}-[%-5p]-[%t]-[%c]-[%M]-%m%n"/>
         </layout>
         <!--限制输出级别只能为INFO -->
         <filter class="org.apache.log4j.varia.LevelRangeFilter">
@@ -41,7 +41,7 @@
         <param name="File" value="/opt/logs/opf/warn/warn.log"/>
         <param name="DatePattern" value="yyyy-MM-dd HH'.log'"/>
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH\:mm\:ss}%m %n"/>
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS}-[%-5p]-[%t]-[%c]-[%M]-%m%n"/>
         </layout>
         <!--限制输出级别只能为WARN -->
         <filter class="org.apache.log4j.varia.LevelRangeFilter">
@@ -57,7 +57,7 @@
         <param name="File" value="/opt/logs/opf/error/error.log"/>
         <param name="DatePattern" value="yyyy-MM-dd'.log'"/>
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH\:mm\:ss}%m %n"/>
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS}-[%-5p]-[%t]-[%c]-[%M]-%m%n"/>
         </layout>
         <!--限制输出级别只能为ERROR -->
         <filter class="org.apache.log4j.varia.LevelRangeFilter">
@@ -71,7 +71,7 @@
         <param name="File" value="/opt/logs/opf/fatal/fatal.log"/>
         <param name="DatePattern" value="yyyy-MM-dd'.log'"/>
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH\:mm\:ss}%m %n"/>
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS}-[%-5p]-[%t]-[%c]-[%M]-%m%n"/>
         </layout>
         <!--限制输出级别只能为FATAL -->
         <filter class="org.apache.log4j.varia.LevelRangeFilter">
