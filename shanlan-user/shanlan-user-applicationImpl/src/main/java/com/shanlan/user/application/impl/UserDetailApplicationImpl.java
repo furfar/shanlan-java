@@ -265,7 +265,7 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
             Photo.updateFilePath(userDetail.getPhotoId(), storeFilePath);
             //前面一步成功后再更新用户数据库和缓存
             userDetail.setPhotoPath(storeFilePath);
-            UserService.updateDateBaseAndCache(ConstantString.REDIS_KEY_PREFIX_SESSION + sessionId, userDetail);
+            userDetail.save();
             return storeFilePath;
         }
         return null;
