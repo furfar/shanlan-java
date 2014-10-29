@@ -84,11 +84,8 @@ public class InvokeApplicationImpl implements InvokeApplication {
     @Override
     public SuccessResponseDTO invokeLocalService(String service, String param, String userNameLogin, String sessionId)
             throws Exception {
-
-        Map<String, String> paramMap = JsonUtil.foJson(param,
-                new TypeReference<Map<String, String>>() {
-                }
-        );
+        logger.info("Service:" + service + " Param:" + param);
+        Map<String, String> paramMap = JSONObject.parseObject(param, Map.class);
 
         String businessResult = "";
         if (service.equals("User.login")) {
@@ -150,7 +147,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
             String storeFilePath = userDetailApplication.handleAvatar(x, y, w, h, userNameLogin, sessionId);
             businessResult = JSONObject.toJSONString(storeFilePath);
         }
-        logger.info("Service:"+service+" Result:"+businessResult);
+        logger.info("Service:" + service + " Result:" + businessResult);
         return new SuccessResponseDTO(businessResult);
     }
 
@@ -199,7 +196,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
 
             service = Service.getServiceByServiceNameAndVersion(
                     requestDTO.getService(), requestDTO.getV());
-
+            logger.info("Service:" + service.getServiceName() + " Request:" + request);
             if (!method.equals(service.getMethod())) {
                 throw new RequestParameterException("The HTTP Method '"
                         + method + "' does not match the Method '"
