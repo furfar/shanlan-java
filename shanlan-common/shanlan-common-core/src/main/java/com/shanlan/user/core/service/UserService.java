@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.alibaba.fastjson.JSONObject;
 import com.shanlan.common.exception.sub.business.OPFBaseException;
 import com.shanlan.common.util.EncryptUtil;
-import com.shanlan.common.util.StringUtil;
 import com.shanlan.opf.core.viewobjects.NodeJsSession;
 import com.shanlan.user.core.repository.UserDetailRepository;
 import org.apache.commons.lang3.StringUtils;
@@ -13,14 +12,9 @@ import org.dayatang.domain.InstanceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.shanlan.common.constant.ConstantString;
 import com.shanlan.common.exception.sub.business.RequestParameterException;
-import com.shanlan.common.util.DateUtil;
-import com.shanlan.common.util.SignUtils;
 import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.domain.UserDetail;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.inject.Named;
 
@@ -80,7 +74,7 @@ public class UserService {
         return null;
     }
 
-    public static NodeJsSession getNodeSessionFromCache(String key) {
+    public static NodeJsSession getNodeJsSessionFromCache(String key) {
         String value = getUserDetailRepository().getFromCache(key);
         if (StringUtils.isNotBlank(value)) {
             NodeJsSession nodeJsSession = JSONObject.parseObject(value, NodeJsSession.class);
@@ -100,7 +94,7 @@ public class UserService {
     public static void updateDateBaseAndCache(String key, UserDetail userDetail) {
         logger.info(key);
         userDetail.save();
-        NodeJsSession nodeJsSession = getNodeSessionFromCache(key);
+        NodeJsSession nodeJsSession = getNodeJsSessionFromCache(key);
         if (nodeJsSession != null) {
             nodeJsSession.setUser(userDetail);
             String value = JSONObject.toJSONString(nodeJsSession);

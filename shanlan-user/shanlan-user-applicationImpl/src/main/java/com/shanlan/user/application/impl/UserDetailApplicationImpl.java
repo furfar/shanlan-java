@@ -273,6 +273,7 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
 
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public UserDetailDTO login(String userAccount, String password, String sessionId) throws Exception {
         UserDetail userDetail = UserService.login(userAccount, password);
         if (userDetail != null) {

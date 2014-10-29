@@ -150,6 +150,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
             String storeFilePath = userDetailApplication.handleAvatar(x, y, w, h, userNameLogin, sessionId);
             businessResult = JSONObject.toJSONString(storeFilePath);
         }
+        logger.info("Service:"+service+" Result:"+businessResult);
         return new SuccessResponseDTO(businessResult);
     }
 

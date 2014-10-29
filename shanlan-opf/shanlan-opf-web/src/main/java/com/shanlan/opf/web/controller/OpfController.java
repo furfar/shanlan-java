@@ -71,7 +71,7 @@ public class OpfController {
         if (baseResponseDTO != null
                 && ConstantNumber.FLAG_SUCCESS == baseResponseDTO.getCode()) {
             SuccessResponseDTO successResponseDTO = (SuccessResponseDTO) baseResponseDTO;
-            resultMav.addObject("code", 200);
+            resultMav.addObject("code", ConstantNumber.FLAG_SUCCESS);
             resultMav.addObject("data", successResponseDTO.getData());
 
         } else if (baseResponseDTO != null
@@ -80,7 +80,6 @@ public class OpfController {
             resultMav.addObject("code", errorResponseDTO.getCode());
             resultMav.addObject("message", errorResponseDTO.getMessage());
         }
-        logger.info(JSONObject.toJSONString(resultMav));
         return resultMav;
     }
 }
