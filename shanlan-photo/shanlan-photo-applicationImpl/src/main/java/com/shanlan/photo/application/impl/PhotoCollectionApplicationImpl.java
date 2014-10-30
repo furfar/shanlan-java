@@ -8,6 +8,7 @@ import java.util.List;
 import javax.inject.Named;
 
 import com.shanlan.common.exception.sub.business.RequestParameterException;
+import com.shanlan.common.util.DateUtil;
 import com.shanlan.photo.application.dto.PhotoDTO;
 import com.shanlan.photo.core.domain.RePhotoCollectionPhoto;
 import com.shanlan.photo.core.domain.RePhotoUserOwn;
@@ -67,6 +68,7 @@ public class PhotoCollectionApplicationImpl implements PhotoCollectionApplicatio
 	
 	public void updatePhotoCollection(PhotoCollectionDTO photoCollectionDTO) {
 		PhotoCollection photoCollection = PhotoCollection.get(PhotoCollection.class, photoCollectionDTO.getId());
+        photoCollectionDTO.setUpdatedAt(DateUtil.getNow(DateUtil.format1));
         // 设置要更新的值
 		try {
 			BeanUtils.copyProperties(photoCollection, photoCollectionDTO);
@@ -108,52 +110,114 @@ public class PhotoCollectionApplicationImpl implements PhotoCollectionApplicatio
 		List<PhotoCollectionDTO> result = new ArrayList<PhotoCollectionDTO>();
 		List<Object> conditionVals = new ArrayList<Object>();
 	   	StringBuilder jpql = new StringBuilder("select _photoCollection from PhotoCollection _photoCollection   where 1=1 ");
-	
-	
+
+
 	   	if (queryVo.getName() != null && !"".equals(queryVo.getName())) {
 	   		jpql.append(" and _photoCollection.name like ?");
 	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getName()));
-	   	}		
-	
+	   	}
+
 	   	if (queryVo.getCreator() != null && !"".equals(queryVo.getCreator())) {
 	   		jpql.append(" and _photoCollection.creator like ?");
 	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getCreator()));
-	   	}		
-	
+	   	}
+
 	   	if (queryVo.getCreatedAt() != null && !"".equals(queryVo.getCreatedAt())) {
 	   		jpql.append(" and _photoCollection.createdAt like ?");
 	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getCreatedAt()));
-	   	}		
-	
+	   	}
+
 	   	if (queryVo.getUpdatedAt() != null && !"".equals(queryVo.getUpdatedAt())) {
 	   		jpql.append(" and _photoCollection.updatedAt like ?");
 	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getUpdatedAt()));
-	   	}		
+	   	}
 	   	if (queryVo.getPhotoCount() != null) {
 	   		jpql.append(" and _photoCollection.photoCount=?");
 	   		conditionVals.add(queryVo.getPhotoCount());
-	   	}	
-	
-	
+	   	}
+
+
 	   	if (queryVo.getOther() != null && !"".equals(queryVo.getOther())) {
 	   		jpql.append(" and _photoCollection.other like ?");
 	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getOther()));
-	   	}		
+	   	}
         Page<PhotoCollection> pages = getQueryChannelService().createJpqlQuery(jpql.toString()).setParameters(conditionVals).setPage(currentPage, pageSize).pagedList();
         for (PhotoCollection photoCollection : pages.getData()) {
             PhotoCollectionDTO photoCollectionDTO = new PhotoCollectionDTO();
-            
+
              // 将domain转成VO
             try {
             	BeanUtils.copyProperties(photoCollectionDTO, photoCollection);
             } catch (Exception e) {
             	e.printStackTrace();
-            } 
-            
+            }
+
                                                                                                             result.add(photoCollectionDTO);
         }
         return new Page<PhotoCollectionDTO>(pages.getStart(), pages.getResultCount(), pageSize, result);
 	}
+
+
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public Page<PhotoCollectionDTO> pageQueryPhotoCollection(PhotoCollectionDTO queryVo, int currentPage, int pageSize,String userName,boolean isSuper,List<String> roles) {
+        List<PhotoCollectionDTO> result = new ArrayList<PhotoCollectionDTO>();
+        List<Object> conditionVals = new ArrayList<Object>();
+        StringBuilder jpql = new StringBuilder("select _photoCollection from PhotoCollection _photoCollection   where 1=1 ");
+
+        if (isSuper || roles.contains("Admin")){
+            if (queryVo.getName() != null && !"".equals(queryVo.getName())) {
+                jpql.append(" and _photoCollection.name like ?");
+                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getName()));
+            }
+
+            if (queryVo.getCreator() != null && !"".equals(queryVo.getCreator())) {
+                jpql.append(" and _photoCollection.creator like ?");
+                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getCreator()));
+            }
+
+            if (queryVo.getCreatedAt() != null && !"".equals(queryVo.getCreatedAt())) {
+                jpql.append(" and _photoCollection.createdAt like ?");
+                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getCreatedAt()));
+            }
+
+            if (queryVo.getUpdatedAt() != null && !"".equals(queryVo.getUpdatedAt())) {
+                jpql.append(" and _photoCollection.updatedAt like ?");
+                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getUpdatedAt()));
+            }
+            if (queryVo.getPhotoCount() != null) {
+                jpql.append(" and _photoCollection.photoCount=?");
+                conditionVals.add(queryVo.getPhotoCount());
+            }
+
+
+            if (queryVo.getOther() != null && !"".equals(queryVo.getOther())) {
+                jpql.append(" and _photoCollection.other like ?");
+                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getOther()));
+            }
+        }else{
+            jpql.append(" and _photoCollection.creator = ?");
+            conditionVals.add(userName);
+        }
+
+
+        Page<PhotoCollection> pages = getQueryChannelService().createJpqlQuery(jpql.toString()).setParameters(conditionVals).setPage(currentPage, pageSize).pagedList();
+        for (PhotoCollection photoCollection : pages.getData()) {
+            PhotoCollectionDTO photoCollectionDTO = new PhotoCollectionDTO();
+
+            // 将domain转成VO
+            try {
+                BeanUtils.copyProperties(photoCollectionDTO, photoCollection);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            result.add(photoCollectionDTO);
+        }
+        return new Page<PhotoCollectionDTO>(pages.getStart(), pages.getResultCount(), pageSize, result);
+    }
+
+
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

@@ -317,7 +317,7 @@ var openDetailsPage = function (id) {
 
                         <div style="margin-left:15px;float:left;">
                             <input name="userName" class="form-control" type="text" style="width:180px;"
-                                   id="userNameID" value="<ss3:authentication property="principal.username" />"/>
+                                   id="userNameID"/>
                         </div>
                         <label class="control-label" style="width:100px;float:left;">photoPath:&nbsp;</label>
 
