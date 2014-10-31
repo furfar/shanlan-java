@@ -30,5 +30,7 @@ public interface PhotoCollectionApplication {
 
     List<PhotoCollectionDTO> listPhotoCollections(String userName)
             throws Exception;
+
+    boolean updatePhotoCount(Integer photoCollectionId);
 }
 

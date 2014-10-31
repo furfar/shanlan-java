@@ -5,6 +5,8 @@ import com.shanlan.common.constant.ConstantString;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by albertliu on 14/10/26.
@@ -39,7 +41,6 @@ public class EncryptUtil {
         }
         return bytes;
     }
-
 
 
     /**
@@ -84,6 +85,23 @@ public class EncryptUtil {
         return byte2hexNoUpperCase(getMD5Digest(data));
     }
 
+
+    /**
+     * 对二进制进行MD5加密，返回加密后的字符串
+     *
+     * @param data
+     * @return 加密后的字符串
+     * @throws IOException
+     */
+    public static List<String> getMD5DigestListInBytes(List<byte[]> byteList) throws IOException {
+        List<String> md5List = new ArrayList<String>();
+        for (int i = 0; i < byteList.size(); i++) {
+            byte[] byteDate = byteList.get(i);
+            String md5 = byte2hexNoUpperCase(getMD5Digest(byteDate));
+            md5List.add(md5);
+        }
+        return md5List;
+    }
 
 
     /**

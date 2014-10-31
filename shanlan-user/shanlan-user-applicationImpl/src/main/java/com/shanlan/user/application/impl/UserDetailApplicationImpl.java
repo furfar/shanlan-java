@@ -3,13 +3,15 @@ package com.shanlan.user.application.impl;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.shanlan.common.constant.ConstantString;
 import com.shanlan.common.exception.business.ParameterInvalidException;
+import com.shanlan.common.util.EncryptUtil;
 import com.shanlan.common.util.ImageUploadUtil;
 import com.shanlan.photo.core.domain.Photo;
 import com.shanlan.photo.core.service.PhotoService;
@@ -231,13 +233,13 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public Page<UserDetailDTO> pageQueryUser(UserDetailDTO queryVo, int currentPage, int pageSize,String userName,boolean isSuper,List<String> roles) {
+    public Page<UserDetailDTO> pageQueryUser(UserDetailDTO queryVo, int currentPage, int pageSize, String userName, boolean isSuper, List<String> roles) {
         List<UserDetailDTO> result = new ArrayList<UserDetailDTO>();
         List<Object> conditionVals = new ArrayList<Object>();
         StringBuilder jpql = new StringBuilder("select _user from UserDetail _user   where 1=1 ");
 
 
-        if (isSuper || roles.contains("Admin")){
+        if (isSuper || roles.contains("Admin")) {
             if (queryVo.getUserName() != null && !"".equals(queryVo.getUserName())) {
                 jpql.append(" and _user.userName like ?");
                 conditionVals.add(MessageFormat.format("%{0}%", queryVo.getUserName()));
@@ -308,7 +310,7 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
                 jpql.append(" and _user.other like ?");
                 conditionVals.add(MessageFormat.format("%{0}%", queryVo.getOther()));
             }
-        }else {
+        } else {
             jpql.append(" and _user.userName = ?");
             conditionVals.add(userName);
         }
@@ -330,7 +332,6 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
     }
 
 
-
     public boolean register(UserBaseDTO userBaseDTO) throws Exception {
         UserBase userBase = new UserBase();
         BeanUtils.copyProperties(userBase, userBaseDTO);
@@ -350,13 +351,44 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
     }
 
 
+    @Override
+    public String uploadAvatar(String originalFileName, byte[] bytes, String contentType, UserDetailDTO userDetailDTO) throws Exception {
+        String storePath = "";
+        String imageMd5 = EncryptUtil.getMD5DigestInBytes(bytes);
+        //通过md5值查询该图片是否已经上传过，如果已经上传过，则直接返回存储路径。
+        Map<String, Photo> md5AndSelfMap = Photo.getMd5AndSelfMap(Collections.singletonList(imageMd5));
+        Photo photo = md5AndSelfMap.get(imageMd5);
+        if (photo != null) {
+            //如果文件名中含有占位符，则先替换它，否则将拿不到原图
+            String originalFilePath = photo.getFilePath().replace(ImageUploadUtil.IMAGE_AVATAR_SIZE_PLACEHOLDER, "");
+            storePath += originalFilePath;
+        } else {
+            boolean validateResult = ImageUploadUtil
+                    .validateImageType(contentType);
+            if (validateResult) {
+                String storeAbsolutePath = ImageUploadUtil.saveAvatarImage(
+                        originalFileName, bytes);
+                storePath = storeAbsolutePath.replace(ImageUploadUtil.getImageBasePath(), "");//数据库中只能存储相对存储路径
+                Photo newPhoto = new Photo(storePath, imageMd5);
+                newPhoto.save();
+                UserDetail userDetail = new UserDetail();
+                BeanUtils.copyProperties(userDetail, userDetailDTO);
+                userDetail.setPhotoId(newPhoto.getId());
+                userDetail.setPhotoPath(newPhoto.getFilePath());
+                userDetail.save();
+            }
+        }
+        return storePath;
+    }
+
+
     public String handleAvatar(int x, int y, int srcShowWidth, int srcShowHeight, String userName, String sessionId) throws Exception {
 
         UserDetail userDetail = UserDetail.get(userName);
 
         String srcImageFilePath = userDetail.getPhotoPath();
 
-        srcImageFilePath = srcImageFilePath != null ? srcImageFilePath.replace(ImageUploadUtil.IMAGE_SIZE_PLACEHOLDER, "") : "";
+        srcImageFilePath = ImageUploadUtil.removeImageSizePlaceHolder(srcImageFilePath);
 
         String completeSrcImageFilePath = ImageUploadUtil.getImageBasePath() + srcImageFilePath;
 
@@ -365,7 +397,7 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
         if (StringUtils.isNotBlank(storeFilePath)) {
             logger.info(storeFilePath);
             Photo.updateFilePath(userDetail.getPhotoId(), storeFilePath);
-            //前面一步成功后再更新用户数据库和缓存
+            //前面一步成功后再更新用户数据
             userDetail.setPhotoPath(storeFilePath);
             userDetail.save();
             return storeFilePath;

@@ -46,6 +46,16 @@ public class Photo extends KoalaLegacyEntity {
     @Column(name = "other")
     private String other;
 
+    public Photo(){
+
+    }
+
+    public Photo(String filePath,String md5){
+        this.filePath=filePath;
+        this.md5=md5;
+    }
+
+
     public Integer getId() {
         return id;
     }

@@ -120,7 +120,7 @@ public class UserIntroduction extends KoalaLegacyEntity {
 
 	public void setCreatedAt(String createdAt) {
 		if (StringUtils.isBlank(createdAt)) {
-			this.createdAt = DateUtil.getNow(DateUtil.format1);
+			this.createdAt = DateUtil.getNow(DateUtil.format_yyyyMMdd_HHmmss);
 		} else {
 			this.createdAt = createdAt;
 		}

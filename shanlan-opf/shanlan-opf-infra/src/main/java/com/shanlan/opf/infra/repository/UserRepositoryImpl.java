@@ -57,7 +57,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public boolean add(UserBase user) {
-		String now=DateUtil.getNow(DateUtil.format1);
+		String now=DateUtil.getNow(DateUtil.format_yyyyMMdd_HHmmss);
 		int insertNum = jdbcTemplate.update(DEF_USER_ADD,"UserDetail",
 				user.getUserName(), user.getPassword(), user.getEmail(),
 				user.getNickName(), user.getIsValid(),"8888-01-01 00:00:00","3","0","0","0",now);

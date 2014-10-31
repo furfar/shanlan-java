@@ -220,10 +220,10 @@ public class DateUtil {
 	 */
 	public final static String DATE_FROMAT_STRING29 = "yyyy-MM-dd'T'HH:mm:ss aZ";
 	
-	public final static DateFormat format1 = new SimpleDateFormat(
+	public final static DateFormat format_yyyyMMdd_HHmmss = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss");
 	public final static DateFormat format2 = new SimpleDateFormat("MM/dd/yy");
-	public final static DateFormat format3 = new SimpleDateFormat("yyyy-MM-dd");
+	public final static DateFormat format_yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
 	public final static DateFormat format4 = new SimpleDateFormat("MMddyy");
 	public final static DateFormat format5 = new SimpleDateFormat("yyMMdd");
 	public final static DateFormat format6 = new SimpleDateFormat(
@@ -306,7 +306,7 @@ public class DateUtil {
 		
 		// 字符串预处理
 		if (StringUtils.isBlank(dateString) || "null".equals(dateString)) {
-			return parseDateStringToDate(format1, "1970-01-01 00:00:00");
+			return parseDateStringToDate(format_yyyyMMdd_HHmmss, "1970-01-01 00:00:00");
 		}
 		dateString = preproccessDataString(dateString);
 		
@@ -317,7 +317,7 @@ public class DateUtil {
 				&& dateString.contains(DATE_SEPARATOR_COLON)
 				&& dateString.contains(DATE_SEPARATOR_MINUS)
 				&& !dateString.contains(DATE_SEPARATOR_T)) {
-			dateFormat = format1;
+			dateFormat = format_yyyyMMdd_HHmmss;
 		} else if (isLengthEqualDateFormatStringLength(dateString,
 				DATE_FROMAT_STRING2)
 				&& dateString.contains(DATE_SEPARATOR_SLASH)) {
@@ -328,13 +328,13 @@ public class DateUtil {
 			// 因为DATE_FROMAT_STRING3和DATE_FROMAT_STRING14无法在外形上做区分，所以只能通过以下方式做语义上的区分
 			date = parseDateStringToDate(format14, dateString);
 			if (date == null) {
-				return parseDateStringToDate(format3, dateString);
+				return parseDateStringToDate(format_yyyyMMdd, dateString);
 			}
 			int month = transformDateToCalendar(date).get(Calendar.MONTH) + 1;
 			if (month == Integer.parseInt(dateString.substring(0, 2))) {
 				return date;
 			} else {
-				date = parseDateStringToDate(format3, dateString);
+				date = parseDateStringToDate(format_yyyyMMdd, dateString);
 			}
 			return date;
 		} else if (isLengthEqualDateFormatStringLength(dateString,
@@ -650,7 +650,7 @@ public class DateUtil {
 			sourceDateTime.setTime(sourceDateTime.getTime() - sourceDateOffSet);
 		}
 		
-		String targetDateTimePST = DateUtil.Format(DateUtil.format1,
+		String targetDateTimePST = DateUtil.Format(DateUtil.format_yyyyMMdd_HHmmss,
 				sourceDateTime);
 		
 		return targetDateTimePST;
@@ -837,7 +837,7 @@ public class DateUtil {
 		if (time == null) {
 			date = new Date();
 		} else {
-			date = DateUtil.rFormat(DateUtil.format3, time);
+			date = DateUtil.rFormat(DateUtil.format_yyyyMMdd, time);
 		}
 		GregorianCalendar c = new GregorianCalendar();
 		c.setTime(date);
@@ -975,8 +975,8 @@ public class DateUtil {
 	public static int getInterval(String start_date, String end_date) {
 		int d = 0;
 		if (start_date != null && end_date != null) {
-			Date date1 = getDateFromStr(format3, start_date);
-			Date date2 = getDateFromStr(format3, end_date);
+			Date date1 = getDateFromStr(format_yyyyMMdd, start_date);
+			Date date2 = getDateFromStr(format_yyyyMMdd, end_date);
 			d = getInterval(date1, date2);
 		}
 		return d;
@@ -1039,7 +1039,7 @@ public class DateUtil {
 	
 	/**
 	 * if(null == calendar) return "";
-	 * if(null == format) default use format1
+	 * if(null == format) default use format_yyyyMMdd_HHmmss
 	 */
 	public static String xmlToDate(XMLGregorianCalendar calendar,
 			DateFormat format) {
@@ -1047,7 +1047,7 @@ public class DateUtil {
 			return "";
 		}
 		if (null == format) {
-			format = format1;
+			format = format_yyyyMMdd_HHmmss;
 		}
 		
 		return Format(format, calendar.toGregorianCalendar().getTime());
@@ -1216,7 +1216,7 @@ public class DateUtil {
 		calendar.clear();
 		calendar.setTime(date);
 		calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - m);
-		return Format(format3, calendar.getTime());
+		return Format(format_yyyyMMdd, calendar.getTime());
 	}
 	
 	public static String getDate() {
@@ -1294,7 +1294,7 @@ public class DateUtil {
 			}
 			pred++;
 		}
-		return Format(DateUtil.format3, preDate);
+		return Format(DateUtil.format_yyyyMMdd, preDate);
 	}
 	
 	public static String preDays(int n) {
@@ -1302,13 +1302,13 @@ public class DateUtil {
 		ca.clear();
 		ca.setTime(new java.util.Date());
 		ca.add(Calendar.DAY_OF_MONTH, 0 - n);
-		return Format(format3, ca.getTime());
+		return Format(format_yyyyMMdd, ca.getTime());
 	}
 	
 	public static String preDays(String time, DateFormat format, int n) {
 		Calendar ca = Calendar.getInstance();
 		ca.clear();
-		ca.setTime(DateUtil.parseDateStringToDate(DateUtil.format3, time));
+		ca.setTime(DateUtil.parseDateStringToDate(DateUtil.format_yyyyMMdd, time));
 		ca.add(Calendar.DAY_OF_MONTH, 0 - n);
 		return Format(format, ca.getTime());
 	}
@@ -1358,7 +1358,7 @@ public class DateUtil {
 	
 	public static String preHours(int hour, DateFormat format) {
 		if (format == null) {
-			format = format3;
+			format = format_yyyyMMdd;
 		}
 		Calendar ca = Calendar.getInstance();
 		ca.clear();
@@ -1373,7 +1373,7 @@ public class DateUtil {
 	public static String skipDays(int n) {
 		Calendar ca = Calendar.getInstance();
 		ca.add(Calendar.DAY_OF_MONTH, n);
-		return Format(format3, ca.getTime());
+		return Format(format_yyyyMMdd, ca.getTime());
 	}
 	
 	public static String aftMins(int n) {
@@ -1482,7 +1482,7 @@ public class DateUtil {
 	public static String DFormat(Date time) {
 		String t = "";
 		try {
-			t = Format(format1, time).split(" ")[0];
+			t = Format(format_yyyyMMdd_HHmmss, time).split(" ")[0];
 		} catch (Exception e) {
 			return t;
 		}
@@ -1624,11 +1624,11 @@ public class DateUtil {
 	public static String getDayOfWeek(String date, boolean isFirst,
 			boolean isMonday) {
 		Calendar calFirst = Calendar.getInstance();
-		Date dd = getDateFromStr(format3, date);
+		Date dd = getDateFromStr(format_yyyyMMdd, date);
 		calFirst.setTime(dd);
 		Date firstDate = getFirstDayOfWeek(calFirst.getTime(), isMonday);
-		return isFirst ? Format(format3, firstDate) : preDays(
-				Format(format3, firstDate), format3, -6);
+		return isFirst ? Format(format_yyyyMMdd, firstDate) : preDays(
+				Format(format_yyyyMMdd, firstDate), format_yyyyMMdd, -6);
 	}
 	
 	/**
@@ -1669,8 +1669,8 @@ public class DateUtil {
 		Calendar cal = (GregorianCalendar) c.clone();
 		cal.add(Calendar.DATE, (week - 1) * 7);
 		firstDate = getFirstDayOfWeek(cal.getTime(), isMonday);
-		return isFirst ? Format(format3, firstDate) : aftDays(6,
-				Format(format3, firstDate));
+		return isFirst ? Format(format_yyyyMMdd, firstDate) : aftDays(6,
+				Format(format_yyyyMMdd, firstDate));
 	}
 	
 	private static Date getFirstDayOfWeek(Date date, boolean monday) {
@@ -1715,9 +1715,9 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String aftDays(int n, String time) {
-		Date date = rFormat(DateUtil.format3, time);
+		Date date = rFormat(DateUtil.format_yyyyMMdd, time);
 		Date dateAfter = DateUtils.addDays(date, n);
-		return Format(format3, dateAfter);
+		return Format(format_yyyyMMdd, dateAfter);
 	}
 	
 	/**
@@ -1733,7 +1733,7 @@ public class DateUtil {
 		// ca.setTimeInMillis(date.getTime() + (long) n * 24 * 60 * 60 * 1000);
 		// return new Date(ca.getTime().getTime());
 		// 以上代码可能会因为夏令时和物冬令时的切换造成：用带00:00:00格式的日期进行换算时在夏令时会多出一天来.
-		// 比如： Date date1=DateUtil.getDateFromStr(DateUtil.format3,
+		// 比如： Date date1=DateUtil.getDateFromStr(DateUtil.format_yyyyMMdd,
 		// "2014-03-15"); Date date11= DateUtil.aftDays(-7,date1);
 		// 的输出结果是2014-03-07,而不是2014-03-08,所有替换成使用org.apache.commons.lang.time.DateUtils进行转换
 		return DateUtils.addDays(date, n);
@@ -1787,11 +1787,11 @@ public class DateUtil {
 		}
 		if (format == null) {
 			if (s.length() == 10) {
-				format = format3;
+				format = format_yyyyMMdd;
 			} else if (s.length() == 16) {
 				format = format13;
 			} else {
-				format = format1;
+				format = format_yyyyMMdd_HHmmss;
 			}
 		}
 		return parseDateStringToDate(format, s);
@@ -1946,9 +1946,9 @@ public class DateUtil {
 		ca.set(Calendar.YEAR, year);
 		ca.set(Calendar.WEEK_OF_YEAR, week);
 		ca.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-		date[0] = DateUtil.Format(DateUtil.format3, ca.getTime());
+		date[0] = DateUtil.Format(DateUtil.format_yyyyMMdd, ca.getTime());
 		ca.set(Calendar.DATE, ca.get(Calendar.DATE) + 6);
-		date[1] = DateUtil.Format(DateUtil.format3, ca.getTime());
+		date[1] = DateUtil.Format(DateUtil.format_yyyyMMdd, ca.getTime());
 		return date;
 	}
 	
@@ -1959,7 +1959,7 @@ public class DateUtil {
 	 * @return 返回格式为yyyy-xx,比如2014-3,2014-23
 	 */
 	public static String getWeekOfYear(String date) {
-		Date d = DateUtil.getDateFromStr(DateUtil.format3, date);
+		Date d = DateUtil.getDateFromStr(DateUtil.format_yyyyMMdd, date);
 		Calendar ca = Calendar.getInstance();
 		ca.setTimeInMillis(d.getTime());
 		int month=ca.get(Calendar.MONTH);
@@ -1982,9 +1982,9 @@ public class DateUtil {
 		for (int i = 0; i < 100; i++) {
 			beginDate = DateUtil.aftDays(7 * week, beginDate);
 			boolean isBefore = beginDate.equals(endDate)
-					|| DateUtil.parseDateStringToDate(DateUtil.format3,
+					|| DateUtil.parseDateStringToDate(DateUtil.format_yyyyMMdd,
 							beginDate).before(
-							parseDateStringToDate(format3, endDate));
+							parseDateStringToDate(format_yyyyMMdd, endDate));
 			if (isBefore) {
 				dates.add(beginDate);
 			} else {
@@ -1996,8 +1996,8 @@ public class DateUtil {
 	
 	public static List<String> splitByDay(String sdate, String edate) {
 		List<String> days = new ArrayList<String>();
-		for (int i = 0; DateUtil.preDays(sdate, format3, i).compareTo(edate) <= 0; i--) {
-			days.add(DateUtil.preDays(sdate, format3, i));
+		for (int i = 0; DateUtil.preDays(sdate, format_yyyyMMdd, i).compareTo(edate) <= 0; i--) {
+			days.add(DateUtil.preDays(sdate, format_yyyyMMdd, i));
 		}
 		return days;
 	}

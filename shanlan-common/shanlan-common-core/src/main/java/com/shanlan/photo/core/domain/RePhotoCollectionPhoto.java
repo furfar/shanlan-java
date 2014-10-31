@@ -41,6 +41,16 @@ public class RePhotoCollectionPhoto extends KoalaLegacyEntity {
 	@Column(name = "pc_id")
 	private int pcId;
 
+
+    public RePhotoCollectionPhoto(){
+
+    }
+
+    public RePhotoCollectionPhoto(Integer upoId,Integer pcId){
+        this.upoId=upoId;
+        this.pcId=pcId;
+    }
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -95,5 +105,8 @@ public class RePhotoCollectionPhoto extends KoalaLegacyEntity {
 		}
 		return rePhotoCollectionPhotos;
 	}
+
+
+
 
 }

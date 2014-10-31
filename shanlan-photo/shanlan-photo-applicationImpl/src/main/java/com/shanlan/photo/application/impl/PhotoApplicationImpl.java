@@ -1,6 +1,5 @@
 package com.shanlan.photo.application.impl;
 
-import java.io.File;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.List;
@@ -8,12 +7,16 @@ import java.util.List;
 import javax.inject.Named;
 
 import com.shanlan.common.exception.sub.business.RequestParameterException;
+import com.shanlan.common.util.DateUtil;
+import com.shanlan.common.util.EncryptUtil;
 import com.shanlan.common.util.EntityUtil;
 import com.shanlan.common.util.ImageUploadUtil;
+import com.shanlan.photo.core.domain.RePhotoCollectionPhoto;
 import com.shanlan.trade.core.domain.ReTradePhoto;
 import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.service.UserService;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
 import org.dayatang.querychannel.QueryChannelService;
@@ -31,7 +34,8 @@ import com.shanlan.photo.core.domain.RePhotoUserOwn;
 @Transactional
 public class PhotoApplicationImpl implements PhotoApplication {
 
-    private static final Logger logger = LoggerFactory.getLogger(PhotoApplicationImpl.class);
+    private static final Logger logger = LoggerFactory
+            .getLogger(PhotoApplicationImpl.class);
 
     private QueryChannelService queryChannel;
 
@@ -164,13 +168,19 @@ public class PhotoApplicationImpl implements PhotoApplication {
     }
 
     @Override
-    public List<PhotoDTO> listTradePhotos(int tradePhotoCollectionId) throws Exception {
+    public List<PhotoDTO> listTradePhotos(int tradePhotoCollectionId)
+            throws Exception {
         List<PhotoDTO> tradePhotoDTOs = new ArrayList<PhotoDTO>();
         if (tradePhotoCollectionId > 0) {
-            List<ReTradePhoto> reTradePhotoList = ReTradePhoto.listByTpcIds(Collections.singletonList(tradePhotoCollectionId));
-            List<Integer> reTradePhotoIdList = EntityUtil.getIds(reTradePhotoList);
-            List<RePhotoUserOwn> rePhotoUserOwns = RePhotoUserOwn.listPublic(reTradePhotoIdList);
-            List<Integer> photoIds = RePhotoUserOwn.listPhotoIds(rePhotoUserOwns);
+            List<ReTradePhoto> reTradePhotoList = ReTradePhoto
+                    .listByTpcIds(Collections
+                            .singletonList(tradePhotoCollectionId));
+            List<Integer> reTradePhotoIdList = EntityUtil
+                    .getIds(reTradePhotoList);
+            List<RePhotoUserOwn> rePhotoUserOwns = RePhotoUserOwn
+                    .listPublic(reTradePhotoIdList);
+            List<Integer> photoIds = RePhotoUserOwn
+                    .listPhotoIds(rePhotoUserOwns);
             List<Photo> photos = Photo.list(photoIds);
             for (Photo photo : photos) {
                 PhotoDTO photoDTO = new PhotoDTO();
@@ -196,10 +206,10 @@ public class PhotoApplicationImpl implements PhotoApplication {
         return photoDTOs;
     }
 
-
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public Map<String, PhotoDTO> getMd5AndSelfMap(List<String> imageMd5s) throws Exception {
+    public Map<String, PhotoDTO> getMd5AndSelfMap(List<String> imageMd5s)
+            throws Exception {
         Map<String, PhotoDTO> md5AndPhotoDTOMap = new HashMap<String, PhotoDTO>();
         Map<String, Photo> md5AndSelfMap = Photo.getMd5AndSelfMap(imageMd5s);
         for (Map.Entry<String, Photo> entry : md5AndSelfMap.entrySet()) {
@@ -210,8 +220,125 @@ public class PhotoApplicationImpl implements PhotoApplication {
         return md5AndPhotoDTOMap;
     }
 
+    @Override
+    public String uploadPhoto(String originalFileName, byte[] bytes,
+                              String contentType, String userName, Integer photoCollectionId)
+            throws Exception {
+        Integer photoId = null;
+        String photoPath = "";
+        String imageMd5 = EncryptUtil.getMD5DigestInBytes(bytes);
+        // 通过md5值查询该图片是否已经上传过，如果已经上传过，则直接返回存储路径。
+        Map<String, Photo> md5AndSelfMap = Photo.getMd5AndSelfMap(Collections
+                .singletonList(imageMd5));
+        Photo photo = md5AndSelfMap.get(imageMd5);
+        if (photo != null) {
+            photoId = photo.getId();
+            photoPath = photo.getFilePath();
+        } else {
+            //上传原始文件
+            String originalStorePath = ImageUploadUtil.saveSelfUploadImage(
+                    originalFileName, bytes);
 
+            //将文件按80%比例压缩
+            String extensionName = FilenameUtils.getExtension(originalFileName);
+            Float compressRate = 80f;
 
+            String compressFilePath = ImageUploadUtil.appendImageCompressPostfix(originalStorePath, extensionName, compressRate.intValue());
+            ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, (float) (compressRate * 0.01), 1);
 
+            //生成一个400*400的缩略图
+            Integer destWidth = 400;
+            Integer destHeight = 400;
+            String thumbnailFilePath = ImageUploadUtil.appendImageThumbnailPostfix(originalStorePath, extensionName, destWidth, destHeight);
+            ImageUploadUtil.compressWidthHeightImageFile(originalStorePath, thumbnailFilePath, destWidth, destHeight, 1);
+
+            //将原始存储地址加一个占位符存储起来
+            photoPath = ImageUploadUtil
+                    .appendImageSizePlaceHolder(originalStorePath,
+                            FilenameUtils.getExtension(originalFileName));
+            photoPath = ImageUploadUtil.removeImageBasePath(photoPath);
+            Photo newPhoto = new Photo(photoPath, imageMd5);
+            newPhoto.save();
+            photoId = newPhoto.getId();
+        }
+
+        // 往re_photo_user_own表中添加记录
+        RePhotoUserOwn rePhotoUserOwn = new RePhotoUserOwn();
+        rePhotoUserOwn.setPhotoId(photoId);
+        rePhotoUserOwn.setPhotoPath(photoPath);
+        rePhotoUserOwn.setUserName(userName);
+        rePhotoUserOwn.setCreatedAt(DateUtil.getNow(DateUtil.format_yyyyMMdd_HHmmss));
+        rePhotoUserOwn.setVisibility(RePhotoUserOwn.Visibility.PRIVATE
+                .ordinal());
+        rePhotoUserOwn.save();
+
+        // 关联re_photo_user_own表与re_photo_collection_photo表
+        RePhotoCollectionPhoto rePhotoCollectionPhoto = new RePhotoCollectionPhoto(rePhotoUserOwn.getId(), photoCollectionId);
+        rePhotoCollectionPhoto.save();
+
+        return photoPath;
+    }
+
+    /**
+     * 批量上传照片
+     *
+     * @param originalFileNameList
+     * @param imageBytesList
+     * @param contentTypeList
+     * @param userName
+     * @param photoCollectionId
+     * @return
+     */
+    @Override
+    public boolean uploadPhotos(List<String> originalFileNameList,
+                                List<byte[]> imageBytesList, List<String> contentTypeList,
+                                String userName, Integer photoCollectionId) throws Exception {
+
+//		Integer photoId = null;
+//		String photoPath = "";
+//		List<String> imageMd5List = EncryptUtil
+//				.getMD5DigestListInBytes(imageBytesList);
+//		// 通过md5值查询该图片是否已经上传过，如果已经上传过，则直接返回存储路径。
+//		Map<String, Photo> md5AndSelfMap = Photo.getMd5AndSelfMap(imageMd5List);
+//		Photo photo = md5AndSelfMap.get(imageMd5);
+//		if (photo != null) {
+//			photoId = photo.getId();
+//			photoPath = photo.getFilePath();
+//		} else {
+//			boolean validateResult = ImageUploadUtil
+//					.validateImageType(contentType);
+//			if (validateResult) {
+//				String storePath = ImageUploadUtil.saveSelfUploadImage(
+//						originalFileName, bytes);
+//				photoPath = ImageUploadUtil
+//						.appendImageSizePlaceHolder(storePath,
+//								FilenameUtils.getExtension(originalFileName));
+//				Photo newPhoto = new Photo(photoPath, imageMd5);
+//				newPhoto.save();
+//				photoId = newPhoto.getId();
+//			}
+//		}
+//
+//		// 往re_photo_user_own表中添加记录
+//		RePhotoUserOwn rePhotoUserOwn = new RePhotoUserOwn();
+//		rePhotoUserOwn.setPhotoId(photoId);
+//		rePhotoUserOwn.setPhotoPath(photoPath);
+//		rePhotoUserOwn.setUserName(userName);
+//		rePhotoUserOwn.setCreatedAt(DateUtil.getNow(DateUtil.format_yyyyMMdd_HHmmss));
+//		rePhotoUserOwn.setVisibility(RePhotoUserOwn.Visibility.PRIVATE
+//				.ordinal());
+//		rePhotoUserOwn.save();
+//
+//		// 关联re_photo_user_own表与re_photo_collection_photo表
+//		RePhotoCollectionPhoto rePhotoCollectionPhoto = new RePhotoCollectionPhoto(
+//				photoCollectionId, rePhotoUserOwn.getId());
+//		rePhotoCollectionPhoto.save();
+//
+//		// 更新photo_collection中photoCount数量
+//
+//		return photoPath;
+
+        return false;
+    }
 
 }

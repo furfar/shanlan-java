@@ -36,4 +36,27 @@ public interface PhotoApplication {
     public List<PhotoDTO> listByMd5(List<String> imageMd5s) throws Exception;
 
     public Map<String, PhotoDTO> getMd5AndSelfMap(List<String> imageMd5s) throws Exception;
+
+    /**
+     * 上传照片，一次只能上传一张照片
+     * @param originalFileName
+     * @param bytes
+     * @param contentType
+     * @param userName
+     * @param photoCollectionId
+     * @return
+     * @throws Exception
+     */
+    String uploadPhoto(String originalFileName, byte[] bytes, String contentType, String userName,Integer photoCollectionId) throws Exception;
+
+    /**
+     * 批量上传照片
+     * @param originalFileNameList
+     * @param imageBytesList
+     * @param contentTypeList
+     * @param userName
+     * @param photoCollectionId
+     * @return
+     */
+    boolean uploadPhotos(List<String> originalFileNameList, List<byte[]> imageBytesList, List<String> contentTypeList, String userName, Integer photoCollectionId) throws Exception;
 }

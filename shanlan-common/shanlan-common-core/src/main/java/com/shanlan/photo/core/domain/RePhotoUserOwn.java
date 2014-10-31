@@ -11,10 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.shanlan.common.util.JPQLUtil;
-import com.shanlan.common.util.SQLUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
+
+import com.shanlan.common.util.JPQLUtil;
 
 /**
  * Auto Generated Entity
@@ -52,7 +52,7 @@ public class RePhotoUserOwn extends KoalaLegacyEntity {
     private String description;
 
     @Column(name = "visibility")
-    private Boolean visibility;
+    private Integer visibility;
 
     @Column(name = "created_at")
     private String createdAt;
@@ -104,11 +104,11 @@ public class RePhotoUserOwn extends KoalaLegacyEntity {
         this.description = description;
     }
 
-    public Boolean getVisibility() {
+    public Integer getVisibility() {
         return visibility;
     }
 
-    public void setVisibility(Boolean visibility) {
+    public void setVisibility(Integer visibility) {
         this.visibility = visibility;
     }
 
@@ -128,9 +128,8 @@ public class RePhotoUserOwn extends KoalaLegacyEntity {
         this.updatedAt = updatedAt;
     }
 
-    public Serializable getId() {
-        // TODO Auto-generated method stub
-        return null;
+    public Integer getId() {
+    	return id;
     }
 
     public boolean existed() {

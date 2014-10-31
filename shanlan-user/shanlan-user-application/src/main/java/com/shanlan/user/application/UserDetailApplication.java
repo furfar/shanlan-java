@@ -34,6 +34,8 @@ public interface UserDetailApplication {
 
     public UserDetailDTO isLogin(String session) throws Exception;
 
+    String uploadAvatar(String originalFileName, byte[] bytes, String contentType, UserDetailDTO userDetailDTO) throws Exception;
+
     public String handleAvatar(int x, int y, int srcShowWidth, int srcShowHeight, String userName, String sessionId) throws Exception;
 
     UserDetailDTO login(String userAccount, String password, String sessionId) throws Exception;

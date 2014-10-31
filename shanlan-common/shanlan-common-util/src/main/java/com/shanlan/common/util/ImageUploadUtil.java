@@ -14,7 +14,6 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
@@ -36,12 +35,17 @@ public class ImageUploadUtil {
     private static final Logger logger = LoggerFactory
             .getLogger(ImageUploadUtil.class);
 
-    public static final String IMAGE_SIZE_PLACEHOLDER = "_X_X";
+    public static final String IMAGE_AVATAR_SIZE_PLACEHOLDER = "_X_X";
 
     /**
-     * 图片后缀，裁剪过的图片
+     * 图片后缀，按X%比例压缩过的图片,比如_COMPRESS_60表示按60%比例压缩过的图片
      */
-    public static final String IMAGE_FILE_POSTFIX_CUT = "_CUT";
+    public static final String IMAGE_PHOTO_FILE_POSTFIX_COMPRESS = "_COMPRESS_";
+
+    /**
+     * 图片后缀，按固定宽、高比例压缩过的缩略图,比如_THUMBNAIL_500_500表示按宽、高500*500比例压缩过的图片
+     */
+    public static final String IMAGE_PHOTO_FILE_POSTFIX_THUMBNAIL = "_THUMBNAIL";
 
     public static final String CONTENT_TYPE_IMAGE_JPEG = "image/jpeg";
 
@@ -51,11 +55,11 @@ public class ImageUploadUtil {
 
     public static final String CONTENT_TYPE_IMAGE_BMP = "image/bmp";
 
-    public static Integer IMAGE_COMPRESS_STANDARD_200 = 200;
+    public static Integer IMAGE_AVATAR_COMPRESS_STANDARD_200 = 200;
 
-    public static Integer IMAGE_COMPRESS_STANDARD_120 = 120;
+    public static Integer IMAGE_AVATAR_COMPRESS_STANDARD_120 = 120;
 
-    public static Integer IMAGE_COMPRESS_STANDARD_30 = 30;
+    public static Integer IMAGE_AVATAR_COMPRESS_STANDARD_30 = 30;
 
     /**
      * 开发环境图片存储基础路径
@@ -80,12 +84,12 @@ public class ImageUploadUtil {
     /**
      * 图片类型——照片
      */
-    public static final String IMAGE_TYPE_PATH_TRADE_PHOTO = "/img/trade_photo/";
+    public static final String IMAGE_TYPE_PATH_TRADE_PHOTO = "/img/tradePhoto/";
 
     /**
      * 图片类型——自己上传照片
      */
-    public static final String IMAGE_TYPE_PATH_SELF_UPLOAD = "/img/self_upload/";
+    public static final String IMAGE_TYPE_PATH_SELF_UPLOAD = "/img/selfUpload/";
 
     // /**
     // * 开发环境图片存储根路径
@@ -178,6 +182,43 @@ public class ImageUploadUtil {
         return newImageFile;
     }
 
+
+    /**
+     * @param srcImageFile
+     * @param extensionName
+     * @param compressRate  压缩比例，如果压缩比例为80%,则填写80
+     * @return
+     */
+    public static String appendImageCompressPostfix(String srcImageFile,
+                                                    String extensionName, Integer compressRate) {
+        String periodAndExtensionName = ConstantPunctuation.PERIOD
+                + extensionName;
+        String newImageFile = srcImageFile.replace(periodAndExtensionName, "")
+                + (IMAGE_PHOTO_FILE_POSTFIX_COMPRESS + compressRate)
+                + periodAndExtensionName;
+        return newImageFile;
+    }
+
+
+    /**
+     * @param srcImageFile
+     * @param extensionName
+     * @param destWidth     缩略图的宽
+     * @param destHeight    缩略图的高
+     * @return
+     */
+    public static String appendImageThumbnailPostfix(String srcImageFile,
+                                                     String extensionName, Integer destWidth, Integer destHeight) {
+        String periodAndExtensionName = ConstantPunctuation.PERIOD
+                + extensionName;
+        String newImageFile = srcImageFile.replace(periodAndExtensionName, "")
+                + (ConstantPunctuation.UNDERLINE + IMAGE_PHOTO_FILE_POSTFIX_THUMBNAIL
+                + ConstantPunctuation.UNDERLINE + destWidth + ConstantPunctuation.UNDERLINE + destHeight)
+                + periodAndExtensionName;
+        return newImageFile;
+    }
+
+
     /**
      * 在输入文件名后面加上一个图像大小占位符，比如原文件名为fff.jpg则新文件名为fffX_X.jpg
      *
@@ -190,9 +231,20 @@ public class ImageUploadUtil {
         String periodAndExtensionName = ConstantPunctuation.PERIOD
                 + extensionName;
         String newImageFile = srcImageFile.replace(periodAndExtensionName, "")
-                + IMAGE_SIZE_PLACEHOLDER + periodAndExtensionName;
+                + IMAGE_AVATAR_SIZE_PLACEHOLDER + periodAndExtensionName;
         return newImageFile;
     }
+
+
+    public static String removeImageSizePlaceHolder(String srcImageFilePath) {
+        return srcImageFilePath != null ? srcImageFilePath.replace(ImageUploadUtil.IMAGE_AVATAR_SIZE_PLACEHOLDER, "") : "";
+    }
+
+
+    public static String removeImageBasePath(String srcImageFilePath) {
+        return srcImageFilePath != null ? srcImageFilePath.replace(getImageBasePath(), "") : "";
+    }
+
 
     public static boolean validateImageType(String contentType)
             throws ParameterInvalidException {
@@ -206,29 +258,29 @@ public class ImageUploadUtil {
                 + "'这种文件的上传");
     }
 
-    public static String saveAvatarImage(FileItem fileItem, String extensionName) {
-        String originalFileName = fileItem.getName();// 获取上传文件自己的原始文件名
-        if (originalFileName == null || "".equals(originalFileName.trim())) {// 如果是tmp文件夹中的文件
-            return "";
-        }
-
-        File avatarImageFilePath = new File(getImageBasePath()
-                + IMAGE_TYPE_PATH_AVATAR);
-        if (!avatarImageFilePath.exists()) {
-            avatarImageFilePath.mkdirs();
-        }
-        String newFileName = UUID.randomUUID().toString()
-                + "." + extensionName;
-        String storePath = IMAGE_TYPE_PATH_AVATAR + newFileName;
-        File f2 = new File(avatarImageFilePath, newFileName);
-        try {
-            fileItem.write(f2);
-            return storePath;
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            return "";
-        }
-    }
+//    public static String saveAvatarImage(FileItem fileItem, String extensionName) {
+//        String originalFileName = fileItem.getName();// 获取上传文件自己的原始文件名
+//        if (originalFileName == null || "".equals(originalFileName.trim())) {// 如果是tmp文件夹中的文件
+//            return "";
+//        }
+//
+//        File avatarImageFilePath = new File(getImageBasePath()
+//                + IMAGE_TYPE_PATH_AVATAR);
+//        if (!avatarImageFilePath.exists()) {
+//            avatarImageFilePath.mkdirs();
+//        }
+//        String newFileName = UUID.randomUUID().toString()
+//                + "." + extensionName;
+//        String storePath = IMAGE_TYPE_PATH_AVATAR + newFileName;
+//        File f2 = new File(avatarImageFilePath, newFileName);
+//        try {
+//            fileItem.write(f2);
+//            return storePath;
+//        } catch (Exception e) {
+//            logger.error(e.getMessage(), e);
+//            return "";
+//        }
+//    }
 
     public static String saveAvatarImage(String originalFileName,
                                          byte[] imageBytes) {
@@ -236,6 +288,15 @@ public class ImageUploadUtil {
                 + FileUploadUtil.getYearMonthDayPath();
         return saveImage(filePath, originalFileName, imageBytes);
     }
+
+
+    public static String saveSelfUploadImage(String originalFileName,
+                                             byte[] imageBytes) {
+        String filePath = getImageBasePath() + IMAGE_TYPE_PATH_SELF_UPLOAD
+                + FileUploadUtil.getYearMonthDayPath();
+        return saveImage(filePath, originalFileName, imageBytes);
+    }
+
 
     private static String saveImage(String filePath, String originalFileName,
                                     byte[] imageBytes) {
@@ -295,45 +356,35 @@ public class ImageUploadUtil {
             logger.error(e.getMessage(), e);
             return "";
         }
-        String relativePath = (filePath + fileName).replace(getImageBasePath(),
-                "");
-        return relativePath;
+        String absolutePath = (filePath + fileName);
+        return absolutePath;
 
     }
 
     /**
      * 等比例压缩图片文件<br>
-     * 先保存原文件，再压缩、上传
      *
      * @param srcImageFilePath 要进行压缩的文件完整路径
      * @param newFilePath      新文件完整存储路径
-     * @param width            宽度 //设置宽度时（高度传入0，等比例缩放）
-     * @param height           高度 //设置高度时（宽度传入0，等比例缩放）
+     * @param compressRate     压缩比例（0-1）
      * @param quality          质量
      * @return 返回压缩后的文件的全路径
      */
     public static boolean compressImageConstrain(String srcImageFilePath,
-                                                 String newFilePath, int width, int height, float quality)
+                                                 String newFilePath, float compressRate, float quality)
             throws Exception {
-
+        logger.info(srcImageFilePath + " " + newFilePath);
         File srcFile = new File(srcImageFilePath);
         Image srcImage = ImageIO.read(srcFile);
-        int w = srcImage.getWidth(null);
-        int h = srcImage.getHeight(null);
-        double bili;
-        if (width > 0) {
-            bili = width / (double) w;
-            height = (int) (h * bili);
-        } else {
-            if (height > 0) {
-                bili = height / (double) h;
-                width = (int) (w * bili);
-            }
-        }
+        Integer originalWidth = srcImage.getWidth(null);
+        Integer originalHeight = srcImage.getHeight(null);
+        Float compressedWidthFloat = originalWidth * compressRate;
+        Float compressedHeightFloat = originalHeight * compressRate;
+
         /** 宽,高设定 */
-        BufferedImage tag = new BufferedImage(width, height,
+        BufferedImage tag = new BufferedImage(compressedWidthFloat.intValue(), compressedHeightFloat.intValue(),
                 BufferedImage.TYPE_INT_RGB);
-        tag.getGraphics().drawImage(srcImage, 0, 0, width, height, null);
+        tag.getGraphics().drawImage(srcImage, 0, 0, compressedWidthFloat.intValue(), compressedHeightFloat.intValue(), null);
 
         /** 压缩之后存放位置 */
         File newFile = new File(newFilePath);
@@ -365,8 +416,6 @@ public class ImageUploadUtil {
 
         File srcFile = new File(srcImageFilePath);
         Image srcImage = ImageIO.read(srcFile);
-        int w = srcImage.getWidth(null);
-        int h = srcImage.getHeight(null);
 
         /** 宽,高设定 */
         BufferedImage tag = new BufferedImage(width, height,

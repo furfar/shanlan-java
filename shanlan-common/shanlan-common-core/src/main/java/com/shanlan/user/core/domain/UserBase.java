@@ -27,7 +27,6 @@ import com.shanlan.common.constant.ConstantRegex;
 import com.shanlan.common.exception.sub.business.OPFBaseException;
 import com.shanlan.common.exception.sub.business.RequestAuthenticationException;
 import com.shanlan.common.exception.sub.business.RequestParameterException;
-import com.shanlan.common.util.SignUtils;
 
 /**
  * @ClassName:UserDetail
@@ -256,7 +255,7 @@ public class UserBase extends KoalaLegacyEntity {
         this.abolishDate=ConstantString.ABOLISH_DATE;
         this.sortOrder=0;
         this.identityType=Type.User.name();
-        this.createDate= DateUtil.getNow(DateUtil.format1);
+        this.createDate= DateUtil.getNow(DateUtil.format_yyyyMMdd_HHmmss);
         this.serialNumber="0";
         this.version=0;
         this.isValid=1;
