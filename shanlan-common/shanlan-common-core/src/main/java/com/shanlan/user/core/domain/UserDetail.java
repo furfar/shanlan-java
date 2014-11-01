@@ -100,6 +100,9 @@ public class UserDetail extends KoalaLegacyEntity {
     @Column(name = "photo_count")
     private Integer photoCount;
 
+    @Column(name = "signature")
+    private String signature;
+
     @Column(name = "type")
     private String type;
 
@@ -238,6 +241,14 @@ public class UserDetail extends KoalaLegacyEntity {
 
     public void setPhotoCount(Integer photoCount) {
         this.photoCount = photoCount;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 
     public String getType() {

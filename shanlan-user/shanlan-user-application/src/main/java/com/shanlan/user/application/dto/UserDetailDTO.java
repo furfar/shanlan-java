@@ -19,15 +19,11 @@ public class UserDetailDTO implements Serializable {
 
     private Integer activeness;
 
-
     private String other;
-
 
     private Integer cityId;
 
-
     private Integer photoCount;
-
 
     private String type;
 
@@ -41,6 +37,7 @@ public class UserDetailDTO implements Serializable {
 
     private Integer tradeTimes;
 
+    private String signature;
 
     private String alipay;
 
@@ -145,6 +142,14 @@ public class UserDetailDTO implements Serializable {
         return this.webchart;
     }
 
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
 
     public void setPhotoPath(String photoPath) {
         this.photoPath = photoPath;
