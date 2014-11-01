@@ -2,56 +2,49 @@
 package com.shanlan.user.web.controller.user;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.dayatang.querychannel.Page;
-import org.openkoala.koala.auth.ss3adapter.AuthUserUtil;
-import org.openkoala.koala.auth.ss3adapter.CustomUserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.shanlan.user.application.UserBlogApplication;
-import com.shanlan.user.application.dto.UserBlogDTO;
+import com.shanlan.user.application.PhotographerApplication;
+import com.shanlan.user.application.dto.PhotographerDTO;
 
 @Controller
-@RequestMapping("/UserBlog")
-public class UserBlogController {
+@RequestMapping("/Photographer")
+public class PhotographerController {
 		
 	@Inject
-	private UserBlogApplication userBlogApplication;
+	private PhotographerApplication photographerApplication;
 	
 	@ResponseBody
 	@RequestMapping("/add")
-	public Map<String, Object> add(UserBlogDTO userBlogDTO) {
+	public Map<String, Object> add(PhotographerDTO photographerDTO) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		userBlogApplication.saveUserBlog(userBlogDTO);
+		photographerApplication.savePhotographer(photographerDTO);
 		result.put("result", "success");
 		return result;
 	}
 	
 	@ResponseBody
 	@RequestMapping("/update")
-	public Map<String, Object> update(UserBlogDTO userBlogDTO) {
+	public Map<String, Object> update(PhotographerDTO photographerDTO) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		userBlogApplication.updateUserBlog(userBlogDTO);
+		photographerApplication.updatePhotographer(photographerDTO);
 		result.put("result", "success");
 		return result;
 	}
 	
 	@ResponseBody
 	@RequestMapping("/pageJson")
-	public Page pageJson(UserBlogDTO userBlogDTO, @RequestParam int page, @RequestParam int pagesize) {
-        String userName = AuthUserUtil.getLoginUserName();
-        CustomUserDetails customUserDetails = AuthUserUtil.getLoginUser();
-        List<String> roles = AuthUserUtil.getRolesByCurrentUser();
-		Page<UserBlogDTO> all = userBlogApplication.pageQueryUserBlog(userBlogDTO, page, pagesize,
-                userName, customUserDetails.isSuper(), roles);
+	public Page pageJson(PhotographerDTO photographerDTO, @RequestParam int page, @RequestParam int pagesize) {
+		Page<PhotographerDTO> all = photographerApplication.pageQueryPhotographer(photographerDTO, page, pagesize);
 		return all;
 	}
 	
@@ -66,7 +59,7 @@ public class UserBlogController {
         	        								idArrs[i] = Integer.parseInt(value[i]);
 			        	
         }
-        userBlogApplication.removeUserBlogs(idArrs);
+        photographerApplication.removePhotographers(idArrs);
 		result.put("result", "success");
 		return result;
 	}
@@ -75,7 +68,7 @@ public class UserBlogController {
 	@RequestMapping("/get/{id}")
 	public Map<String, Object> get(@PathVariable Integer id) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("data", userBlogApplication.getUserBlog(id));
+		result.put("data", photographerApplication.getPhotographer(id));
 		return result;
 	}
 	

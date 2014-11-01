@@ -1,5 +1,5 @@
 
-package com.shanlan.user.web.controller.user;
+package com.shanlan.photo.web.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,41 +16,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.shanlan.user.application.UserIntroductionApplication;
-import com.shanlan.user.application.dto.UserIntroductionDTO;
+import com.shanlan.photo.application.RePhotoUserOwnApplication;
+import com.shanlan.photo.application.dto.RePhotoUserOwnDTO;
 
 @Controller
-@RequestMapping("/UserIntroduction")
-public class UserIntroductionController {
+@RequestMapping("/RePhotoUserOwn")
+public class RePhotoUserOwnController {
 
     @Inject
-    private UserIntroductionApplication userIntroductionApplication;
+    private RePhotoUserOwnApplication rePhotoUserOwnApplication;
 
     @ResponseBody
     @RequestMapping("/add")
-    public Map<String, Object> add(UserIntroductionDTO userIntroductionDTO) {
+    public Map<String, Object> add(RePhotoUserOwnDTO rePhotoUserOwnDTO) {
         Map<String, Object> result = new HashMap<String, Object>();
-        userIntroductionApplication.saveUserIntroduction(userIntroductionDTO);
+        rePhotoUserOwnApplication.saveRePhotoUserOwn(rePhotoUserOwnDTO);
         result.put("result", "success");
         return result;
     }
 
     @ResponseBody
     @RequestMapping("/update")
-    public Map<String, Object> update(UserIntroductionDTO userIntroductionDTO) {
+    public Map<String, Object> update(RePhotoUserOwnDTO rePhotoUserOwnDTO) {
         Map<String, Object> result = new HashMap<String, Object>();
-        userIntroductionApplication.updateUserIntroduction(userIntroductionDTO);
+        rePhotoUserOwnApplication.updateRePhotoUserOwn(rePhotoUserOwnDTO);
         result.put("result", "success");
         return result;
     }
 
     @ResponseBody
     @RequestMapping("/pageJson")
-    public Page pageJson(UserIntroductionDTO userIntroductionDTO, @RequestParam int page, @RequestParam int pagesize) {
+    public Page pageJson(RePhotoUserOwnDTO rePhotoUserOwnDTO, @RequestParam int page, @RequestParam int pagesize) {
         String userName = AuthUserUtil.getLoginUserName();
         CustomUserDetails customUserDetails = AuthUserUtil.getLoginUser();
         List<String> roles = AuthUserUtil.getRolesByCurrentUser();
-        Page<UserIntroductionDTO> all = userIntroductionApplication.pageQueryUserIntroduction(userIntroductionDTO, page, pagesize,
+        Page<RePhotoUserOwnDTO> all = rePhotoUserOwnApplication.pageQueryRePhotoUserOwn(rePhotoUserOwnDTO, page, pagesize,
                 userName, customUserDetails.isSuper(), roles);
         return all;
     }
@@ -62,11 +62,9 @@ public class UserIntroductionController {
         String[] value = ids.split(",");
         Integer[] idArrs = new Integer[value.length];
         for (int i = 0; i < value.length; i++) {
-
             idArrs[i] = Integer.parseInt(value[i]);
-
         }
-        userIntroductionApplication.removeUserIntroductions(idArrs);
+        rePhotoUserOwnApplication.removeRePhotoUserOwns(idArrs);
         result.put("result", "success");
         return result;
     }
@@ -75,7 +73,7 @@ public class UserIntroductionController {
     @RequestMapping("/get/{id}")
     public Map<String, Object> get(@PathVariable Integer id) {
         Map<String, Object> result = new HashMap<String, Object>();
-        result.put("data", userIntroductionApplication.getUserIntroduction(id));
+        result.put("data", rePhotoUserOwnApplication.getRePhotoUserOwn(id));
         return result;
     }
 

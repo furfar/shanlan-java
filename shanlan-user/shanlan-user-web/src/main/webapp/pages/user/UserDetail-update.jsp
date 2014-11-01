@@ -34,17 +34,17 @@
 					class="form-control" type="text" id="realNameID" />
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group" style="display: none">
 			<label class="col-lg-3 control-label">photoId:</label>
 			<div class="col-lg-9">
-				<input name="photoId" style="display: inline; width: 94%;"
+				<input name="photoId" style="display: none; width: 94%;"
 					class="form-control" type="text" id="photoIdID" />
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group" style="display: none">
 			<label class="col-lg-3 control-label">photoPath:</label>
 			<div class="col-lg-9">
-				<input name="photoPath" style="display: inline; width: 94%;"
+				<input name="photoPath" style="display: none; width: 94%;"
 					class="form-control" type="text" id="photoPathID" />
 			</div>
 		</div>

@@ -244,76 +244,78 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
                 jpql.append(" and _user.userName like ?");
                 conditionVals.add(MessageFormat.format("%{0}%", queryVo.getUserName()));
             }
-
-
-            if (queryVo.getRealName() != null && !"".equals(queryVo.getRealName())) {
-                jpql.append(" and _user.realName like ?");
-                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getRealName()));
-            }
-            if (queryVo.getPhotoId() != null) {
-                jpql.append(" and _user.photoId=?");
-                conditionVals.add(queryVo.getPhotoId());
-            }
-
-
-            if (queryVo.getPhotoPath() != null && !"".equals(queryVo.getPhotoPath())) {
-                jpql.append(" and _user.photoPath like ?");
-                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getPhotoPath()));
-            }
-            if (queryVo.getCityId() != null) {
-                jpql.append(" and _user.cityId=?");
-                conditionVals.add(queryVo.getCityId());
-            }
-
-
-            if (queryVo.getMobile() != null && !"".equals(queryVo.getMobile())) {
-                jpql.append(" and _user.mobile like ?");
-                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getMobile()));
-            }
-
-            if (queryVo.getQq() != null && !"".equals(queryVo.getQq())) {
-                jpql.append(" and _user.qq like ?");
-                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getQq()));
-            }
-
-            if (queryVo.getWebchart() != null && !"".equals(queryVo.getWebchart())) {
-                jpql.append(" and _user.webchart like ?");
-                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getWebchart()));
-            }
-
-            if (queryVo.getAlipay() != null && !"".equals(queryVo.getAlipay())) {
-                jpql.append(" and _user.alipay like ?");
-                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getAlipay()));
-            }
-            if (queryVo.getTradeTimes() != null) {
-                jpql.append(" and _user.tradeTimes=?");
-                conditionVals.add(queryVo.getTradeTimes());
-            }
-
-            if (queryVo.getActiveness() != null) {
-                jpql.append(" and _user.activeness=?");
-                conditionVals.add(queryVo.getActiveness());
-            }
-
-            if (queryVo.getPhotoCount() != null) {
-                jpql.append(" and _user.photoCount=?");
-                conditionVals.add(queryVo.getPhotoCount());
-            }
-
-
             if (queryVo.getType() != null && !"".equals(queryVo.getType())) {
                 jpql.append(" and _user.type like ?");
                 conditionVals.add(MessageFormat.format("%{0}%", queryVo.getType()));
             }
-
-            if (queryVo.getOther() != null && !"".equals(queryVo.getOther())) {
-                jpql.append(" and _user.other like ?");
-                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getOther()));
-            }
         } else {
             jpql.append(" and _user.userName = ?");
             conditionVals.add(userName);
+
+            UserDetail userDetail=UserDetail.get(userName);
+            jpql.append(" and _user.type = ?");
+            conditionVals.add(userDetail.getType());
         }
+
+        if (queryVo.getRealName() != null && !"".equals(queryVo.getRealName())) {
+            jpql.append(" and _user.realName like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getRealName()));
+        }
+        if (queryVo.getPhotoId() != null) {
+            jpql.append(" and _user.photoId=?");
+            conditionVals.add(queryVo.getPhotoId());
+        }
+
+
+        if (queryVo.getPhotoPath() != null && !"".equals(queryVo.getPhotoPath())) {
+            jpql.append(" and _user.photoPath like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getPhotoPath()));
+        }
+        if (queryVo.getCityId() != null) {
+            jpql.append(" and _user.cityId=?");
+            conditionVals.add(queryVo.getCityId());
+        }
+
+
+        if (queryVo.getMobile() != null && !"".equals(queryVo.getMobile())) {
+            jpql.append(" and _user.mobile like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getMobile()));
+        }
+
+        if (queryVo.getQq() != null && !"".equals(queryVo.getQq())) {
+            jpql.append(" and _user.qq like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getQq()));
+        }
+
+        if (queryVo.getWebchart() != null && !"".equals(queryVo.getWebchart())) {
+            jpql.append(" and _user.webchart like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getWebchart()));
+        }
+
+        if (queryVo.getAlipay() != null && !"".equals(queryVo.getAlipay())) {
+            jpql.append(" and _user.alipay like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getAlipay()));
+        }
+        if (queryVo.getTradeTimes() != null) {
+            jpql.append(" and _user.tradeTimes=?");
+            conditionVals.add(queryVo.getTradeTimes());
+        }
+
+        if (queryVo.getActiveness() != null) {
+            jpql.append(" and _user.activeness=?");
+            conditionVals.add(queryVo.getActiveness());
+        }
+
+        if (queryVo.getPhotoCount() != null) {
+            jpql.append(" and _user.photoCount=?");
+            conditionVals.add(queryVo.getPhotoCount());
+        }
+
+        if (queryVo.getOther() != null && !"".equals(queryVo.getOther())) {
+            jpql.append(" and _user.other like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getOther()));
+        }
+
 
         Page<UserDetail> pages = getQueryChannelService().createJpqlQuery(jpql.toString()).setParameters(conditionVals).setPage(currentPage, pageSize).pagedList();
         for (UserDetail userDetail : pages.getData()) {
