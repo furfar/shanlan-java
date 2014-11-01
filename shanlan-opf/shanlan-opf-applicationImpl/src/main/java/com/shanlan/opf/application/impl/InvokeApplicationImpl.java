@@ -86,7 +86,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
             throws Exception {
         logger.info("Service:" + service + " Param:" + param);
         Map<String, String> paramMap = JSONObject.parseObject(param, Map.class);
-
+        sessionId="123456";
         String businessResult = "";
         if (service.equals("User.login")) {
             UserDetailDTO userDetailDTO = userDetailApplication.login(paramMap.get("userAccount"),

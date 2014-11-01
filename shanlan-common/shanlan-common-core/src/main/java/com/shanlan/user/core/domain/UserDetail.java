@@ -279,6 +279,11 @@ public class UserDetail extends KoalaLegacyEntity {
         this.gender = gender;
     }
 
+    public static void saveInCache(String key, UserDetail userDetail) {
+        String value = JSONObject.toJSONString(userDetail);
+        getUserDetailRepository().saveInCache(key, value, 60);
+    }
+
 
     public enum Type {
         COMMON, PHOTOGRAPHER, MODEL
@@ -379,7 +384,6 @@ public class UserDetail extends KoalaLegacyEntity {
 //            return null;
 //        }
     }
-
 
 
     public static UserDetailRepository getUserDetailRepository() {

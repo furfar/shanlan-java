@@ -139,14 +139,14 @@
                    class="form-control" type="text" id="photoCountID"/>
         </div>
     </div>
-    <div class="form-group" style="display: none">
-        <label class="col-lg-3 control-label">other:</label>
+    <%--<div class="form-group" style="display: none">--%>
+    <%--<label class="col-lg-3 control-label">other:</label>--%>
 
-        <div class="col-lg-9">
-            <input name="other" style="display: inline; width: 94%;"
-                   class="form-control" type="text" id="otherID"/>
-        </div>
-    </div>
+    <%--<div class="col-lg-9">--%>
+    <%--<input name="other" style="display: inline; width: 94%;"--%>
+    <%--class="form-control" type="text" id="otherID"/>--%>
+    <%--</div>--%>
+    <%--</div>--%>
     <div class="form-group">
         <label class="col-lg-3 control-label">type:</label>
 
@@ -177,7 +177,8 @@
 
         <div class="col-lg-9">
             <div class="btn-group select" id="serviceStatusID"></div>
-            <input type="hidden" id="serviceStatusID_" name="serviceStatusAsString"/></div>
+            <input type="hidden" id="serviceStatusID_" name="serviceStatus"/>
+        </div>
     </div>
     <div class="form-group" style="display: none">
         <label class="col-lg-3 control-label">other:</label>

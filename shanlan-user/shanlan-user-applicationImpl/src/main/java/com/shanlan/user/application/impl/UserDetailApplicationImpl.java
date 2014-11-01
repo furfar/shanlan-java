@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.shanlan.common.constant.ConstantString;
 import com.shanlan.common.exception.business.ParameterInvalidException;
 import com.shanlan.common.util.EncryptUtil;
 import com.shanlan.common.util.ImageUploadUtil;
@@ -401,7 +402,9 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
             Photo.updateFilePath(userDetail.getPhotoId(), storeFilePath);
             //前面一步成功后再更新用户数据
             userDetail.setPhotoPath(storeFilePath);
-            userDetail.save();
+//            userDetail.save();
+
+            UserService.updateDateBaseAndCache(ConstantString.REDIS_KEY_PREFIX_SESSION+sessionId,userDetail);
             return storeFilePath;
         }
         return null;
@@ -413,7 +416,7 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
     public UserDetailDTO login(String userAccount, String password, String sessionId) throws Exception {
         UserDetail userDetail = UserService.login(userAccount, password);
         if (userDetail != null) {
-//            UserDetail.saveInCache(ConstantString.REDIS_KEY_PREFIX_SESSION + sessionId, userDetail);
+            UserDetail.saveInCache(ConstantString.REDIS_KEY_PREFIX_SESSION + sessionId, userDetail);
             UserDetailDTO userDetailDTO = new UserDetailDTO();
             BeanUtils.copyProperties(userDetailDTO, userDetail);
             return userDetailDTO;

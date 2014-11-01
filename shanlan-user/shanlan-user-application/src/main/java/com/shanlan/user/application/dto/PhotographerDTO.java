@@ -13,8 +13,6 @@ public class PhotographerDTO extends UserDetailDTO implements Serializable {
 
     private Integer serviceStatus;
 
-    private String serviceStatusAsString;
-
     private Integer evaluationTimes;
 
     private String verifyType;
@@ -44,14 +42,6 @@ public class PhotographerDTO extends UserDetailDTO implements Serializable {
 
     public void setServiceStatus(Integer serviceStatus) {
         this.serviceStatus = serviceStatus;
-    }
-
-    public String getServiceStatusAsString() {
-        return this.serviceStatusAsString;
-    }
-
-    public void setServiceStatusAsString(String serviceStatus) {
-        this.serviceStatusAsString = serviceStatus;
     }
 
 

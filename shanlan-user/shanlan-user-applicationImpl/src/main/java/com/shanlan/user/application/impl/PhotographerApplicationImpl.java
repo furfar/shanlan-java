@@ -36,13 +36,13 @@ public class PhotographerApplicationImpl implements PhotographerApplication {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public PhotographerDTO getPhotographer(Integer id) {
-        UserDetail userDetail=UserDetail.get(UserDetail.class,id);
+        UserDetail userDetail = UserDetail.get(UserDetail.class, id);
         Photographer photographer = Photographer.get(userDetail.getUserName());
         PhotographerDTO photographerDTO = new PhotographerDTO();
         // 将domain转成VO
         try {
             BeanUtils.copyProperties(photographerDTO, photographer);
-            BeanUtils.copyProperties(photographerDTO,userDetail);
+            BeanUtils.copyProperties(photographerDTO, userDetail);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +80,7 @@ public class PhotographerApplicationImpl implements PhotographerApplication {
     }
 
     public void updatePhotographer(PhotographerDTO photographerDTO) {
-        Photographer photographer = Photographer.get(Photographer.class, photographerDTO.getId());
+        Photographer photographer = Photographer.get(photographerDTO.getUserName());
         // 设置要更新的值
         try {
             BeanUtils.copyProperties(photographer, photographerDTO);
@@ -95,7 +95,9 @@ public class PhotographerApplicationImpl implements PhotographerApplication {
 
     public void removePhotographers(Integer[] ids) {
         for (int i = 0; i < ids.length; i++) {
-            Photographer photographer = Photographer.load(Photographer.class, ids[i]);
+            UserDetail userDetail = UserDetail.get(UserDetail.class, ids[i]);
+            String userName = userDetail.getUserName();
+            Photographer photographer = Photographer.get(userName);
             photographer.remove();
         }
     }
