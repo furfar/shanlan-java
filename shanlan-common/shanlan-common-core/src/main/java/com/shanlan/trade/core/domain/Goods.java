@@ -14,8 +14,6 @@ import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
  */
 @Entity
 @Table(name = "goods")
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(name="type")
 public class Goods extends KoalaLegacyEntity {
 
 	private static final long serialVersionUID = 1L;

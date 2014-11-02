@@ -41,6 +41,7 @@ $(function () {
             return grid.grid({
                 identity: "id",
                 buttons: [
+                    {content: '<p:hasRole ifAllRoles="Admin"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-plus"><span>添加</button></p:hasRole>', action: 'add'},
                     {content: '<button class="btn btn-success" type="button"><span class="glyphicon glyphicon-edit"><span>修改</button>', action: 'modify'},
                     {content: '<button class="btn btn-danger" type="button"><span class="glyphicon glyphicon-remove"><span>删除</button>', action: 'delete'}
                 ],
@@ -284,6 +285,7 @@ var openDetailsPage = function (id) {
                     </div>
                     <div class="form-group">
                         <label class="control-label" style="width:100px;float:left;">title:&nbsp;</label>
+
                         <div style="margin-left:15px;float:left;">
                             <input name="title" class="form-control" type="text" style="width:180px;" id="titleID"/>
                         </div>

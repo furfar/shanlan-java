@@ -13,26 +13,22 @@ import java.util.List;
  */
 @Entity
 @Table(name = "photo_packages")
-@PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
-@DiscriminatorColumn(name = "PHOTO_PACKAGES")
 public class PhotoPackages extends Goods {
 
     private static final long serialVersionUID = 1L;
 
 
-//	/**
-//	 *
-//	 * 主键
-//	 *
-//	 **/
-//
-//	@Id
-//	@Column(name = "id")
-//	@GeneratedValue(strategy = GenerationType.AUTO)
-//	private int id;
+    /**
+     * 主键
+     */
 
-//	@Column(name = "goods_id")
-//	private int goodsId;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @Column(name = "goods_id")
+    private int goodsId;
 
 
     @Basic
@@ -55,17 +51,17 @@ public class PhotoPackages extends Goods {
     @Column(name = "other")
     private String other;
 
-//	public void setId(Integer id) {
-//		this.id = id;
-//	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-//	public int getGoodsId() {
-//		return goodsId;
-//	}
-//
-//	public void setGoodsId(int goodsId) {
-//		this.goodsId = goodsId;
-//	}
+    public int getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(int goodsId) {
+        this.goodsId = goodsId;
+    }
 
     public String getPhotographer() {
         return photographer;
@@ -148,7 +144,6 @@ public class PhotoPackages extends Goods {
         }
         return photoPackagesList;
     }
-
 
 
 }
