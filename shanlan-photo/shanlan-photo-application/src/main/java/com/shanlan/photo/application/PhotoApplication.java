@@ -47,16 +47,6 @@ public interface PhotoApplication {
      * @return
      * @throws Exception
      */
-    String uploadPhoto(String originalFileName, byte[] bytes, String contentType, String userName,Integer photoCollectionId) throws Exception;
+    String uploadPhoto(String originalFileName, byte[] bytes, String contentType, String userName,Integer photoCollectionId,long fileSize) throws Exception;
 
-    /**
-     * 批量上传照片
-     * @param originalFileNameList
-     * @param imageBytesList
-     * @param contentTypeList
-     * @param userName
-     * @param photoCollectionId
-     * @return
-     */
-    boolean uploadPhotos(List<String> originalFileNameList, List<byte[]> imageBytesList, List<String> contentTypeList, String userName, Integer photoCollectionId) throws Exception;
 }

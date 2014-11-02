@@ -15,4 +15,6 @@ public class ConstantNumber {
 
     
 	public static final int FLAG_SUCCESS = 200;
+
+    public static long FILE_SIZE_M=1024*1024;
 }

@@ -4,77 +4,87 @@ import java.io.Serializable;
 
 public class PhotoDTO implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5716137194179265829L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -5716137194179265829L;
 
-	private Integer id;
+    private Integer id;
 
-	private String other;
+    private String other;
 
     private String md5;
 
-	private Integer likeCount;
+    private Integer likeCount;
 
-	private String filePath;
+    private String filePath;
 
-	private Integer size;
+    private String createdAt;
+
+    private Integer size;
 
     public PhotoDTO() {
     }
 
-	public PhotoDTO(int photoId, String photoPath) {
-		this.id = photoId;
-		this.filePath = photoPath;
-        this.likeCount=0;
-	}
-
-    public PhotoDTO(String filePath,String md5){
-        this.filePath = filePath;
-        this.md5=md5;
-        this.likeCount=0;
+    public PhotoDTO(int photoId, String photoPath) {
+        this.id = photoId;
+        this.filePath = photoPath;
+        this.likeCount = 0;
     }
 
-	public void setOther(String other) {
-		this.other = other;
-	}
+    public PhotoDTO(String filePath, String md5) {
+        this.filePath = filePath;
+        this.md5 = md5;
+        this.likeCount = 0;
+    }
 
-	public String getOther() {
-		return this.other;
-	}
+    public void setOther(String other) {
+        this.other = other;
+    }
 
-	public void setLikeCount(Integer likeCount) {
-		this.likeCount = likeCount;
-	}
+    public String getOther() {
+        return this.other;
+    }
 
-	public Integer getLikeCount() {
-		return this.likeCount;
-	}
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
+    }
 
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
+    public Integer getLikeCount() {
+        return this.likeCount;
+    }
 
-	public String getFilePath() {
-		return this.filePath;
-	}
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 
-	public void setSize(Integer size) {
-		this.size = size;
-	}
+    public String getFilePath() {
+        return this.filePath;
+    }
 
-	public Integer getSize() {
-		return this.size;
-	}
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public void setSize(Integer size) {
+        this.size = size;
+    }
+
+    public Integer getSize() {
+        return this.size;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
 
     public String getMd5() {
         return md5;
@@ -85,27 +95,27 @@ public class PhotoDTO implements Serializable {
     }
 
     @Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PhotoDTO other = (PhotoDTO) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PhotoDTO other = (PhotoDTO) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
 }

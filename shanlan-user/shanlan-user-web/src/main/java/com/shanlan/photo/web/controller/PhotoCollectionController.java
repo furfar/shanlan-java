@@ -111,6 +111,7 @@ public class PhotoCollectionController {
 
             for (FileItem fileItem : fileItemList) {
                 String originalFileName = fileItem.getName();
+                long fileSize=fileItem.getSize();
                 if (StringUtils.isBlank(originalFileName)) {//如果文件名为空，说明没有上传文件，则跳过。
                     continue;
                 }
@@ -124,7 +125,7 @@ public class PhotoCollectionController {
                     result.put("false", "暂时不支持" + originalFileName + "这种类型的文件,请重新上传");
                     return result;
                 }
-                photoApplication.uploadPhoto(originalFileName, bytes, contentType, userName, photoCollectionId);
+                photoApplication.uploadPhoto(originalFileName, bytes, contentType, userName, photoCollectionId,fileSize);
             }
             //照片上传成功后，更新照片集中照片数量
             photoCollectionApplication.updatePhotoCount(photoCollectionId);

@@ -246,10 +246,10 @@ public class FileUtil {
 		}
 	}
 	
-	public static void rename(String path, String npath) {
+	public static void rename(String path, String newPath) {
 		final File file = new File(path);
 		if (file.exists()) {
-			file.renameTo(new File(npath));
+			file.renameTo(new File(newPath));
 		}
 	}
 	

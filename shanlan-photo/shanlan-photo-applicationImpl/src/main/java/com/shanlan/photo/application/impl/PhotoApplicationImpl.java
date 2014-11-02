@@ -1,17 +1,17 @@
 package com.shanlan.photo.application.impl;
 
-import java.text.MessageFormat;
-import java.util.*;
-import java.util.List;
-
-import javax.inject.Named;
-
+import com.shanlan.common.constant.ConstantNumber;
 import com.shanlan.common.exception.sub.business.RequestParameterException;
 import com.shanlan.common.util.DateUtil;
 import com.shanlan.common.util.EncryptUtil;
 import com.shanlan.common.util.EntityUtil;
 import com.shanlan.common.util.ImageUploadUtil;
+import com.shanlan.photo.application.PhotoApplication;
+import com.shanlan.photo.application.dto.PhotoDTO;
+import com.shanlan.photo.core.domain.Photo;
 import com.shanlan.photo.core.domain.RePhotoCollectionPhoto;
+import com.shanlan.photo.core.domain.RePhotoUserOwn;
+import com.shanlan.photo.core.service.PhotoService;
 import com.shanlan.trade.core.domain.ReTradePhoto;
 import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.service.UserService;
@@ -25,10 +25,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shanlan.photo.application.PhotoApplication;
-import com.shanlan.photo.application.dto.PhotoDTO;
-import com.shanlan.photo.core.domain.Photo;
-import com.shanlan.photo.core.domain.RePhotoUserOwn;
+import javax.inject.Named;
+import java.text.MessageFormat;
+import java.util.*;
 
 @Named
 @Transactional
@@ -222,8 +221,8 @@ public class PhotoApplicationImpl implements PhotoApplication {
 
     @Override
     public String uploadPhoto(String originalFileName, byte[] bytes,
-                              String contentType, String userName, Integer photoCollectionId)
-            throws Exception {
+                              String contentType, String userName, Integer photoCollectionId,
+                              long fileSize) throws Exception {
         Integer photoId = null;
         String photoPath = "";
         String imageMd5 = EncryptUtil.getMD5DigestInBytes(bytes);
@@ -234,28 +233,30 @@ public class PhotoApplicationImpl implements PhotoApplication {
         if (photo != null) {
             photoId = photo.getId();
             photoPath = photo.getFilePath();
+            logger.info("Find a exist Photo id:" + photoId + " PhotoPath:" + photoPath);
         } else {
-            //上传原始文件
+            // 上传原始文件
             String originalStorePath = ImageUploadUtil.saveSelfUploadImage(
                     originalFileName, bytes);
-
-            //将文件按80%比例压缩
             String extensionName = FilenameUtils.getExtension(originalFileName);
-            Float compressRate = 80f;
 
-            String compressFilePath = ImageUploadUtil.appendImageCompressPostfix(originalStorePath, extensionName, compressRate.intValue());
-            ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, (float) (compressRate * 0.01), 1);
+            // 按文件大小等比例压缩照片
+            float compressQuantity = 1;
+            PhotoService.compressImageConstrainByFileSize(originalStorePath,
+                    compressQuantity, fileSize);
 
-            //生成一个400*400的缩略图
-            Integer destWidth = 400;
-            Integer destHeight = 400;
-            String thumbnailFilePath = ImageUploadUtil.appendImageThumbnailPostfix(originalStorePath, extensionName, destWidth, destHeight);
-            ImageUploadUtil.compressWidthHeightImageFile(originalStorePath, thumbnailFilePath, destWidth, destHeight, 1);
+            // 生成一个600*600的缩略图
+            Integer destLength = 600;
+            String thumbnailFilePath = ImageUploadUtil
+                    .appendImageThumbnailPostfix(originalStorePath,
+                            extensionName, destLength, destLength);
+            PhotoService.createSquareThumbnail(originalStorePath,
+                    thumbnailFilePath, destLength);
 
-            //将原始存储地址加一个占位符存储起来
-            photoPath = ImageUploadUtil
-                    .appendImageSizePlaceHolder(originalStorePath,
-                            FilenameUtils.getExtension(originalFileName));
+            // 将原始存储地址加一个占位符
+            photoPath = ImageUploadUtil.appendImageSizePlaceHolder(
+                    originalStorePath,
+                    FilenameUtils.getExtension(originalFileName));
             photoPath = ImageUploadUtil.removeImageBasePath(photoPath);
             Photo newPhoto = new Photo(photoPath, imageMd5);
             newPhoto.save();
@@ -267,78 +268,18 @@ public class PhotoApplicationImpl implements PhotoApplication {
         rePhotoUserOwn.setPhotoId(photoId);
         rePhotoUserOwn.setPhotoPath(photoPath);
         rePhotoUserOwn.setUserName(userName);
-        rePhotoUserOwn.setCreatedAt(DateUtil.getNow(DateUtil.format_yyyyMMdd_HHmmss));
+        rePhotoUserOwn.setCreatedAt(DateUtil
+                .getNow(DateUtil.format_yyyyMMdd_HHmmss));
         rePhotoUserOwn.setVisibility(RePhotoUserOwn.Visibility.PRIVATE
                 .ordinal());
         rePhotoUserOwn.save();
 
         // 关联re_photo_user_own表与re_photo_collection_photo表
-        RePhotoCollectionPhoto rePhotoCollectionPhoto = new RePhotoCollectionPhoto(rePhotoUserOwn.getId(), photoCollectionId);
+        RePhotoCollectionPhoto rePhotoCollectionPhoto = new RePhotoCollectionPhoto(
+                rePhotoUserOwn.getId(), photoCollectionId);
         rePhotoCollectionPhoto.save();
 
         return photoPath;
-    }
-
-    /**
-     * 批量上传照片
-     *
-     * @param originalFileNameList
-     * @param imageBytesList
-     * @param contentTypeList
-     * @param userName
-     * @param photoCollectionId
-     * @return
-     */
-    @Override
-    public boolean uploadPhotos(List<String> originalFileNameList,
-                                List<byte[]> imageBytesList, List<String> contentTypeList,
-                                String userName, Integer photoCollectionId) throws Exception {
-
-//		Integer photoId = null;
-//		String photoPath = "";
-//		List<String> imageMd5List = EncryptUtil
-//				.getMD5DigestListInBytes(imageBytesList);
-//		// 通过md5值查询该图片是否已经上传过，如果已经上传过，则直接返回存储路径。
-//		Map<String, Photo> md5AndSelfMap = Photo.getMd5AndSelfMap(imageMd5List);
-//		Photo photo = md5AndSelfMap.get(imageMd5);
-//		if (photo != null) {
-//			photoId = photo.getId();
-//			photoPath = photo.getFilePath();
-//		} else {
-//			boolean validateResult = ImageUploadUtil
-//					.validateImageType(contentType);
-//			if (validateResult) {
-//				String storePath = ImageUploadUtil.saveSelfUploadImage(
-//						originalFileName, bytes);
-//				photoPath = ImageUploadUtil
-//						.appendImageSizePlaceHolder(storePath,
-//								FilenameUtils.getExtension(originalFileName));
-//				Photo newPhoto = new Photo(photoPath, imageMd5);
-//				newPhoto.save();
-//				photoId = newPhoto.getId();
-//			}
-//		}
-//
-//		// 往re_photo_user_own表中添加记录
-//		RePhotoUserOwn rePhotoUserOwn = new RePhotoUserOwn();
-//		rePhotoUserOwn.setPhotoId(photoId);
-//		rePhotoUserOwn.setPhotoPath(photoPath);
-//		rePhotoUserOwn.setUserName(userName);
-//		rePhotoUserOwn.setCreatedAt(DateUtil.getNow(DateUtil.format_yyyyMMdd_HHmmss));
-//		rePhotoUserOwn.setVisibility(RePhotoUserOwn.Visibility.PRIVATE
-//				.ordinal());
-//		rePhotoUserOwn.save();
-//
-//		// 关联re_photo_user_own表与re_photo_collection_photo表
-//		RePhotoCollectionPhoto rePhotoCollectionPhoto = new RePhotoCollectionPhoto(
-//				photoCollectionId, rePhotoUserOwn.getId());
-//		rePhotoCollectionPhoto.save();
-//
-//		// 更新photo_collection中photoCount数量
-//
-//		return photoPath;
-
-        return false;
     }
 
 }

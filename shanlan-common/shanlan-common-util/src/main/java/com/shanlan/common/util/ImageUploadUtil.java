@@ -114,20 +114,21 @@ public class ImageUploadUtil {
     // + IMAGE_TYPE_PHOTO + "/";
 
     /**
-     * @param srcImageFile
-     * @param x
-     * @param y
-     * @param destWidth
-     * @param destHeight
+     * @param srcImageFilePath 被裁剪源图片的存储地址
+     * @param cutImageFilePath 裁剪完后图片存储地址
+     * @param x                裁剪位置的x轴
+     * @param y                裁剪位置的y轴
+     * @param destWidth        目标图片的宽度
+     * @param destHeight       目标图片的高度
      * @return
      */
-    public static String cutImage(String srcImageFile, int x, int y,
-                                  int destWidth, int destHeight) {
+    public static void cutImage(String srcImageFilePath, String cutImageFilePath, int x, int y,
+                                int destWidth, int destHeight) {
         try {
             Image cutImage;
             ImageFilter cropFilter;
             // 读取源图像
-            File srcFile = new File(srcImageFile);
+            File srcFile = new File(srcImageFilePath);
 
             BufferedImage sourceBufferedImage = ImageIO.read(srcFile);
             int srcWidth = sourceBufferedImage.getWidth(); // 源图宽度
@@ -146,23 +147,61 @@ public class ImageUploadUtil {
             graphics.drawImage(cutImage, 0, 0, null); // 绘制截取后的图
             graphics.dispose();
 
-            String extensionName = FilenameUtils.getExtension(srcImageFile);
-
-            // 新的文件名会在原文件名的后面加上一个图像大小占位符，比如原文件名为fff.jpg则新文件名为fffX_X.jpg
-            String newImageFile = appendImageSizePostfix(srcImageFile,
-                    extensionName, destWidth, destHeight);
-
-            File destImageFile = new File(newImageFile);
+            File destImageFile = new File(cutImageFilePath);
 
             // 输出为文件
-            ImageIO.write(cutBufferedImage, extensionName, destImageFile);
+            ImageIO.write(cutBufferedImage, FilenameUtils.getExtension(srcImageFilePath), destImageFile);
 
-            return newImageFile;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
-        return null;
     }
+
+
+    /**
+     * 将原图片裁剪成一个正文开图片
+     *
+     * @param srcImageFilePath 被裁剪源图片的存储地址
+     * @param cutImageFilePath 裁剪完后图片存储地址
+     * @return
+     */
+    public static void cutSquareImage(String srcImageFilePath, String cutImageFilePath) {
+        try {
+            Image cutImage;
+            ImageFilter cropFilter;
+            // 读取源图像
+            File srcFile = new File(srcImageFilePath);
+
+            BufferedImage sourceBufferedImage = ImageIO.read(srcFile);
+            int srcWidth = sourceBufferedImage.getWidth(); // 源图宽度
+            int srcHeight = sourceBufferedImage.getHeight(); // 源图高度
+
+            //正方形图片的边长
+            int length = srcWidth >= srcHeight ? srcHeight : srcWidth;
+
+            Image compressedImage = sourceBufferedImage.getScaledInstance(
+                    srcWidth, srcHeight, Image.SCALE_DEFAULT);
+            cropFilter = new CropImageFilter(0, 0, length, length);
+            cutImage = Toolkit.getDefaultToolkit().createImage(
+                    new FilteredImageSource(compressedImage.getSource(),
+                            cropFilter)
+            );
+            BufferedImage cutBufferedImage = new BufferedImage(length,
+                    length, BufferedImage.TYPE_INT_RGB);
+            Graphics graphics = cutBufferedImage.getGraphics();
+            graphics.drawImage(cutImage, 0, 0, null); // 绘制截取后的图
+            graphics.dispose();
+
+            File destImageFile = new File(cutImageFilePath);
+
+            // 输出为文件
+            ImageIO.write(cutBufferedImage, FilenameUtils.getExtension(srcImageFilePath), destImageFile);
+
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
+
 
     /**
      * 在输入文件名后面加上一个图像大小后缀，比如原文件名为fff.jpg规格为200，则新文件名为fff200_200.jpg
@@ -184,19 +223,34 @@ public class ImageUploadUtil {
 
 
     /**
+     * 添加图片压缩后缀，包括压缩比例
+     *
      * @param srcImageFile
      * @param extensionName
      * @param compressRate  压缩比例，如果压缩比例为80%,则填写80
      * @return
      */
     public static String appendImageCompressPostfix(String srcImageFile,
-                                                    String extensionName, Integer compressRate) {
+                                                    String extensionName, String compressRate) {
         String periodAndExtensionName = ConstantPunctuation.PERIOD
                 + extensionName;
         String newImageFile = srcImageFile.replace(periodAndExtensionName, "")
                 + (IMAGE_PHOTO_FILE_POSTFIX_COMPRESS + compressRate)
                 + periodAndExtensionName;
         return newImageFile;
+    }
+
+
+    /**
+     * 添加图片压缩后缀，不包括压缩比例
+     *
+     * @param srcImageFile
+     * @param extensionName
+     * @return
+     */
+    public static String appendImageCompressPostfix(String srcImageFile,
+                                                    String extensionName) {
+        return appendImageCompressPostfix(srcImageFile, extensionName, "");
     }
 
 
@@ -212,7 +266,7 @@ public class ImageUploadUtil {
         String periodAndExtensionName = ConstantPunctuation.PERIOD
                 + extensionName;
         String newImageFile = srcImageFile.replace(periodAndExtensionName, "")
-                + (ConstantPunctuation.UNDERLINE + IMAGE_PHOTO_FILE_POSTFIX_THUMBNAIL
+                + (IMAGE_PHOTO_FILE_POSTFIX_THUMBNAIL
                 + ConstantPunctuation.UNDERLINE + destWidth + ConstantPunctuation.UNDERLINE + destHeight)
                 + periodAndExtensionName;
         return newImageFile;
@@ -360,6 +414,7 @@ public class ImageUploadUtil {
         return absolutePath;
 
     }
+
 
     /**
      * 等比例压缩图片文件<br>

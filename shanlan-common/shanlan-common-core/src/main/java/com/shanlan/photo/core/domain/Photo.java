@@ -1,5 +1,6 @@
 package com.shanlan.photo.core.domain;
 
+import com.shanlan.common.util.DateUtil;
 import com.shanlan.common.util.JPQLUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.dayatang.domain.JpqlQuery;
@@ -43,16 +44,20 @@ public class Photo extends KoalaLegacyEntity {
     @Column(name = "like_count")
     private int likeCount;
 
+    @Column(name = "created_at")
+    private String createdAt;
+
     @Column(name = "other")
     private String other;
 
-    public Photo(){
+    public Photo() {
 
     }
 
-    public Photo(String filePath,String md5){
-        this.filePath=filePath;
-        this.md5=md5;
+    public Photo(String filePath, String md5) {
+        this.filePath = filePath;
+        this.md5 = md5;
+        this.createdAt = DateUtil.getNow(DateUtil.format_yyyyMMdd_HHmmss);
     }
 
 
@@ -94,6 +99,14 @@ public class Photo extends KoalaLegacyEntity {
 
     public void setMd5(String md5) {
         this.md5 = md5;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public int getLikeCount() {
