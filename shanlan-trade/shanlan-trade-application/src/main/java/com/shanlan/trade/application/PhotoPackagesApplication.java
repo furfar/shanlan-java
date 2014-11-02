@@ -1,7 +1,6 @@
 
 package com.shanlan.trade.application;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.dayatang.querychannel.Page;

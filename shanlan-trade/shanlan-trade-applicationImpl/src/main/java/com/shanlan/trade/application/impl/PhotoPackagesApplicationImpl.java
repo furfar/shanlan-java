@@ -173,7 +173,6 @@ public class PhotoPackagesApplicationImpl implements PhotoPackagesApplication {
                 if (rePhotoType != null && photoType.equals(rePhotoType.getTypeName())) {
                     PhotoPackagesDTO photoPackagesDTO = new PhotoPackagesDTO();
                     BeanUtils.copyProperties(photoPackagesDTO, photoPackages);
-                    photoPackagesDTO.setPhotoType(rePhotoType.getTypeName());
                     photoPackagesDTOs.add(photoPackagesDTO);
                 }
             }

@@ -109,7 +109,7 @@ public class GoodsApplicationImpl implements GoodsApplication {
 	   	}		
 	
 	   	if (queryVo.getDescription() != null && !"".equals(queryVo.getDescription())) {
-	   		jpql.append(" and _goods.descripton like ?");
+	   		jpql.append(" and _goods.description like ?");
 	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getDescription()));
 	   	}		
 	   	if (queryVo.getPrice() != null) {
@@ -152,6 +152,11 @@ public class GoodsApplicationImpl implements GoodsApplication {
 	   		conditionVals.add(queryVo.getInvalidDateEnd());
 	   	}	
 	
+	   	if (queryVo.getAddress() != null && !"".equals(queryVo.getAddress())) {
+	   		jpql.append(" and _goods.address like ?");
+	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getAddress()));
+	   	}		
+	
 	   	if (queryVo.getOther() != null && !"".equals(queryVo.getOther())) {
 	   		jpql.append(" and _goods.other like ?");
 	   		conditionVals.add(MessageFormat.format("%{0}%", queryVo.getOther()));
@@ -167,7 +172,7 @@ public class GoodsApplicationImpl implements GoodsApplication {
             	e.printStackTrace();
             } 
             
-                                                                                                                                                                        result.add(goodsDTO);
+                                                                                                                                                                                       result.add(goodsDTO);
         }
         return new Page<GoodsDTO>(pages.getStart(), pages.getResultCount(), pageSize, result);
 	}

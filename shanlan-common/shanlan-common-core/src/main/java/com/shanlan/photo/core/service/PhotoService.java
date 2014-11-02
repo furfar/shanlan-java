@@ -133,17 +133,14 @@ public class PhotoService {
         } else if (fileSize <= ConstantNumber.FILE_SIZE_M * 3 && fileSize >= ConstantNumber.FILE_SIZE_M * 2) {
             //将文件按80%比例压缩
             Float compressRate = 80f;
-//            String compressFilePath = ImageUploadUtil.appendImageCompressPostfix(originalStorePath, extensionName, compressRate.intValue());
             ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, (float) (compressRate * 0.01), compressQuality);
         } else if (fileSize <= ConstantNumber.FILE_SIZE_M * 4 && fileSize >= ConstantNumber.FILE_SIZE_M * 3) {
             //将文件按70%比例压缩
             Float compressRate = 70f;
-//            String compressFilePath = ImageUploadUtil.appendImageCompressPostfix(originalStorePath, extensionName, compressRate.intValue());
             ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, (float) (compressRate * 0.01), compressQuality);
         } else if (fileSize <= ConstantNumber.FILE_SIZE_M * 5 && fileSize >= ConstantNumber.FILE_SIZE_M * 4) {
             //将文件按60%比例压缩
             Float compressRate = 60f;
-//            String compressFilePath = ImageUploadUtil.appendImageCompressPostfix(originalStorePath, extensionName, compressRate.intValue());
             ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, (float) (compressRate * 0.01), compressQuality);
         }
 

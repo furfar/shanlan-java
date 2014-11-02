@@ -58,6 +58,9 @@ public class Goods extends KoalaLegacyEntity {
 	@Column(name = "invalid_date")
 	private Date invalidDate;
 
+	@Column(name = "address")
+	private String address;
+	
 	@Column(name = "other")
 	private String other;
 
@@ -88,6 +91,17 @@ public class Goods extends KoalaLegacyEntity {
 
 	public float getPrice() {
 		return price;
+	}
+
+	
+	
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public void setPrice(float price) {
