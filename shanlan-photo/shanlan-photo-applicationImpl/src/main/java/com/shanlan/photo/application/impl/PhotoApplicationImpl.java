@@ -237,11 +237,19 @@ public class PhotoApplicationImpl implements PhotoApplication {
 
             // 生成一个600*600的缩略图
             Integer destLength = 600;
-            String thumbnailFilePath = ImageUploadUtil
+            String thumbnail600FilePath = ImageUploadUtil
                     .appendImageThumbnailPostfix(originalStorePath,
                             extensionName, destLength, destLength);
             PhotoService.createSquareThumbnail(originalStorePath,
-                    thumbnailFilePath, destLength);
+                    thumbnail600FilePath, destLength);
+
+            // 生成一个100*100的缩略图
+            Integer dest100Length = 100;
+            String thumbnail100FilePath = ImageUploadUtil
+                    .appendImageThumbnailPostfix(originalStorePath,
+                            extensionName, dest100Length, dest100Length);
+            PhotoService.createSquareThumbnail(originalStorePath,
+                    thumbnail100FilePath, dest100Length);
 
             // 将原始存储地址加一个占位符
             photoPath = ImageUploadUtil.appendImageSizePlaceHolder(
