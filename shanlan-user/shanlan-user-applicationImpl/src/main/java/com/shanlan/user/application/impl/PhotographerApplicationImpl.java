@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import com.shanlan.user.application.dto.UserDetailDTO;
 import com.shanlan.user.core.domain.UserDetail;
 import org.apache.commons.beanutils.BeanUtils;
 import org.dayatang.domain.InstanceFactory;
@@ -169,6 +170,105 @@ public class PhotographerApplicationImpl implements PhotographerApplication {
             result.add(photographerDTO);
         }
         return new Page<PhotographerDTO>(pages.getStart(), pages.getResultCount(), pageSize, result);
+    }
+
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public Page<UserDetailDTO> pageQueryPhotographer(UserDetailDTO queryVo, int currentPage,
+                                                     int pageSize, String userName, boolean isSuper, List<String> roles) {
+        List<UserDetailDTO> result = new ArrayList<UserDetailDTO>();
+        List<Object> conditionVals = new ArrayList<Object>();
+        StringBuilder jpql = new StringBuilder("select _user from UserDetail _user   where 1=1 ");
+
+        jpql.append(" and _user.type = ?");
+        conditionVals.add(UserDetail.Type.PHOTOGRAPHER.name());
+
+
+        if (isSuper || roles.contains("Admin")) {
+            if (queryVo.getUserName() != null && !"".equals(queryVo.getUserName())) {
+                jpql.append(" and _user.userName like ?");
+                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getUserName()));
+            }
+        } else {
+            jpql.append(" and _user.userName = ?");
+            conditionVals.add(userName);
+        }
+
+        if (queryVo.getRealName() != null && !"".equals(queryVo.getRealName())) {
+            jpql.append(" and _user.realName like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getRealName()));
+        }
+        if (queryVo.getPhotoId() != null) {
+            jpql.append(" and _user.photoId=?");
+            conditionVals.add(queryVo.getPhotoId());
+        }
+
+
+        if (queryVo.getPhotoPath() != null && !"".equals(queryVo.getPhotoPath())) {
+            jpql.append(" and _user.photoPath like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getPhotoPath()));
+        }
+        if (queryVo.getCityId() != null) {
+            jpql.append(" and _user.cityId=?");
+            conditionVals.add(queryVo.getCityId());
+        }
+
+
+        if (queryVo.getMobile() != null && !"".equals(queryVo.getMobile())) {
+            jpql.append(" and _user.mobile like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getMobile()));
+        }
+
+        if (queryVo.getQq() != null && !"".equals(queryVo.getQq())) {
+            jpql.append(" and _user.qq like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getQq()));
+        }
+
+        if (queryVo.getWebchart() != null && !"".equals(queryVo.getWebchart())) {
+            jpql.append(" and _user.webchart like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getWebchart()));
+        }
+
+        if (queryVo.getAlipay() != null && !"".equals(queryVo.getAlipay())) {
+            jpql.append(" and _user.alipay like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getAlipay()));
+        }
+        if (queryVo.getTradeTimes() != null) {
+            jpql.append(" and _user.tradeTimes=?");
+            conditionVals.add(queryVo.getTradeTimes());
+        }
+
+        if (queryVo.getActiveness() != null) {
+            jpql.append(" and _user.activeness=?");
+            conditionVals.add(queryVo.getActiveness());
+        }
+
+        if (queryVo.getPhotoCount() != null) {
+            jpql.append(" and _user.photoCount=?");
+            conditionVals.add(queryVo.getPhotoCount());
+        }
+
+        if (queryVo.getOther() != null && !"".equals(queryVo.getOther())) {
+            jpql.append(" and _user.other like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getOther()));
+        }
+
+
+        Page<UserDetail> pages = getQueryChannelService().createJpqlQuery(jpql.toString()).setParameters(conditionVals).setPage(currentPage, pageSize).pagedList();
+        for (UserDetail userDetail : pages.getData()) {
+            UserDetailDTO userDetailDTO = new UserDetailDTO();
+
+            // 将domain转成VO
+            try {
+                BeanUtils.copyProperties(userDetailDTO, userDetail);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            result.add(userDetailDTO);
+        }
+        return new Page<UserDetailDTO>(pages.getStart(), pages.getResultCount(), pageSize, result);
     }
 
 

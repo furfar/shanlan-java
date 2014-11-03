@@ -20,7 +20,8 @@ public interface PhotographerApplication {
 	public List<PhotographerDTO> findAllPhotographer();
 	
 	public Page<PhotographerDTO> pageQueryPhotographer(PhotographerDTO photographer, int currentPage, int pageSize);
-	
 
+    public Page<UserDetailDTO> pageQueryPhotographer(UserDetailDTO queryVo, int currentPage,
+                                             int pageSize, String userName, boolean isSuper, List<String> roles);
 }
 

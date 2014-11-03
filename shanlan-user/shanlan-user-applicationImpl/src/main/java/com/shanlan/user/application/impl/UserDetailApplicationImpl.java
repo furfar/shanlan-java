@@ -234,28 +234,23 @@ public class UserDetailApplicationImpl implements UserDetailApplication {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public Page<UserDetailDTO> pageQueryUser(UserDetailDTO queryVo, int currentPage, int pageSize, String userName, boolean isSuper, List<String> roles) {
+    public Page<UserDetailDTO> pageQueryUser(UserDetailDTO queryVo, int currentPage,
+                                             int pageSize, String userName, boolean isSuper, List<String> roles) {
         List<UserDetailDTO> result = new ArrayList<UserDetailDTO>();
         List<Object> conditionVals = new ArrayList<Object>();
         StringBuilder jpql = new StringBuilder("select _user from UserDetail _user   where 1=1 ");
 
+        jpql.append(" and _user.type = ?");
+        conditionVals.add(UserDetail.Type.COMMON.name());
 
         if (isSuper || roles.contains("Admin")) {
             if (queryVo.getUserName() != null && !"".equals(queryVo.getUserName())) {
                 jpql.append(" and _user.userName like ?");
                 conditionVals.add(MessageFormat.format("%{0}%", queryVo.getUserName()));
             }
-            if (queryVo.getType() != null && !"".equals(queryVo.getType())) {
-                jpql.append(" and _user.type like ?");
-                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getType()));
-            }
         } else {
             jpql.append(" and _user.userName = ?");
             conditionVals.add(userName);
-
-            UserDetail userDetail=UserDetail.get(userName);
-            jpql.append(" and _user.type = ?");
-            conditionVals.add(userDetail.getType());
         }
 
         if (queryVo.getRealName() != null && !"".equals(queryVo.getRealName())) {

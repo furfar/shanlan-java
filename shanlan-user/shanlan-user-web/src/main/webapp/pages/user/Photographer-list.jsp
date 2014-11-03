@@ -84,7 +84,7 @@ $(function () {
                     {content: '<button class="btn btn-success" type="button"><span class="glyphicon glyphicon-edit"><span>修改</button>', action: 'modify'},
                     {content: '<p:hasRole ifAllRoles="Admin"><button class="btn btn-danger" type="button"><span class="glyphicon glyphicon-remove"><span>删除</button></p:hasRole>', action: 'delete'}
                 ],
-                url: "${pageContext.request.contextPath}/UserDetail/pageJson.koala",
+                url: "${pageContext.request.contextPath}/Photographer/pageJson.koala",
                 columns: [
                     { title: '操作', width: 120, render: function (rowdata, name, index) {
                         var param = '"' + rowdata.id + '"';

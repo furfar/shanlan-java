@@ -3,6 +3,7 @@ package com.shanlan.user.web.controller.user;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -12,6 +13,8 @@ import com.shanlan.user.application.dto.UserDetailDTO;
 import com.shanlan.user.core.domain.UserDetail;
 import org.apache.commons.beanutils.BeanUtils;
 import org.dayatang.querychannel.Page;
+import org.openkoala.koala.auth.ss3adapter.AuthUserUtil;
+import org.openkoala.koala.auth.ss3adapter.CustomUserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,9 +47,9 @@ public class PhotographerController {
     @RequestMapping("/update")
     public Map<String, Object> update(PhotographerDTO photographerDTO) {
         Map<String, Object> result = new HashMap<String, Object>();
-        UserDetailDTO userDetailDTO=new UserDetailDTO();
+        UserDetailDTO userDetailDTO = new UserDetailDTO();
         try {
-            BeanUtils.copyProperties(userDetailDTO,photographerDTO);
+            BeanUtils.copyProperties(userDetailDTO, photographerDTO);
             userDetailApplication.updateUser(userDetailDTO);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -60,8 +63,12 @@ public class PhotographerController {
 
     @ResponseBody
     @RequestMapping("/pageJson")
-    public Page pageJson(PhotographerDTO photographerDTO, @RequestParam int page, @RequestParam int pagesize) {
-        Page<PhotographerDTO> all = photographerApplication.pageQueryPhotographer(photographerDTO, page, pagesize);
+    public Page pageJson(UserDetailDTO userDetailDTO, @RequestParam int page, @RequestParam int pagesize) {
+        String userName = AuthUserUtil.getLoginUserName();
+        CustomUserDetails customUserDetails = AuthUserUtil.getLoginUser();
+        List<String> roles = AuthUserUtil.getRolesByCurrentUser();
+        Page<UserDetailDTO> all = photographerApplication.pageQueryPhotographer(userDetailDTO, page, pagesize,
+                userName, customUserDetails.isSuper(), roles);
         return all;
     }
 
