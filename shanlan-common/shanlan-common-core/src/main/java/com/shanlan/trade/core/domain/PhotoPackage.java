@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "photo_packages")
-public class PhotoPackages extends Goods {
+public class PhotoPackage extends Goods {
 
     private static final long serialVersionUID = 1L;
 
@@ -137,10 +137,10 @@ public class PhotoPackages extends Goods {
     }
 
 
-    public static List<PhotoPackages> list(String photographerUserName) {
-        List<PhotoPackages> photoPackagesList = new ArrayList<PhotoPackages>();
+    public static List<PhotoPackage> list(String photographerUserName) {
+        List<PhotoPackage> photoPackagesList = new ArrayList<PhotoPackage>();
         if (StringUtils.isNotBlank(photographerUserName)) {
-            photoPackagesList = findByProperty(PhotoPackages.class, "photographer", photographerUserName);
+            photoPackagesList = findByProperty(PhotoPackage.class, "photographer", photographerUserName);
         }
         return photoPackagesList;
     }

@@ -1,9 +1,5 @@
 package com.shanlan.trade.core.domain;
 
-import javax.persistence.EntityManagerFactory;
-
-import org.dayatang.domain.EntityRepository;
-import org.dayatang.domain.InstanceFactory;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openkoala.koala.util.KoalaBaseSpringTestCase;
@@ -40,7 +36,7 @@ public class PhotoPackagesTest extends KoalaBaseSpringTestCase {
 
 
 
-        List<PhotoPackages> photoPackagesList= PhotoPackages.list("wangwu3");
+        List<PhotoPackage> photoPackagesList= PhotoPackage.list("wangwu3");
         System.out.println(photoPackagesList.size());
 
 	}

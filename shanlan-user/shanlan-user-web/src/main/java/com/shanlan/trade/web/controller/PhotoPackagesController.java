@@ -2,18 +2,21 @@
 package com.shanlan.trade.web.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import com.shanlan.trade.application.PhotoPackageApplication;
 import org.dayatang.querychannel.Page;
+import org.openkoala.koala.auth.ss3adapter.AuthUserUtil;
+import org.openkoala.koala.auth.ss3adapter.CustomUserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.shanlan.trade.application.PhotoPackagesApplication;
 import com.shanlan.trade.application.dto.PhotoPackagesDTO;
 
 @Controller
@@ -21,7 +24,7 @@ import com.shanlan.trade.application.dto.PhotoPackagesDTO;
 public class PhotoPackagesController {
 		
 	@Inject
-	private PhotoPackagesApplication photoPackagesApplication;
+	private PhotoPackageApplication photoPackagesApplication;
 	
 	@ResponseBody
 	@RequestMapping("/add")
@@ -44,7 +47,11 @@ public class PhotoPackagesController {
 	@ResponseBody
 	@RequestMapping("/pageJson")
 	public Page pageJson(PhotoPackagesDTO photoPackagesDTO, @RequestParam int page, @RequestParam int pagesize) {
-		Page<PhotoPackagesDTO> all = photoPackagesApplication.pageQueryPhotoPackages(photoPackagesDTO, page, pagesize);
+        String userName = AuthUserUtil.getLoginUserName();
+        CustomUserDetails customUserDetails = AuthUserUtil.getLoginUser();
+        List<String> roles = AuthUserUtil.getRolesByCurrentUser();
+		Page<PhotoPackagesDTO> all = photoPackagesApplication.pageQueryPhotoPackages(photoPackagesDTO, page, pagesize,
+                userName,customUserDetails.isSuper(), roles);
 		return all;
 	}
 	
@@ -59,7 +66,7 @@ public class PhotoPackagesController {
         	        								idArrs[i] = Integer.parseInt(value[i]);
 			        	
         }
-        photoPackagesApplication.removePhotoPackagess(idArrs);
+        photoPackagesApplication.removePhotoPackages(idArrs);
 		result.put("result", "success");
 		return result;
 	}

@@ -1,6 +1,5 @@
 package com.shanlan.opf.application.impl;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -10,27 +9,21 @@ import javax.inject.Named;
 import com.shanlan.common.constant.ConstantString;
 import com.shanlan.photo.application.PhotoCollectionApplication;
 import com.shanlan.photo.application.dto.PhotoDTO;
+import com.shanlan.trade.application.PhotoPackageApplication;
 import com.shanlan.trade.application.TradeCommentApplication;
 import com.shanlan.trade.application.dto.FrontTradeCommentDTO;
 import com.shanlan.trade.application.dto.PhotoPackagesDTO;
 import com.shanlan.user.application.UserDetailApplication;
 import com.shanlan.user.application.dto.UserDetailDTO;
 import com.shanlan.user.core.domain.UserDetail;
-import com.shanlan.user.core.service.UserService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.type.TypeReference;
 import org.dayatang.querychannel.Page;
 
-import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.shanlan.common.constant.ConstantNumber;
-import com.shanlan.common.exception.sub.business.RequestFormatException;
-import com.shanlan.common.exception.sub.business.RequestMappingException;
 import com.shanlan.common.exception.sub.business.RequestParameterException;
-import com.shanlan.common.util.JsonUtil;
-import com.shanlan.common.util.ReflectionUtils;
 import com.shanlan.opf.application.InvokeApplication;
 import com.shanlan.opf.application.dto.BaseResponseDTO;
 import com.shanlan.opf.application.dto.RequestDTO;
@@ -43,7 +36,6 @@ import com.shanlan.photo.application.PhotoApplication;
 import com.shanlan.photo.application.dto.PhotoCollectionDTO;
 import com.shanlan.photo.core.domain.Photo;
 import com.shanlan.photo.core.service.PhotoService;
-import com.shanlan.trade.application.PhotoPackagesApplication;
 import com.shanlan.user.core.domain.UserBase;
 import com.shanlan.user.core.domain.UserIntroduction;
 
@@ -67,7 +59,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
     @Inject
     private PhotoCollectionApplication photoCollectionApplication;
     @Inject
-    private PhotoPackagesApplication photoPackagesApplication;
+    private PhotoPackageApplication photoPackagesApplication;
     @Inject
     private TradeCommentApplication tradeCommentApplication;
     @Inject

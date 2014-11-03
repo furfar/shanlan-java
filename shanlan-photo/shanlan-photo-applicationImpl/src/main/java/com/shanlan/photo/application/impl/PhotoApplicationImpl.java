@@ -240,10 +240,8 @@ public class PhotoApplicationImpl implements PhotoApplication {
                     originalFileName, bytes);
             String extensionName = FilenameUtils.getExtension(originalFileName);
 
-            // 按文件大小等比例压缩照片
-            float compressQuantity = 1;
-            PhotoService.compressImageConstrainByFileSize(originalStorePath,
-                    compressQuantity, fileSize);
+            // 按文件大小压缩图片质量（不压缩图片大小）
+            PhotoService.compressImageByFileSize(originalStorePath, fileSize);
 
             // 生成一个600*600的缩略图
             Integer destLength = 600;

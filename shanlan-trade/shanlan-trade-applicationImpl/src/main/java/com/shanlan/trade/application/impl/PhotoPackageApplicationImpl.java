@@ -1,6 +1,5 @@
 package com.shanlan.trade.application.impl;
 
-import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +8,10 @@ import java.util.Map;
 import javax.inject.Named;
 
 import com.shanlan.photo.core.domain.RePhotoType;
+import com.shanlan.trade.application.PhotoPackageApplication;
+import com.shanlan.trade.application.dto.GoodsDTO;
+import com.shanlan.trade.core.domain.Goods;
+import com.shanlan.trade.core.domain.PhotoPackage;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.dayatang.domain.InstanceFactory;
@@ -17,13 +20,11 @@ import org.dayatang.querychannel.QueryChannelService;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shanlan.trade.application.PhotoPackagesApplication;
 import com.shanlan.trade.application.dto.PhotoPackagesDTO;
-import com.shanlan.trade.core.domain.PhotoPackages;
 
 @Named
 @Transactional
-public class PhotoPackagesApplicationImpl implements PhotoPackagesApplication {
+public class PhotoPackageApplicationImpl implements PhotoPackageApplication {
 
     private QueryChannelService queryChannel;
 
@@ -37,7 +38,7 @@ public class PhotoPackagesApplicationImpl implements PhotoPackagesApplication {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public PhotoPackagesDTO getPhotoPackages(Integer id) {
-        PhotoPackages photoPackages = PhotoPackages.load(PhotoPackages.class,
+        PhotoPackage photoPackages = PhotoPackage.load(PhotoPackage.class,
                 id);
         PhotoPackagesDTO photoPackagesDTO = new PhotoPackagesDTO();
         // 将domain转成VO
@@ -51,7 +52,7 @@ public class PhotoPackagesApplicationImpl implements PhotoPackagesApplication {
     }
 
     public PhotoPackagesDTO savePhotoPackages(PhotoPackagesDTO photoPackagesDTO) {
-        PhotoPackages photoPackages = new PhotoPackages();
+        PhotoPackage photoPackages = new PhotoPackage();
         try {
             BeanUtils.copyProperties(photoPackages, photoPackagesDTO);
         } catch (Exception e) {
@@ -63,7 +64,7 @@ public class PhotoPackagesApplicationImpl implements PhotoPackagesApplication {
     }
 
     public void updatePhotoPackages(PhotoPackagesDTO photoPackagesDTO) {
-        PhotoPackages photoPackages = PhotoPackages.get(PhotoPackages.class,
+        PhotoPackage photoPackages = PhotoPackage.get(PhotoPackage.class,
                 photoPackagesDTO.getId());
         // 设置要更新的值
         try {
@@ -73,14 +74,16 @@ public class PhotoPackagesApplicationImpl implements PhotoPackagesApplication {
         }
     }
 
-    public void removePhotoPackages(Integer id) {
-        this.removePhotoPackagess(new Integer[]{id});
+    @Override
+    public void removePhotoPackage(Integer id) {
+        this.removePhotoPackages(new Integer[]{id});
     }
 
-    public void removePhotoPackagess(Integer[] ids) {
+    @Override
+    public void removePhotoPackages(Integer[] ids) {
         for (int i = 0; i < ids.length; i++) {
-            PhotoPackages photoPackages = PhotoPackages.load(
-                    PhotoPackages.class, ids[i]);
+            PhotoPackage photoPackages = PhotoPackage.load(
+                    PhotoPackage.class, ids[i]);
             photoPackages.remove();
         }
     }
@@ -88,8 +91,8 @@ public class PhotoPackagesApplicationImpl implements PhotoPackagesApplication {
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<PhotoPackagesDTO> findAllPhotoPackages() {
         List<PhotoPackagesDTO> list = new ArrayList<PhotoPackagesDTO>();
-        List<PhotoPackages> all = PhotoPackages.findAll(PhotoPackages.class);
-        for (PhotoPackages photoPackages : all) {
+        List<PhotoPackage> all = PhotoPackage.findAll(PhotoPackage.class);
+        for (PhotoPackage photoPackages : all) {
             PhotoPackagesDTO photoPackagesDTO = new PhotoPackagesDTO();
             // 将domain转成VO
             try {
@@ -141,10 +144,10 @@ public class PhotoPackagesApplicationImpl implements PhotoPackagesApplication {
             conditionVals
                     .add(MessageFormat.format("%{0}%", queryVo.getOther()));
         }
-        Page<PhotoPackages> pages = getQueryChannelService()
+        Page<PhotoPackage> pages = getQueryChannelService()
                 .createJpqlQuery(jpql.toString()).setParameters(conditionVals)
                 .setPage(currentPage, pageSize).pagedList();
-        for (PhotoPackages photoPackages : pages.getData()) {
+        for (PhotoPackage photoPackages : pages.getData()) {
             PhotoPackagesDTO photoPackagesDTO = new PhotoPackagesDTO();
 
             // 将domain转成VO
@@ -165,9 +168,9 @@ public class PhotoPackagesApplicationImpl implements PhotoPackagesApplication {
         List<PhotoPackagesDTO> photoPackagesDTOs = new ArrayList<PhotoPackagesDTO>();
 
         if (StringUtils.isNotBlank(userName) && StringUtils.isNotBlank(photoType)) {
-            List<PhotoPackages> photoPackagesList = PhotoPackages.list(userName);
+            List<PhotoPackage> photoPackagesList = PhotoPackage.list(userName);
             Map<Integer, RePhotoType> reIdRePhotoTypeMap = RePhotoType.getMap(photoType);
-            for (PhotoPackages photoPackages : photoPackagesList) {
+            for (PhotoPackage photoPackages : photoPackagesList) {
                 Integer id = photoPackages.getId();
                 RePhotoType rePhotoType = reIdRePhotoTypeMap.get(id);
                 if (rePhotoType != null && photoType.equals(rePhotoType.getTypeName())) {
@@ -178,6 +181,93 @@ public class PhotoPackagesApplicationImpl implements PhotoPackagesApplication {
             }
         }
         return photoPackagesDTOs;
+    }
+
+    @Override
+    public Page<PhotoPackagesDTO> pageQueryPhotoPackages(PhotoPackagesDTO queryVo, int currentPage, int pageSize, String userName, boolean isSuper, List<String> roles) {
+        List<PhotoPackagesDTO> result = new ArrayList<PhotoPackagesDTO>();
+        List<Object> conditionVals = new ArrayList<Object>();
+        StringBuilder jpql = new StringBuilder("select _goods from Goods _goods   where 1=1 ");
+
+        jpql.append(" and _goods.type = ?");
+        conditionVals.add(Goods.Type.PHOTO_PACKAGE.name());
+
+        if (isSuper || roles.contains("Admin")) {
+            if (queryVo.getCreator() != null && !"".equals(queryVo.getCreator())) {
+                jpql.append(" and _goods.creator like ?");
+                conditionVals.add(MessageFormat.format("%{0}%", queryVo.getCreator()));
+            }
+        } else {
+            jpql.append(" and _goods.creator = ?");
+            conditionVals.add(userName);
+        }
+
+        if (queryVo.getName() != null && !"".equals(queryVo.getName())) {
+            jpql.append(" and _goods.name like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getName()));
+        }
+
+        if (queryVo.getDescription() != null && !"".equals(queryVo.getDescription())) {
+            jpql.append(" and _goods.description like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getDescription()));
+        }
+        if (queryVo.getPrice() != null) {
+            jpql.append(" and _goods.price=?");
+            conditionVals.add(queryVo.getPrice());
+        }
+
+        if (queryVo.getStatus() != null && !"".equals(queryVo.getStatus())) {
+            jpql.append(" and _goods.status like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getStatus()));
+        }
+
+        if (queryVo.getCreatedAt() != null) {
+            jpql.append(" and _goods.createdAt between ? and ? ");
+            conditionVals.add(queryVo.getCreatedAt());
+            conditionVals.add(queryVo.getCreatedAtEnd());
+        }
+
+        if (queryVo.getUpdatedAt() != null) {
+            jpql.append(" and _goods.updatedAt between ? and ? ");
+            conditionVals.add(queryVo.getUpdatedAt());
+            conditionVals.add(queryVo.getUpdatedAtEnd());
+        }
+
+        if (queryVo.getValidDate() != null) {
+            jpql.append(" and _goods.validDate between ? and ? ");
+            conditionVals.add(queryVo.getValidDate());
+            conditionVals.add(queryVo.getValidDateEnd());
+        }
+
+        if (queryVo.getInvalidDate() != null) {
+            jpql.append(" and _goods.invalidDate between ? and ? ");
+            conditionVals.add(queryVo.getInvalidDate());
+            conditionVals.add(queryVo.getInvalidDateEnd());
+        }
+
+        if (queryVo.getAddress() != null && !"".equals(queryVo.getAddress())) {
+            jpql.append(" and _goods.address like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getAddress()));
+        }
+
+        if (queryVo.getOther() != null && !"".equals(queryVo.getOther())) {
+            jpql.append(" and _goods.other like ?");
+            conditionVals.add(MessageFormat.format("%{0}%", queryVo.getOther()));
+        }
+        Page<Goods> pages = getQueryChannelService().createJpqlQuery(jpql.toString()).setParameters(conditionVals).setPage(currentPage, pageSize).pagedList();
+        for (Goods goods : pages.getData()) {
+            PhotoPackagesDTO photoPackagesDTO = new PhotoPackagesDTO();
+
+            // 将domain转成VO
+            try {
+                BeanUtils.copyProperties(photoPackagesDTO, goods);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            result.add(photoPackagesDTO);
+        }
+        return new Page<PhotoPackagesDTO>(pages.getStart(), pages.getResultCount(), pageSize, result);
     }
 
 }

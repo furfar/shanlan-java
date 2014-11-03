@@ -220,7 +220,7 @@ $(function (){
 	        	+'<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'
 	        	+'<button type="button" class="btn btn-success" id="save">保存</button></div></div>'
 	        	+'</div></div>');
-	        $.get('<%=path%>/PhotoPackages-add.jsp').done(function(html){
+	        $.get('<%=path%>/PhotoPackage-add.jsp').done(function(html){
 	            dialog.modal({
 	                keyboard:false
 	            }).on({
@@ -252,7 +252,7 @@ $(function (){
 	    modify: function(id, grid){
 	        var self = this;
 	        var dialog = $('<div class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">修改</h4></div><div class="modal-body"><p>One fine body&hellip;</p></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">取消</button><button type="button" class="btn btn-success" id="save">保存</button></div></div></div></div>');
-	        $.get('<%=path%>/PhotoPackages-update.jsp').done(function(html){
+	        $.get('<%=path%>/PhotoPackage-update.jsp').done(function(html){
 	               dialog.find('.modal-body').html(html);
 	               self.initPage(dialog.find('form'));
 	               $.get( '${pageContext.request.contextPath}/PhotoPackages/get/' + id + '.koala').done(function(json){
@@ -350,7 +350,7 @@ $(function (){
 
 var openDetailsPage = function(id){
         var dialog = $('<div class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">查看</h4></div><div class="modal-body"><p>One fine body&hellip;</p></div><div class="modal-footer"><button type="button" class="btn btn-info" data-dismiss="modal">返回</button></div></div></div></div>');
-        $.get('<%=path%>/PhotoPackages-view.jsp').done(function(html){
+        $.get('<%=path%>/PhotoPackage-view.jsp').done(function(html){
                dialog.find('.modal-body').html(html);
                $.get( '${pageContext.request.contextPath}/PhotoPackages/get/' + id + '.koala').done(function(json){
                        json = json.data;
