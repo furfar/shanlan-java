@@ -112,23 +112,21 @@ public class PhotoService {
      * 根据文件大小等比例压缩图片文件<br>
      *
      * @param originalStorePath 要进行压缩的文件完整路径
-     * @param compressQuality   质量
      * @return 返回压缩后的文件的全路径
      */
-    public static void compressImageConstrainByFileSize(String originalStorePath,
-                                                        float compressQuality, long fileSize)
+    public static void compressImageConstrainByFileSize(String originalStorePath, long fileSize)
             throws Exception {
 
         String extensionName = FilenameUtils.getExtension(originalStorePath);
         String compressFilePath = ImageUploadUtil.appendImageCompressPostfix(originalStorePath, extensionName);
-
-        if (fileSize <= ConstantNumber.FILE_SIZE_M * 1) {//如果文件小于1M
-            File originalFile=new File(originalStorePath);
-            File newFile=new File(compressFilePath);
-            FileUtils.copyFile(originalFile,newFile);
+        float compressQuality = 1f;
+        if (fileSize <= ConstantNumber.FILE_SIZE_M * 1) {//如果文件小于1M,不压缩，复制一份原文件
+            File originalFile = new File(originalStorePath);
+            File newFile = new File(compressFilePath);
+            FileUtils.copyFile(originalFile, newFile);
         } else if (fileSize <= ConstantNumber.FILE_SIZE_M * 2 && fileSize >= ConstantNumber.FILE_SIZE_M * 1) {//如果文件大于1M,小于2M，
-            //将文件按90%比例压缩
-            Float compressRate = 90f;
+            //将文件按90%比例压缩,如果图片的原来的宽、高分别为1000*800,则压缩后为(1000*0.9)*(800*0.9)
+            Float compressRate = 95f;
             ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, (float) (compressRate * 0.01), compressQuality);
         } else if (fileSize <= ConstantNumber.FILE_SIZE_M * 3 && fileSize >= ConstantNumber.FILE_SIZE_M * 2) {
             //将文件按80%比例压缩
@@ -142,6 +140,63 @@ public class PhotoService {
             //将文件按60%比例压缩
             Float compressRate = 60f;
             ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, (float) (compressRate * 0.01), compressQuality);
+        }
+
+    }
+
+
+    /**
+     * 根据文件大小等比例压缩图片文件,只压缩图片质量不压缩图片大小<br>
+     *
+     * @param originalStorePath 要进行压缩的文件完整路径
+     * @return 返回压缩后的文件的全路径
+     */
+    public static void compressImageByFileSize(String originalStorePath, long fileSize)
+            throws Exception {
+
+        String extensionName = FilenameUtils.getExtension(originalStorePath);
+        String compressFilePath = ImageUploadUtil.appendImageCompressPostfix(originalStorePath, extensionName);
+        float compressRate = 1.0f;
+        if (fileSize <= ConstantNumber.FILE_SIZE_M * 1) {//如果文件小于1M,不压缩，复制一份原文件
+            File originalFile = new File(originalStorePath);
+            File newFile = new File(compressFilePath);
+            FileUtils.copyFile(originalFile, newFile);
+        } else if (fileSize <= ConstantNumber.FILE_SIZE_M * 2 && fileSize >= ConstantNumber.FILE_SIZE_M * 1) {//如果文件大于1M,小于2M，
+            //将文件按90%比例压缩
+            float compressQuality = 90f;
+            ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, compressRate, compressQuality);
+        } else if (fileSize <= ConstantNumber.FILE_SIZE_M * 3 && fileSize >= ConstantNumber.FILE_SIZE_M * 2) {
+            //将文件按80%比例压缩
+            float compressQuality = 80f;
+            ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, compressRate, compressQuality);
+        } else if (fileSize <= ConstantNumber.FILE_SIZE_M * 4 && fileSize >= ConstantNumber.FILE_SIZE_M * 3) {
+            //将文件按70%比例压缩
+            float compressQuality = 70f;
+            ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, compressRate, compressQuality);
+        } else if (fileSize <= ConstantNumber.FILE_SIZE_M * 5 && fileSize >= ConstantNumber.FILE_SIZE_M * 4) {
+            //将文件按60%比例压缩
+            float compressQuality = 60f;
+            ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, compressRate, compressQuality);
+        } else if (fileSize <= ConstantNumber.FILE_SIZE_M * 6 && fileSize >= ConstantNumber.FILE_SIZE_M * 5) {
+            //将文件按60%比例压缩
+            float compressQuality = 50f;
+            ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, compressRate, compressQuality);
+        } else if (fileSize <= ConstantNumber.FILE_SIZE_M * 7 && fileSize >= ConstantNumber.FILE_SIZE_M * 6) {
+            //将文件按60%比例压缩
+            float compressQuality = 45f;
+            ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, compressRate, compressQuality);
+        } else if (fileSize <= ConstantNumber.FILE_SIZE_M * 8 && fileSize >= ConstantNumber.FILE_SIZE_M * 7) {
+            //将文件按60%比例压缩
+            float compressQuality = 40f;
+            ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, compressRate, compressQuality);
+        } else if (fileSize <= ConstantNumber.FILE_SIZE_M * 9 && fileSize >= ConstantNumber.FILE_SIZE_M * 8) {
+            //将文件按60%比例压缩
+            float compressQuality = 35f;
+            ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, compressRate, compressQuality);
+        } else if (fileSize <= ConstantNumber.FILE_SIZE_M * 10 && fileSize >= ConstantNumber.FILE_SIZE_M * 9) {
+            //将文件按60%比例压缩
+            float compressQuality = 30f;
+            ImageUploadUtil.compressImageConstrain(originalStorePath, compressFilePath, compressRate, compressQuality);
         }
 
     }
