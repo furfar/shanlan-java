@@ -32,9 +32,6 @@ public class PhotoPackage extends KoalaLegacyEntity {
     @Column(name = "goods_id")
     private int goodsId;
 
-
-    @Basic
-
     @Column(name = "photographer")
     private String photographer;
 
@@ -47,8 +44,6 @@ public class PhotoPackage extends KoalaLegacyEntity {
     @Column(name = "alter_count")
     private Integer alterCount;
 
-    @Column(name = "place_id")
-    private int placeId;
 
     @Column(name = "other")
     private String other;
@@ -97,13 +92,6 @@ public class PhotoPackage extends KoalaLegacyEntity {
         this.alterCount = alterCount;
     }
 
-    public int getPlaceId() {
-        return placeId;
-    }
-
-    public void setPlaceId(int placeId) {
-        this.placeId = placeId;
-    }
 
     public String getOther() {
         return other;
@@ -113,9 +101,9 @@ public class PhotoPackage extends KoalaLegacyEntity {
         this.other = other;
     }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
     public boolean existed() {
         // TODO Auto-generated method stub
@@ -147,5 +135,13 @@ public class PhotoPackage extends KoalaLegacyEntity {
         return photoPackagesList;
     }
 
+
+    public static PhotoPackage get(Integer goodsId) {
+        List<PhotoPackage> photoPackages = findByProperty(PhotoPackage.class, "goodsId", goodsId);
+        if (photoPackages.size() == 1) {
+            return photoPackages.get(0);
+        }
+        return null;
+    }
 
 }

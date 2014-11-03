@@ -12,7 +12,7 @@ import com.shanlan.photo.application.dto.PhotoDTO;
 import com.shanlan.trade.application.PhotoPackageApplication;
 import com.shanlan.trade.application.TradeCommentApplication;
 import com.shanlan.trade.application.dto.FrontTradeCommentDTO;
-import com.shanlan.trade.application.dto.PhotoPackagesDTO;
+import com.shanlan.trade.application.dto.PhotoPackageDTO;
 import com.shanlan.user.application.UserDetailApplication;
 import com.shanlan.user.application.dto.UserDetailDTO;
 import com.shanlan.user.core.domain.UserDetail;
@@ -119,7 +119,7 @@ public class InvokeApplicationImpl implements InvokeApplication {
         } else if (service.equals("Trade.listPackages")) {
             String userName = paramMap.get("userName");
             String photoType = paramMap.get("type");
-            List<PhotoPackagesDTO> photoPackagesDTOs = photoPackagesApplication.listPackages(userName, photoType);
+            List<PhotoPackageDTO> photoPackagesDTOs = photoPackagesApplication.listPackages(userName, photoType);
             businessResult = JSONObject.toJSONString(photoPackagesDTOs);
         } else if (service.equals("Trade.pageTradeComments")) {
             String sellerUserName = paramMap.get("userName");
