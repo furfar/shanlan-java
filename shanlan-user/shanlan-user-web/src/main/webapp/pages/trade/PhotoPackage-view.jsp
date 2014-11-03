@@ -29,6 +29,13 @@
         </div>
     </div>
     <div class="form-group">
+        <label class="col-lg-3 control-label">creator:</label>
+
+        <div class="col-lg-9">
+            <p class="form-control-static" id="creatorID"></p>
+        </div>
+    </div>
+    <div class="form-group">
         <label class="col-lg-3 control-label">status:</label>
 
         <div class="col-lg-9">
@@ -71,13 +78,6 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-lg-3 control-label">goodsId:</label>
-
-        <div class="col-lg-9">
-            <p class="form-control-static" id="goodsIdID"></p>
-        </div>
-    </div>
-    <div class="form-group">
         <label class="col-lg-3 control-label">photographer:</label>
 
         <div class="col-lg-9">
@@ -103,20 +103,6 @@
 
         <div class="col-lg-9">
             <p class="form-control-static" id="alterCountID"></p>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-lg-3 control-label">placeId:</label>
-
-        <div class="col-lg-9">
-            <p class="form-control-static" id="placeIdID"></p>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-lg-3 control-label">other:</label>
-
-        <div class="col-lg-9">
-            <p class="form-control-static" id="otherID"></p>
         </div>
     </div>
 </form>

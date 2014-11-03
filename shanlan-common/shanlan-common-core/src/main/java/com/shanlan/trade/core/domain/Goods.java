@@ -1,10 +1,8 @@
 package com.shanlan.trade.core.domain;
 
-import java.util.Date;
+import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 
 import javax.persistence.*;
-
-import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 
 /**
  * Auto Generated Entity
@@ -26,8 +24,6 @@ public class Goods extends KoalaLegacyEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-
-    @Basic
     @Column(name = "name")
     private String name;
 
@@ -44,16 +40,16 @@ public class Goods extends KoalaLegacyEntity {
     private String status;
 
     @Column(name = "created_at")
-    private Date createdAt;
+    private String createdAt;
 
     @Column(name = "updated_at")
-    private Date updatedAt;
+    private String updatedAt;
 
     @Column(name = "valid_date")
-    private Date validDate;
+    private String validDate;
 
     @Column(name = "invalid_date")
-    private Date invalidDate;
+    private String invalidDate;
 
     @Column(name = "creator")
     private String creator;
@@ -64,10 +60,6 @@ public class Goods extends KoalaLegacyEntity {
     @Column(name = "other")
     private String other;
 
-
-    public enum Type {
-        PHOTO_PACKAGE, CLOTHING
-    }
 
     public void setId(int id) {
         this.id = id;
@@ -122,35 +114,35 @@ public class Goods extends KoalaLegacyEntity {
         this.status = status;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 
-    public Date getValidDate() {
+    public String getValidDate() {
         return validDate;
     }
 
-    public void setValidDate(Date validDate) {
+    public void setValidDate(String validDate) {
         this.validDate = validDate;
     }
 
-    public Date getInvalidDate() {
+    public String getInvalidDate() {
         return invalidDate;
     }
 
-    public void setInvalidDate(Date invalidDate) {
+    public void setInvalidDate(String invalidDate) {
         this.invalidDate = invalidDate;
     }
 
@@ -194,5 +186,15 @@ public class Goods extends KoalaLegacyEntity {
         // TODO Auto-generated method stub
         return null;
     }
+
+
+    public enum Type {
+        PHOTO_PACKAGE, CLOTHING
+    }
+
+    public enum Status{
+        NEW,APPLIED,CONFIRMED,CLOSED
+    }
+
 
 }

@@ -16,8 +16,8 @@
         <label class="col-lg-3 control-label">description:</label>
 
         <div class="col-lg-9">
-            <input name="description" style="display:inline; width:94%;" class="form-control" type="text"
-                   id="descriptionID"/>
+            <textarea name="description" style="display:inline; width:94%; height: 300px" class="form-control"
+                      type="text" id="descriptionID"/>
         </div>
     </div>
     <div class="form-group">
@@ -25,40 +25,6 @@
 
         <div class="col-lg-9">
             <input name="price" style="display:inline; width:94%;" class="form-control" type="text" id="priceID"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-lg-3 control-label">type:</label>
-
-        <div class="col-lg-9">
-            <input name="type" style="display:inline; width:94%;" class="form-control" type="text" id="typeID"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-lg-3 control-label">status:</label>
-
-        <div class="col-lg-9">
-            <input name="status" style="display:inline; width:94%;" class="form-control" type="text" id="statusID"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-lg-3 control-label">createdAt:</label>
-
-        <div class="col-lg-9">
-            <div class="input-group date form_datetime" style="width:160px;float:left;">
-                <input type="text" class="form-control" style="width:160px;" name="createdAt" id="createdAtID">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-lg-3 control-label">updatedAt:</label>
-
-        <div class="col-lg-9">
-            <div class="input-group date form_datetime" style="width:160px;float:left;">
-                <input type="text" class="form-control" style="width:160px;" name="updatedAt" id="updatedAtID">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-            </div>
         </div>
     </div>
     <div class="form-group">
@@ -85,7 +51,8 @@
         <label class="col-lg-3 control-label">address:</label>
 
         <div class="col-lg-9">
-            <input name="address" style="display:inline; width:94%;" class="form-control" type="text" id="addressID"/>
+            <input name="address" style="display:inline; width:94%;" class="form-control" type="text" id="addressID"
+                   placeholder="格式:国家--省--市 如:中国--北京--北京,中国--湖南--长沙"/>
         </div>
     </div>
     <div class="form-group">
@@ -109,13 +76,6 @@
         <div class="col-lg-9">
             <input name="alterCount" style="display:inline; width:94%;" class="form-control" type="text"
                    id="alterCountID"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-lg-3 control-label">other:</label>
-
-        <div class="col-lg-9">
-            <input name="other" style="display:inline; width:94%;" class="form-control" type="text" id="otherID"/>
         </div>
     </div>
 </form>

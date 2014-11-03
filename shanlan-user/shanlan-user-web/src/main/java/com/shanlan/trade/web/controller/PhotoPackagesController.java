@@ -7,9 +7,11 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import com.shanlan.common.util.DateUtil;
 import com.shanlan.trade.application.PhotoPackageApplication;
 import com.shanlan.trade.application.dto.GoodsDTO;
 import com.shanlan.trade.application.dto.PhotoPackageDTO;
+import com.shanlan.trade.core.domain.Goods;
 import org.dayatang.querychannel.Page;
 import org.openkoala.koala.auth.ss3adapter.AuthUserUtil;
 import org.openkoala.koala.auth.ss3adapter.CustomUserDetails;
@@ -30,6 +32,13 @@ public class PhotoPackagesController {
     @RequestMapping("/add")
     public Map<String, Object> add(PhotoPackageDTO photoPackagesDTO) {
         Map<String, Object> result = new HashMap<String, Object>();
+
+        photoPackagesDTO.setCreatedAt(DateUtil.getNow(DateUtil.format_yyyyMMdd_HHmmss));
+        photoPackagesDTO.setType(Goods.Type.PHOTO_PACKAGE.name());
+        photoPackagesDTO.setCreator(AuthUserUtil.getLoginUserName());
+        photoPackagesDTO.setPhotographer(AuthUserUtil.getLoginUserName());
+        photoPackagesDTO.setStatus(Goods.Status.NEW.name());
+
         photoPackagesApplication.savePhotoPackage(photoPackagesDTO);
         result.put("result", "success");
         return result;

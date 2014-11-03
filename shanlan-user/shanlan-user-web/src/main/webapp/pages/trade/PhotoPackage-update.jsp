@@ -16,7 +16,7 @@
         <label class="col-lg-3 control-label">description:</label>
 
         <div class="col-lg-9">
-            <input name="description" style="display:inline; width:94%;" class="form-control" type="text"
+            <textarea name="description" style="display:inline; width:94%; height: 300px" class="form-control" type="text"
                    id="descriptionID"/>
         </div>
     </div>
@@ -27,11 +27,38 @@
             <input name="price" style="display:inline; width:94%;" class="form-control" type="text" id="priceID"/>
         </div>
     </div>
+    <div class="form-group" style="display:none;">
+        <label class="col-lg-3 control-label">type:</label>
+
+        <div class="col-lg-9">
+            <input name="type" style="display:inline; width:94%;" class="form-control" type="text" id="typeID"/>
+        </div>
+    </div>
     <div class="form-group">
         <label class="col-lg-3 control-label">status:</label>
 
         <div class="col-lg-9">
             <input name="status" style="display:inline; width:94%;" class="form-control" type="text" id="statusID"/>
+        </div>
+    </div>
+    <div class="form-group" style="display:none;">
+        <label class="col-lg-3 control-label">createdAt:</label>
+
+        <div class="col-lg-9">
+            <div class="input-group date form_datetime" style="width:160px;float:left;">
+                <input type="text" class="form-control" style="width:160px;" name="createdAt" id="createdAtID">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" style="display:none;">
+        <label class="col-lg-3 control-label">updatedAt:</label>
+
+        <div class="col-lg-9">
+            <div class="input-group date form_datetime" style="width:160px;float:left;">
+                <input type="text" class="form-control" style="width:160px;" name="updatedAt" id="updatedAtID">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+            </div>
         </div>
     </div>
     <div class="form-group">
@@ -59,6 +86,20 @@
 
         <div class="col-lg-9">
             <input name="address" style="display:inline; width:94%;" class="form-control" type="text" id="addressID"/>
+        </div>
+    </div>
+    <div class="form-group" style="display:none;">
+        <label class="col-lg-3 control-label">creator:</label>
+
+        <div class="col-lg-9">
+            <input name="creator" style="display:inline; width:94%;" class="form-control" type="text" id="creatorID"/>
+        </div>
+    </div>
+    <div class="form-group" style="display:none;">
+        <label class="col-lg-3 control-label">goodsId:</label>
+
+        <div class="col-lg-9">
+            <input name="goodsId" style="display:inline; width:94%;" class="form-control" type="text" id="goodsIdID"/>
         </div>
     </div>
     <div class="form-group">
@@ -92,14 +133,7 @@
                    id="alterCountID"/>
         </div>
     </div>
-    <div class="form-group">
-        <label class="col-lg-3 control-label">placeId:</label>
-
-        <div class="col-lg-9">
-            <input name="placeId" style="display:inline; width:94%;" class="form-control" type="text" id="placeIdID"/>
-        </div>
-    </div>
-    <div class="form-group">
+    <div class="form-group" style="display:none;">
         <label class="col-lg-3 control-label">other:</label>
 
         <div class="col-lg-9">

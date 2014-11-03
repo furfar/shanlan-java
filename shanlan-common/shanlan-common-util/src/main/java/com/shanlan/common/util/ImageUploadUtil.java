@@ -45,7 +45,7 @@ public class ImageUploadUtil {
     /**
      * 图片后缀，按固定宽、高比例压缩过的缩略图,比如_THUMBNAIL_500_500表示按宽、高500*500比例压缩过的图片
      */
-    public static final String IMAGE_PHOTO_FILE_POSTFIX_THUMBNAIL = "_THUMBNAIL";
+    public static final String IMAGE_PHOTO_FILE_POSTFIX_THUMBNAIL = "_THUMBNAIL_";
 
     public static final String CONTENT_TYPE_IMAGE_JPEG = "image/jpeg";
 
@@ -84,12 +84,12 @@ public class ImageUploadUtil {
     /**
      * 图片类型——照片
      */
-    public static final String IMAGE_TYPE_PATH_TRADE_PHOTO = "/img/tradePhoto/";
+    public static final String IMAGE_TYPE_PATH_TRADE_PHOTO = "/img/trade/";
 
     /**
      * 图片类型——自己上传照片
      */
-    public static final String IMAGE_TYPE_PATH_SELF_UPLOAD = "/img/selfUpload/";
+    public static final String IMAGE_TYPE_PATH_SELF_UPLOAD = "/img/self/";
 
     // /**
     // * 开发环境图片存储根路径
@@ -267,7 +267,7 @@ public class ImageUploadUtil {
                 + extensionName;
         String newImageFile = srcImageFile.replace(periodAndExtensionName, "")
                 + (IMAGE_PHOTO_FILE_POSTFIX_THUMBNAIL
-                + ConstantPunctuation.UNDERLINE + destWidth + ConstantPunctuation.UNDERLINE + destHeight)
+                + destWidth + ConstantPunctuation.UNDERLINE + destHeight)
                 + periodAndExtensionName;
         return newImageFile;
     }
