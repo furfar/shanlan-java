@@ -74,14 +74,6 @@ public class PhotoApplicationImpl implements PhotoApplication {
 
     public void updatePhoto(PhotoDTO photoDTO) {
         Photo photo = Photo.get(Photo.class, photoDTO.getId());
-
-        UserBase userBase = new UserBase("anem", "pass", "emailsdf");
-        try {
-            UserService.register(userBase);
-        } catch (RequestParameterException e) {
-            e.printStackTrace();
-        }
-
         // 设置要更新的值
         try {
             BeanUtils.copyProperties(photo, photoDTO);
