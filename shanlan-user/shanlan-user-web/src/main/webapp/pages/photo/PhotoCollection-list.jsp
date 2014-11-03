@@ -33,18 +33,19 @@ $(function () {
                 ],
                 url: "${pageContext.request.contextPath}/PhotoCollection/pageJson.koala",
                 columns: [
-                    { title: 'name', name: 'name', width: width},
-                    { title: 'creator', name: 'creator', width: width},
-                    { title: 'createdAt', name: 'createdAt', width: width},
-                    { title: 'updatedAt', name: 'updatedAt', width: width},
-                    { title: 'photoCount', name: 'photoCount', width: width},
-                    { title: 'other', name: 'other', width: width},
                     { title: '操作', width: 120, render: function (rowdata, name, index) {
                         var param = '"' + rowdata.id + '"';
                         var h = "<a href='javascript:openDetailsPage(" + param + ")'>查看</a> ";
                         return h;
                     }
-                    }
+                    },
+                    { title: 'name', name: 'name', width: width},
+                    { title: 'description', name: 'description', width: width},
+                    { title: 'creator', name: 'creator', width: width},
+                    { title: 'createdAt', name: 'createdAt', width: width},
+                    { title: 'updatedAt', name: 'updatedAt', width: width},
+                    { title: 'photoCount', name: 'photoCount', width: width},
+                    { title: 'other', name: 'other', width: width}
                 ]
             }).on({
                 'add': function () {
@@ -131,7 +132,7 @@ $(function () {
         modify: function (id, grid) {
             var self = this;
             var dialog = $('<div class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">修改</h4></div><div class="modal-body"><p>One fine body&hellip;</p></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">取消</button><button type="button" class="btn btn-success" id="save">保存</button></div></div></div></div>');
-            $.get('<%=path%>/PhotoCollection-update.jsp?id='+id).done(function (html) {
+            $.get('<%=path%>/PhotoCollection-update.jsp?id=' + id).done(function (html) {
                 dialog.find('.modal-body').html(html);
                 self.initPage(dialog.find('form'));
                 $.get('${pageContext.request.contextPath}/PhotoCollection/get/' + id + '.koala').done(function (json) {
@@ -265,6 +266,12 @@ var openDetailsPage = function (id) {
 
                         <div style="margin-left:15px;float:left;">
                             <input name="name" class="form-control" type="text" style="width:180px;" id="nameID"/>
+                        </div>
+                        <label class="control-label" style="width:100px;float:left;">description:&nbsp;</label>
+
+                        <div style="margin-left:15px;float:left;">
+                            <input name="description" class="form-control" type="text" style="width:180px;"
+                                   id="descriptionID"/>
                         </div>
                         <label class="control-label" style="width:100px;float:left;">creator:&nbsp;</label>
 

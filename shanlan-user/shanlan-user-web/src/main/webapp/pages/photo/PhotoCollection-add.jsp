@@ -7,8 +7,17 @@
 <form class="form-horizontal">
     <div class="form-group">
         <label class="col-lg-3 control-label">name:</label>
+
         <div class="col-lg-9">
             <input name="name" style="display:inline; width:94%;" class="form-control" type="text" id="nameID"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label">description:</label>
+
+        <div class="col-lg-9">
+            <textarea name="description" style="display:inline; width:94%; height: 100px" class="form-control" type="text"
+                      id="descriptionID"/>
         </div>
     </div>
 </form>
