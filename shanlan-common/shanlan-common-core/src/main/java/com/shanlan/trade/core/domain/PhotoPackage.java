@@ -1,8 +1,10 @@
 package com.shanlan.trade.core.domain;
 
 import org.apache.commons.lang.StringUtils;
+import org.openkoala.koala.commons.domain.KoalaLegacyEntity;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "photo_packages")
-public class PhotoPackage extends Goods {
+public class PhotoPackage extends KoalaLegacyEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -111,9 +113,9 @@ public class PhotoPackage extends Goods {
         this.other = other;
     }
 
-//	public Integer getId() {
-//		return id;
-//	}
+	public Integer getId() {
+		return id;
+	}
 
     public boolean existed() {
         // TODO Auto-generated method stub
